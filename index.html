@@ -1,0 +1,1449 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bootstraps Demo</title>
+<meta name="robots" content="index,follow">
+<meta name="description" content="Bootstraps turns any savings goal into a tap-to-stomp grid. Pick a goal, fill the boxes, and watch it disappear.">
+<meta name="theme-color" content="#f5f6f8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1c1f22" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Bootstraps">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<script>window.GC_DEMO=true;window.GC_DEMO_CTA="https://cleartrackapps.com/";</script>
+<style>
+:root{
+  --font-display:'Zodiak',Georgia,'Times New Roman',serif;
+  --font-body:'General Sans',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --bg:#f5f6f8; --bg-grad:linear-gradient(180deg,#f7f8fa 0%,#eceff3 100%);
+  --surface:#fff; --surface-2:#f7f8fa; --border:#e2e4e8; --border-strong:#d0d4db;
+  --text:#24272b; --muted:#5d636c; --faint:#8a9099;
+  --sage:#5e7c73; --sage-hover:#4f6b63; --sage-soft:#e6eeeb; --sage-ink:#3f564f;
+  --cocoa:#4a4e52; --cocoa-soft:#efefef;
+  --flame:#d9772b; --flame-soft:#fbeee2;
+  --danger:#b4473b; --danger-soft:#f8e7e4;
+  --btn-grad:linear-gradient(135deg,#55595e 0%,#3b3f43 55%,#2a2d30 100%);
+  --box-grad:linear-gradient(135deg,#7f9d94 0%,#5e7c73 60%,#4f6b63 100%);
+  --shadow:0 1px 2px rgba(36,39,43,.05),0 6px 18px rgba(36,39,43,.06);
+  --shadow-lg:0 12px 40px rgba(36,39,43,.18);
+  --radius:14px; --radius-lg:22px;
+  --ease:cubic-bezier(.32,.72,.25,1);
+  --safe-b:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+[data-theme='dark']{
+  --bg:#1c1f22; --bg-grad:linear-gradient(180deg,#1f2326 0%,#181b1d 100%);
+  --surface:#262a2e; --surface-2:#2d3236; --border:#363b40; --border-strong:#454b51;
+  --text:#e8eaec; --muted:#a6adb5; --faint:#7d848c;
+  --sage:#8fb0a6; --sage-hover:#a3c1b8; --sage-soft:#2c3a36; --sage-ink:#bcd3cc;
+  --cocoa:#4a4e52; --cocoa-soft:#33373b;
+  --flame:#f0a060; --flame-soft:#3d2e22;
+  --danger:#e48b80; --danger-soft:#3e2a28;
+  --btn-grad:linear-gradient(135deg,#6a6f75 0%,#52575c 55%,#43474b 100%);
+  --box-grad:linear-gradient(135deg,#8fb0a6 0%,#6e8f86 60%,#5e7c73 100%);
+  --shadow:0 1px 2px rgba(0,0,0,.25),0 6px 18px rgba(0,0,0,.25);
+  --shadow-lg:0 12px 40px rgba(0,0,0,.5);
+  color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{font-family:var(--font-body);font-size:16px;line-height:1.5;color:var(--text);background:var(--bg);background-image:var(--bg-grad);background-attachment:fixed;min-height:100vh;min-height:100dvh;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0}
+:focus-visible{outline:2px solid var(--sage);outline-offset:2px;border-radius:6px}
+[hidden]{display:none!important}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.num{font-variant-numeric:tabular-nums}
+
+/* boot */
+#boot{position:fixed;inset:0;display:grid;place-items:center;background:var(--bg);z-index:100;transition:opacity .3s}
+#boot.gone{opacity:0;pointer-events:none}
+
+/* layout */
+.app{max-width:640px;margin:0 auto;padding:0 16px calc(96px + var(--safe-b))}
+.demo-bar{background:var(--cocoa);color:#fff;font-size:13px;line-height:1.35;padding:9px 16px;display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;text-align:center}
+.demo-bar a{color:#fff;font-weight:600;background:rgba(255,255,255,.18);padding:4px 10px;border-radius:999px;text-decoration:none;white-space:nowrap}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 0 12px;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand svg,.brand-logo{flex-shrink:0}
+.brand-logo{border-radius:10px;display:block}
+.brand h1{font-family:var(--font-display);font-size:22px;letter-spacing:-.01em;line-height:1.1}
+.brand small{display:block;font-size:11px;color:var(--faint);letter-spacing:.04em;text-transform:uppercase;font-weight:500}
+.icon-btn{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;color:var(--muted);flex-shrink:0}
+.icon-btn:hover{background:var(--surface-2);color:var(--text)}
+
+.view{display:none;animation:fade .25s var(--ease)}
+.view.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:18px}
+.section-h{display:flex;align-items:baseline;justify-content:space-between;margin:22px 2px 10px;gap:8px}
+.section-h h2{font-family:var(--font-display);font-size:19px;letter-spacing:-.01em}
+.section-h span{font-size:13px;color:var(--muted)}
+.eyebrow{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 14px;white-space:nowrap;border-radius:12px;font-weight:600;font-size:15px;transition:transform .12s,filter .15s,background .15s}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:var(--btn-grad);color:#fff;box-shadow:0 2px 8px rgba(42,45,48,.28)}
+.btn-primary:hover{filter:brightness(1.05)}
+.btn-ghost{background:var(--surface-2);color:var(--text);border:1px solid var(--border)}
+.btn-ghost:hover{border-color:var(--border-strong)}
+.btn-danger{background:var(--danger-soft);color:var(--danger)}
+.btn-block{width:100%}
+.btn-sm{min-height:36px;padding:0 12px;font-size:13px;border-radius:10px}
+.link-btn{color:var(--sage);font-weight:600;font-size:14px;padding:6px 2px}
+
+/* summary */
+.summary{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:10px}
+.summary .card{padding:14px 14px 12px}
+.summary .big{font-family:var(--font-display);font-size:26px;line-height:1.1;letter-spacing:-.02em}
+.summary .mid{font-family:var(--font-display);font-size:22px;line-height:1.1}
+.summary .lbl{font-size:12px;color:var(--muted);margin-top:4px}
+.flame{color:var(--flame)}
+
+/* goal cards */
+.goal-list{display:grid;gap:12px}
+.goal-card{display:block;width:100%;text-align:left;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:16px;transition:border-color .15s,transform .12s}
+.goal-card:hover{border-color:var(--border-strong)}
+.goal-card:active{transform:scale(.995)}
+.gc-top{display:flex;align-items:center;gap:12px}
+.gc-icon{width:44px;height:44px;border-radius:13px;background:var(--sage-soft);display:grid;place-items:center;font-size:24px;flex-shrink:0}
+.gc-name{font-weight:600;font-size:16px;line-height:1.25;overflow-wrap:anywhere}
+.gc-sub{font-size:13px;color:var(--muted)}
+.gc-pct{margin-left:auto;font-family:var(--font-display);font-size:20px;color:var(--sage-ink)}
+[data-theme='dark'] .gc-pct{color:var(--sage)}
+.bar{height:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:999px;overflow:hidden;margin:12px 0 8px}
+.bar>i{display:block;height:100%;background:var(--box-grad);border-radius:999px;transition:width .5s var(--ease)}
+.gc-plan{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:flex-start}
+.gc-plan b{color:var(--text);font-weight:600}
+.mini-grid{display:flex;flex-wrap:wrap;gap:3px;margin-top:10px}
+.mini-grid i{width:8px;height:8px;border-radius:2px;background:var(--surface-2);border:1px solid var(--border)}
+.mini-grid i.on{background:var(--sage);border-color:var(--sage)}
+
+.empty{text-align:center;padding:34px 22px}
+.empty h3{font-family:var(--font-display);font-size:22px;margin:14px 0 6px}
+.empty p{color:var(--muted);font-size:15px;max-width:34ch;margin:0 auto 18px}
+
+details.fold{margin-top:18px}
+details.fold>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:12px 4px;font-weight:600;color:var(--muted);font-size:14px}
+details.fold>summary::-webkit-details-marker{display:none}
+details.fold>summary .chev{transition:transform .2s}
+details.fold[open]>summary .chev{transform:rotate(180deg)}
+
+/* detail */
+.back{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-weight:600;font-size:14px;padding:8px 4px 8px 0}
+.hero{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
+.ring{position:relative;width:112px;height:112px}
+.ring svg{display:block;transform:rotate(-90deg)}
+.ring .pct{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-family:var(--font-display);font-size:26px;line-height:1}
+.ring .pct small{display:block;max-width:78px;font-family:var(--font-body);font-size:11px;line-height:1.25;color:var(--muted);margin-top:4px}
+.hero h2{font-family:var(--font-display);font-size:24px;line-height:1.15;letter-spacing:-.01em;overflow-wrap:anywhere}
+.hero h2.htitle{display:flex;align-items:center;gap:10px}
+.hero .hicon{font-size:26px;line-height:1;flex-shrink:0}
+.hero .amt{font-size:15px;color:var(--muted);margin-top:4px}
+.hero .amt b{color:var(--text);font-size:18px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+.stat{background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:10px}
+.stat .v{font-weight:600;font-size:15px;line-height:1.25}
+.stat .k{font-size:11.5px;color:var(--muted)}
+.plan{margin-top:12px;border-radius:14px;padding:12px 14px;background:var(--sage-soft);color:var(--sage-ink);font-size:14px;display:flex;gap:10px;align-items:flex-start}
+[data-theme='dark'] .plan{color:var(--sage-ink)}
+.plan.flame{background:var(--flame-soft);color:var(--text)}
+.plan svg{flex-shrink:0;margin-top:2px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.actions.one{grid-template-columns:1fr}
+.verse{text-align:center;margin:28px auto 8px;max-width:340px;padding-top:18px;border-top:1px solid var(--border)}
+.verse p{font-family:var(--font-display);font-size:14px;line-height:1.45;color:var(--text);font-style:italic}
+.verse cite{display:block;margin-top:4px;font-size:11px;font-style:normal;letter-spacing:.04em;color:var(--muted)}
+.verse{cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none}
+.verse.swap p,.verse.swap cite{animation:vfade .45s ease}
+@keyframes vfade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.verse .vhint{display:block;margin-top:6px;font-size:10px;color:var(--faint)}
+.niv-note{font-size:11.5px;color:var(--faint);line-height:1.45;margin-top:4px}
+
+.grid-card{margin-top:14px}
+.grid-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+.grid-head h3{font-family:var(--font-display);font-size:18px}
+.grid-hint{font-size:13px;color:var(--muted);margin:-4px 0 12px}
+.quick{display:grid;grid-template-columns:1fr auto;gap:8px;margin:0 0 6px}
+.quick .btn{min-height:48px}
+.quick-prev{font-size:13px;color:var(--muted);min-height:18px;margin:0 0 12px}
+.quick-prev b{color:var(--text)}
+.chk{display:flex;align-items:center;gap:10px;font-size:14px;margin:4px 0 10px;cursor:pointer}
+.chk input{width:20px;height:20px;accent-color:var(--sage,#5e7c73)}
+.extra-pill{display:inline-flex;align-items:center;gap:6px;font-size:13px;background:var(--flame-soft);color:var(--text);border-radius:999px;padding:5px 10px;margin:-2px 0 12px}
+.boxes{display:grid;grid-template-columns:repeat(auto-fill,minmax(50px,1fr));gap:6px}
+.box{position:relative;aspect-ratio:1;border-radius:10px;background:var(--surface-2);border:1.5px dashed var(--border-strong);display:grid;place-items:center;font-size:12.5px;font-weight:600;color:var(--muted);transition:transform .15s,background .2s;padding:2px;line-height:1.1;text-align:center}
+.box:hover{border-color:var(--sage)}
+.box.on{background:var(--box-grad);border:1.5px solid transparent;color:#fff}
+.box.on .amt{opacity:.0}
+.box.on::after{content:'';position:absolute;inset:0;background:no-repeat center/46% url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.2 4.2L19 7'/%3E%3C/svg%3E")}
+.box.partial{border-style:solid;border-color:var(--sage);background:linear-gradient(to top,var(--sage-soft) var(--fill,0%),var(--surface-2) var(--fill,0%))}
+.box.pop{animation:pop .45s var(--ease)}
+@keyframes pop{0%{transform:scale(.8)}55%{transform:scale(1.12)}100%{transform:scale(1)}}
+/* stomp animation: wind up, slam, shatter, stamp */
+.box.crush{animation:crush .9s cubic-bezier(.3,1.4,.5,1) var(--d,0ms) backwards;z-index:2}
+.box.crush::after{animation:stamp .5s cubic-bezier(.2,1.6,.4,1) calc(var(--d,0ms) + .36s) backwards}
+.box.crush::before{content:'';position:absolute;left:50%;top:50%;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:2px;background:transparent;pointer-events:none;opacity:0;animation:shards .75s cubic-bezier(.1,.8,.3,1) calc(var(--d,0ms) + .3s)}
+.box .fx-ring{position:absolute;inset:-3px;border-radius:inherit;border:3px solid var(--flame);opacity:0;pointer-events:none;animation:burst .7s ease-out calc(var(--d,0ms) + .3s)}
+.box .fx-amt{position:absolute;left:50%;top:-16px;z-index:3;transform:translateX(-50%);font-size:13px;font-weight:800;color:var(--flame);white-space:nowrap;opacity:0;pointer-events:none;text-shadow:0 1px 0 var(--surface);animation:floatup 1.1s ease-out calc(var(--d,0ms) + .35s)}
+.boxes.rumble{animation:rumble var(--rt,600ms) linear}
+@keyframes crush{0%{transform:scale(1);opacity:.35;filter:saturate(0)}18%{transform:translateY(-8px) scale(1.28) rotate(-10deg);opacity:1;filter:saturate(1) brightness(1.15)}38%{transform:translateY(3px) scale(1.4,.42) rotate(0);filter:brightness(1.9)}54%{transform:scale(.82,1.24)}70%{transform:scale(1.12,.94)}85%{transform:scale(.97,1.03)}100%{transform:scale(1);filter:none}}
+@keyframes stamp{0%{transform:scale(3) rotate(-25deg);opacity:0}55%{transform:scale(.8) rotate(4deg);opacity:1}100%{transform:scale(1) rotate(0)}}
+@keyframes burst{0%{opacity:1;transform:scale(.8)}100%{opacity:0;transform:scale(2)}}
+@keyframes shards{0%{opacity:1;box-shadow:0 0 0 var(--flame),0 0 0 var(--sage),0 0 0 #e8b04a,0 0 0 var(--flame),0 0 0 var(--sage),0 0 0 #e8b04a,0 0 0 var(--flame),0 0 0 var(--sage)}100%{opacity:0;box-shadow:0 -34px 0 var(--flame),26px -24px 0 var(--sage),36px 2px 0 #e8b04a,24px 26px 0 var(--flame),0 36px 0 var(--sage),-26px 24px 0 #e8b04a,-36px 0 0 var(--flame),-24px -26px 0 var(--sage)}}
+@keyframes floatup{0%{opacity:0;transform:translate(-50%,0) scale(.6)}20%{opacity:1;transform:translate(-50%,-14px) scale(1.15)}100%{opacity:0;transform:translate(-50%,-46px) scale(1)}}
+@keyframes rumble{0%,100%{transform:none}10%{transform:translate(-2px,1px)}20%{transform:translate(2px,-1px)}30%{transform:translate(-2px,-1px)}40%{transform:translate(2px,1px)}50%{transform:translate(-1px,2px)}60%{transform:translate(1px,-2px)}70%{transform:translate(-2px,0)}80%{transform:translate(2px,1px)}90%{transform:translate(-1px,-1px)}}
+.boxes.compact{grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:5px}
+.boxes.compact .box{font-size:11px;border-radius:8px}
+/* picture grids */
+.boxes.shape{gap:3px;margin:0 auto}
+.boxes.shape .box{border-radius:5px;font-size:10px;border-width:1px;padding:0}
+.boxes.shape.tiny .box .amt{display:none}
+.boxes.shape .box.on::after{background-size:62%}
+.mini-grid.shape{display:grid;gap:2px;max-width:150px}
+.mini-grid.shape i{width:auto;height:auto;aspect-ratio:1;border-radius:1.5px}
+.look-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.look{border:1.5px solid var(--border);border-radius:12px;padding:8px 2px 6px;background:var(--surface);font-size:11.5px;font-weight:600;color:var(--muted);display:grid;justify-items:center;gap:4px}
+.look svg{width:34px;height:34px;display:block}
+.look[aria-pressed='true']{border-color:var(--sage);background:var(--sage-soft);color:var(--sage-ink)}
+/* goal photo */
+.cover{margin:-18px -18px 16px;height:160px;border-radius:var(--radius-lg) var(--radius-lg) 0 0;overflow:hidden;background:var(--surface-2)}
+.cover img{width:100%;height:100%;object-fit:cover;display:block}
+.gc-icon.ph{background-size:cover;background-position:center}
+.photo-pick{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.ph-prev{width:64px;height:64px;border-radius:12px;background:var(--surface-2) center/cover no-repeat;border:1.5px dashed var(--border-strong);flex-shrink:0}
+.ph-prev.has{border-style:solid;border-color:var(--border)}
+/* rewards */
+details.rewards{margin:0 0 14px;border:1px solid var(--border);border-radius:14px;padding:0 12px}
+details.rewards>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:12px 0;font-weight:600;font-size:14px;color:var(--muted)}
+details.rewards>summary::-webkit-details-marker{display:none}
+details.rewards[open]>summary .chev{transform:rotate(180deg)}
+details.rewards .help{font-size:12.5px;color:var(--faint);margin:-4px 0 10px}
+.reward-pill{margin-top:12px;display:flex;gap:10px;align-items:flex-start;font-size:14px;background:var(--surface-2);border:1px solid var(--border);border-radius:14px;padding:11px 14px;color:var(--text)}
+.reward-pill b{font-weight:600}
+.reward-list{display:grid;gap:8px;margin:14px 0 4px;text-align:left}
+/* checklist goals */
+.tasks{display:grid}
+.task{display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:center;text-align:left;width:100%;padding:10px 0;border-top:1px solid var(--border)}
+.task:first-child{border-top:0}
+.task .box{width:44px;font-size:13px}
+.task .tt{font-weight:600;font-size:15px;line-height:1.3;color:var(--text)}
+.task .th{font-size:12.5px;color:var(--muted);margin-top:2px;line-height:1.4}
+.task.done .tt{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--sage);text-decoration-thickness:2px}
+.task .fx-amt{display:none}
+.beat{margin-top:12px;border:1px solid var(--border);background:var(--surface-2);border-radius:14px;padding:12px 14px;font-size:14px;color:var(--text)}
+.beat .bh{display:flex;gap:10px;align-items:flex-start}
+.beat .bh>span{font-size:20px;line-height:1.1}
+.beat .bs{display:block;color:var(--muted);font-size:13px;margin-top:3px}
+.beat .bact{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:6px}
+.beat.win{background:var(--sage-soft);border-color:transparent;color:var(--sage-ink)}
+.beat.win .bs{color:var(--sage-ink);opacity:.85}
+.note{margin-top:12px;font-size:13px;line-height:1.5;color:var(--muted);background:var(--surface-2);border:1px solid var(--border);border-radius:14px;padding:12px 14px}
+.note b{color:var(--text)}
+
+.hist{margin-top:14px}
+.hist-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1px solid var(--border)}
+.hist-row:first-child{border-top:0}
+.hist-row .he{flex:1;min-width:0;display:flex;align-items:center;gap:12px;text-align:left;padding:4px 0;border-radius:10px}
+.hist-row .he .pen{color:var(--faint);flex-shrink:0}
+.hist-row .he:hover .pen{color:var(--sage)}
+.hist-row .d{font-size:13px;color:var(--muted);min-width:56px}
+.tagrow{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.tag{border:1.5px solid var(--border);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600;color:var(--muted);background:var(--surface)}
+.tag[aria-pressed='true']{border-color:var(--sage);background:var(--sage-soft);color:var(--sage-ink)}
+.locked{font-size:13px;color:var(--muted);margin-top:6px}
+.hist-row .n{flex:1;min-width:0;font-size:14px;overflow-wrap:anywhere}
+.hist-row .a{font-weight:600}
+.hist-row .a.neg{color:var(--danger)}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:14px;background:var(--surface-2);border:1px solid var(--border);margin-bottom:14px}
+.seg button{padding:9px 8px;border-radius:10px;font-size:14px;font-weight:600;color:var(--muted)}
+.seg button[aria-pressed='true']{background:var(--surface);color:var(--text);box-shadow:var(--shadow)}
+.hist-row .x{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;color:var(--faint)}
+.hist-row .x:hover{background:var(--danger-soft);color:var(--danger)}
+
+/* tips */
+.tips{display:grid;gap:10px}
+.tip{display:flex;gap:12px;align-items:flex-start}
+.tip .ti{width:38px;height:38px;border-radius:12px;background:var(--sage-soft);color:var(--sage-ink);display:grid;place-items:center;flex-shrink:0}
+[data-theme='dark'] .tip .ti{color:var(--sage)}
+.tip h3{font-size:15px;font-weight:600}
+.tip p{font-size:14px;color:var(--muted)}
+.style-card h3{font-family:var(--font-display);font-size:17px;margin-bottom:2px}
+.style-card p{font-size:14px;color:var(--muted)}
+.demo-boxes{display:flex;gap:5px;margin-top:10px}
+.demo-boxes span{width:34px;height:34px;border-radius:8px;display:grid;place-items:center;font-size:11px;font-weight:600;background:var(--surface-2);border:1.5px dashed var(--border-strong);color:var(--muted)}
+.demo-boxes span.on{background:var(--box-grad);border:0;color:#fff}
+
+/* settings */
+.set-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;border-top:1px solid var(--border)}
+.set-row:first-of-type{border-top:0}
+.set-row .t{font-weight:600;font-size:15px}
+.set-row .s{font-size:13px;color:var(--muted)}
+.seg{display:inline-flex;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:3px;gap:2px}
+.seg button{padding:7px 12px;border-radius:9px;font-size:13px;font-weight:600;color:var(--muted)}
+.seg button[aria-pressed='true']{background:var(--surface);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+
+/* bottom nav */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:30;background:color-mix(in srgb,var(--surface) 88%,transparent);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-top:1px solid var(--border);padding:6px 10px calc(6px + var(--safe-b))}
+.nav-in{max-width:640px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr auto 1fr 1fr;align-items:center}
+.nav button.tab{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;font-weight:600;color:var(--faint);padding:6px 0;border-radius:12px}
+.nav button.tab[aria-current='page']{color:var(--sage)}
+.fab{width:56px;height:56px;border-radius:18px;background:var(--btn-grad);color:#fff;display:grid;place-items:center;box-shadow:0 6px 18px rgba(42,45,48,.4);margin:-22px 8px 0}
+.fab:active{transform:scale(.96)}
+
+/* sheet */
+.scrim{position:fixed;inset:0;background:rgba(20,22,24,.42);z-index:50;opacity:0;pointer-events:none;transition:opacity .2s}
+.scrim.open{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:51;max-height:92vh;max-height:92dvh;overflow:auto;background:var(--surface);border-radius:24px 24px 0 0;box-shadow:var(--shadow-lg);transform:translateY(105%);transition:transform .3s var(--ease);padding:8px 18px calc(20px + var(--safe-b));max-width:640px;margin:0 auto;overscroll-behavior:contain}
+.sheet.open{transform:none}
+.sheet .grab{width:40px;height:5px;border-radius:9px;background:var(--border-strong);margin:4px auto 12px}
+.sheet h2{font-family:var(--font-display);font-size:22px;letter-spacing:-.01em;margin-bottom:4px}
+.sheet .lede{color:var(--muted);font-size:14px;margin-bottom:16px}
+.sheet-close{position:absolute;right:12px;top:12px}
+.field{margin-bottom:14px}
+.field label,.field .label{display:block;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:6px}
+.field .help{font-size:12.5px;color:var(--faint);margin-top:5px}
+.input{width:100%;min-height:48px;padding:10px 14px;border-radius:12px;border:1px solid var(--border-strong);background:var(--surface);font-size:16px}
+.input:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px color-mix(in srgb,var(--sage) 22%,transparent)}
+.input.big{font-size:26px;font-weight:600;font-family:var(--font-display)}
+.money{position:relative}
+.money::before{content:'$';position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.money .input{padding-left:28px}
+.money.bigm::before{font-size:22px}
+.money.bigm .input{padding-left:34px}
+.row2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+.row2>*{min-width:0}
+input[type='date'].input{-webkit-appearance:none;appearance:none;display:block;min-width:0;max-width:100%;height:48px;line-height:26px;text-align:left}
+input[type='date'].input::-webkit-date-and-time-value{text-align:left;min-height:26px}
+input[type='date'].input::-webkit-datetime-edit{padding:0}
+.choices{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.choice{border:1.5px solid var(--border);border-radius:14px;padding:10px 8px;text-align:center;background:var(--surface);font-size:13px;font-weight:600;color:var(--muted)}
+.choice small{display:block;font-weight:500;font-size:11.5px;color:var(--faint);margin-top:2px}
+.choice[aria-pressed='true']{border-color:var(--sage);background:var(--sage-soft);color:var(--sage-ink)}
+[data-theme='dark'] .choice[aria-pressed='true']{color:var(--sage-ink)}
+.icons{display:flex;flex-wrap:wrap;gap:6px}
+.icons button{width:44px;height:44px;border-radius:12px;font-size:22px;border:1.5px solid var(--border);background:var(--surface)}
+.icons button[aria-pressed='true']{border-color:var(--sage);background:var(--sage-soft)}
+.starters{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.starter{text-align:left;border:1px solid var(--border);border-radius:16px;padding:14px;background:var(--surface-2);transition:border-color .15s}
+.starter:hover{border-color:var(--sage)}
+.starter .e{font-size:24px}
+.starter .t{font-weight:600;font-size:15px;margin-top:6px;line-height:1.25}
+.starter .s{font-size:12.5px;color:var(--muted);margin-top:2px}
+.starter.custom{grid-column:1/-1;display:flex;align-items:center;gap:12px;background:var(--surface)}
+.starter.custom .t{margin-top:0}
+.preview-line{font-size:14px;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:10px 12px;color:var(--muted);margin-bottom:14px}
+.preview-line b{color:var(--text)}
+.err{color:var(--danger);font-size:13px;margin:-6px 0 12px;min-height:0}
+.opt-list{display:grid;gap:10px;margin-top:6px}
+.opt{display:flex;align-items:center;gap:12px;text-align:left;width:100%;border:1px solid var(--border);border-radius:14px;padding:14px;background:var(--surface-2)}
+.opt:hover{border-color:var(--sage)}
+.opt .oi{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:var(--sage-soft);color:var(--sage-ink);flex-shrink:0}
+.opt .ot{font-weight:600;font-size:15px}
+.opt .os{font-size:13px;color:var(--muted)}
+
+/* toast + celebrate */
+.toast{position:fixed;left:50%;bottom:calc(96px + var(--safe-b));transform:translate(-50%,20px);background:var(--text);color:var(--bg);padding:11px 16px;border-radius:12px;font-size:14px;font-weight:500;z-index:60;opacity:0;pointer-events:none;transition:opacity .2s,transform .25s var(--ease);max-width:calc(100% - 32px);text-align:center;box-shadow:var(--shadow-lg)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:70}
+.celebrate{text-align:center;padding:10px 4px 4px}
+.celebrate .burst{font-size:54px;line-height:1}
+.celebrate h2{font-size:28px;margin-top:8px}
+.update-bar{position:fixed;top:10px;left:50%;transform:translateX(-50%);z-index:65;background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow-lg);border-radius:14px;padding:8px 8px 8px 14px;display:flex;align-items:center;gap:10px;font-size:14px;width:max-content;max-width:calc(100% - 24px)}
+
+/* print */
+#print-area{display:none}
+@media print{
+  @page{margin:12mm}
+  body{background:#fff!important;color:#111}
+  body>*:not(#print-area){display:none!important}
+  #print-area{display:block!important;font-family:var(--font-body)}
+  .p-head{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid #5e7c73;padding-bottom:8px;margin-bottom:12px}
+  .p-head h1{font-family:var(--font-display);font-size:26px}
+  .p-head p{font-size:12px;color:#555}
+  .p-stats{display:flex;gap:24px;font-size:12px;margin-bottom:12px}
+  .p-stats b{display:block;font-size:16px}
+  .p-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:4px}
+  .p-box{aspect-ratio:1;border:1.5px solid #9aa6a2;border-radius:5px;display:grid;place-items:center;font-size:10px;font-weight:600;color:#333;break-inside:avoid}
+  .p-box.on{background:#5e7c73!important;color:#fff;border-color:#5e7c73;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .p-foot{margin-top:6px;font-size:10px;color:#777;text-align:center}
+  .p-verse{margin-top:14px;font-size:12px;font-style:italic;text-align:center;color:#444}
+  .p-verse span{font-style:normal;color:#777;font-size:10px}
+  .p-verse small{display:block;font-style:normal;color:#999;font-size:8px;margin-top:4px}
+  .p-tasks{display:grid;gap:8px;margin-top:6px}
+  .p-task{display:flex;gap:10px;align-items:flex-start;font-size:13px;break-inside:avoid}
+  .p-task i{width:16px;height:16px;border:1.5px solid #9aa6a2;border-radius:4px;flex-shrink:0;margin-top:1px}
+  .p-task i.on{background:#5e7c73!important;border-color:#5e7c73;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .p-task small{display:block;color:#666;font-size:11px}
+}
+@media (max-width:420px){
+  .summary{grid-template-columns:1fr 1fr}
+  .summary .card:first-child{grid-column:1/-1}
+  .hero{grid-template-columns:1fr;justify-items:center;text-align:center}
+  .hero h2.htitle{justify-content:center}
+  .stats{grid-template-columns:repeat(3,1fr)}
+  .stat{padding:9px 8px}
+  .boxes{grid-template-columns:repeat(auto-fill,minmax(46px,1fr))}
+}
+@media (min-width:700px){
+  .app{padding-top:8px}
+}
+</style>
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=zodiak@600,700&f[]=general-sans@400,500,600&display=swap">
+</head>
+<body>
+<div id="boot" aria-hidden="true">
+  <img src="logo-96.png" width="64" height="64" alt="" style="border-radius:15px;display:block">
+</div>
+
+<div id="demo-bar" class="demo-bar" hidden>
+  <span><strong>DEMO VERSION</strong> — features are fully interactive but data resets on refresh</span>
+  <a id="demo-cta" href="https://cleartrackapps.com/#bootstraps">Get Bootstraps</a>
+</div>
+
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <img class="brand-logo" src="logo-96.png" width="40" height="40" alt="" aria-hidden="true">
+      <div><h1>Bootstraps</h1><small>by CleartrackApps</small></div>
+    </div>
+    <button class="icon-btn" id="theme-quick" aria-label="Switch light or dark mode">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
+  </header>
+
+  <main>
+    <!-- GOALS -->
+    <section class="view active" id="view-goals" aria-labelledby="goals-title">
+      <h2 id="goals-title" class="sr-only">Your goals</h2>
+      <div class="summary" id="summary"></div>
+      <div class="section-h"><h2>Your goals</h2><span id="goal-count"></span></div>
+      <div class="goal-list" id="goal-list"></div>
+      <details class="fold" id="crushed-fold" hidden>
+        <summary><span id="crushed-label">Kicked goals</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="goal-list" id="crushed-list"></div>
+      </details>
+    </section>
+
+    <!-- DETAIL -->
+    <section class="view" id="view-detail" aria-live="polite"></section>
+
+    <!-- TIPS -->
+    <section class="view" id="view-tips">
+      <div class="section-h" style="margin-top:6px"><h2>Pick your grid style</h2></div>
+      <div class="tips">
+        <div class="card style-card"><h3>Even boxes</h3><p>Every box is the same amount, like 100 boxes of $10 for $1,000. Add any amount and boxes fill in on their own.</p><div class="demo-boxes"><span class="on">$10</span><span class="on">$10</span><span class="on">$10</span><span>$10</span><span>$10</span></div></div>
+        <div class="card style-card"><h3>Mixed amounts</h3><p>A shuffled grid of small and big boxes. Have $7 left after groceries? Tap a small one. Got a bonus? Stomp a big one.</p><div class="demo-boxes"><span class="on">$5</span><span>$40</span><span class="on">$15</span><span>$25</span><span>$10</span></div></div>
+        <div class="card style-card"><h3>Count up</h3><p>Classic challenges where boxes go $1, $2, $3 and up. 100 boxes adds up to $5,050; 52 weeks adds up to $1,378.</p><div class="demo-boxes"><span class="on">1</span><span>2</span><span class="on">3</span><span>4</span><span>5</span></div></div>
+      </div>
+      <div class="section-h"><h2>Ways to find the money</h2></div>
+      <div class="card tips" id="tips-list"></div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section class="view" id="view-settings">
+      <div class="section-h" style="margin-top:6px"><h2>Settings</h2></div>
+      <div class="card">
+        <div class="set-row"><div><div class="t">Appearance</div><div class="s">Light, dark, or match your phone</div></div>
+          <div class="seg" role="group" aria-label="Appearance" id="theme-seg"><button data-theme-set="light">Light</button><button data-theme-set="dark">Dark</button><button data-theme-set="auto">Auto</button></div></div>
+        <div class="set-row"><div><div class="t">Stomp animation</div><div class="s">Boxes slam, shatter, and stamp when you stomp them</div></div>
+          <div class="seg" role="group" aria-label="Stomp animation" id="anim-seg"><button data-anim-set="on">On</button><button data-anim-set="off">Off</button></div></div>
+        <div class="set-row"><div><div class="t">Daily verse</div><div class="s">A new verse about saving and stewardship each day. Tap it for another.</div></div>
+          <div class="seg" role="group" aria-label="Daily verse" id="verse-seg"><button data-verse-set="on">On</button><button data-verse-set="off">Off</button></div></div>
+      </div>
+      <div class="section-h"><h2>Backup</h2></div>
+      <div class="card">
+        <p style="font-size:14px;color:var(--muted);margin-bottom:12px">Your goals are saved only in this browser on this device. Save a backup now and then, especially before switching phones or clearing browser data. Each backup uses the same file name, so you can replace the old copy.</p>
+        <p id="last-backup" style="font-size:13px;margin-bottom:12px"></p>
+        <div class="row2">
+          <button class="btn btn-primary" id="backup-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>Save backup</button>
+          <button class="btn btn-ghost" id="restore-btn">Restore</button>
+        </div>
+        <input type="file" id="restore-file" accept="application/json,.json" hidden>
+      </div>
+      <div class="section-h"><h2>About</h2></div>
+      <div class="card">
+        <div class="set-row"><div><div class="t">Private by design</div><div class="s">No account, no ads, no bank login. Nothing you enter leaves your device.</div></div></div>
+        <div class="set-row"><div><div class="t">Install on your phone</div><div class="s">iPhone: Safari › Share › Add to Home Screen. Android: Chrome menu › Install app.</div></div></div>
+        <div class="set-row"><div><div class="t">Help</div><div class="s"><a href="mailto:cleartrackapps@gmail.com" style="color:var(--sage)">cleartrackapps@gmail.com</a></div></div></div>
+        <div class="set-row"><div><div class="t">Scripture</div><div class="niv-note">Scripture quotations taken from The Holy Bible, New International Version® NIV® Copyright © 1973, 1978, 1984, 2011 by Biblica, Inc.™ Used by permission. All rights reserved worldwide.</div></div></div>
+        <div class="set-row"><div><div class="t">Version</div><div class="s num" id="ver"></div></div><button class="btn btn-ghost btn-sm" id="refresh-btn">Check for update</button></div>
+      </div>
+      <div class="section-h"><h2>Start over</h2></div>
+      <div class="card">
+        <p style="font-size:14px;color:var(--muted);margin-bottom:12px">Erase every goal and deposit on this device. Save a backup first if you might want them back.</p>
+        <button class="btn btn-danger btn-block" id="wipe-btn">Erase all data</button>
+      </div>
+    </section>
+  </main>
+  <footer class="verse" id="verse" role="button" tabindex="0" aria-label="Verse of the day. Tap for another verse."><p>“Whoever gathers money little by little makes it grow.”</p><cite>Proverbs 13:11b (NIV)</cite></footer>
+</div>
+
+<nav class="nav" aria-label="Main">
+  <div class="nav-in">
+    <button class="tab" data-view="goals" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/></svg>Goals</button>
+    <button class="tab" data-view="tips"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.6.5 1.1 1.3 1.1 2.2h5c0-.9.5-1.7 1.1-2.2A6 6 0 0 0 12 3z"/></svg>Tips</button>
+    <button class="fab" id="fab" aria-label="Add savings"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+    <button class="tab" data-view="new"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></svg>New goal</button>
+    <button class="tab" data-view="settings"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>Settings</button>
+  </div>
+</nav>
+
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<canvas id="confetti" aria-hidden="true"></canvas>
+<div id="print-area"></div>
+
+<script>
+(function(){
+'use strict';
+var APP_VERSION='1.4.2';
+var DEMO=!!window.GC_DEMO;
+var KEY='bootstraps_v1';
+var BACKUP_NAME='bootstraps-backup.json';
+var MAX_BOXES=366, MIN_BOXES=5;
+
+/* ---------- helpers ---------- */
+var $=function(s,r){return (r||document).querySelector(s)};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
+function cents(n){return Math.round((+n||0)*100)}
+var fmt0=new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0});
+var fmt2=new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',minimumFractionDigits:2,maximumFractionDigits:2});
+function money(c){var v=c/100;return (c%100===0)?fmt0.format(v):fmt2.format(v)}
+function moneyShort(c){var v=c/100;if(v>=10000)return '$'+(Math.round(v/100)/10)+'k';if(v>=1000)return '$'+(Math.round(v/10)/100).toString().replace(/\.?0+$/,'')+'k';return c%100===0?'$'+v:'$'+v.toFixed(2)}
+function todayStr(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function parseDay(s){var p=String(s).split('-');return new Date(+p[0],+p[1]-1,+p[2])}
+function daysBetween(a,b){return Math.round((b-a)/86400000)}
+function niceDate(s,withYear){var d=parseDay(s);var o={month:'short',day:'numeric'};if(withYear||d.getFullYear()!==new Date().getFullYear())o.year='numeric';return d.toLocaleDateString('en-US',o)}
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function plural(n,w){if(n===1)return n+' '+w;var p={box:'boxes',entry:'entries','savings entry':'savings entries'}[w]||w+'s';return n+' '+p}
+
+/* ---------- storage ---------- */
+var state;
+function blank(){return {app:'bootstraps',schema:1,goals:[],settings:{theme:'auto'},lastBackup:null}}
+function load(){
+  if(DEMO){state=demoState();return}
+  try{var raw=localStorage.getItem(KEY)||localStorage.getItem('goalCrusher_v1');state=raw?JSON.parse(raw):blank()}catch(e){state=blank()}
+  if(!state||!Array.isArray(state.goals))state=blank();
+  state.settings=state.settings||{theme:'auto'};
+}
+function save(){
+  if(DEMO)return true;
+  try{localStorage.setItem(KEY,JSON.stringify(state));return true}catch(e){toast('Could not save. Your browser storage may be full.');return false}
+}
+
+/* ---------- grid math ---------- */
+function buildEven(targetC,boxC){var n=Math.ceil(targetC/boxC),out=[];for(var i=0;i<n;i++)out.push(i<n-1?boxC:targetC-boxC*(n-1));return out}
+function buildCountUp(n,stepC){var out=[];for(var i=1;i<=n;i++)out.push(i*stepC);return out}
+function buildMixed(targetC,n){
+  var avg=targetC/n;
+  // rounding unit in cents, based on the average box value
+  var u=avg>=50000?2500:avg>=20000?1000:avg>=2000?500:avg>=500?100:avg>=100?25:1;
+  if(u>avg/2)u=Math.max(1,Math.floor(avg/2));
+  var w=[],sw=0;for(var i=0;i<n;i++){var r=Math.random();var x=0.35+r*r*2.2;w.push(x);sw+=x}
+  var a=w.map(function(x){return Math.max(u,Math.round(x/sw*targetC/u)*u)});
+  var sum=a.reduce(function(s,v){return s+v},0),diff=targetC-sum,guard=0;
+  while(Math.abs(diff)>=u&&guard++<100000){var k=Math.floor(Math.random()*n);if(diff>0){a[k]+=u;diff-=u}else if(a[k]>u){a[k]-=u;diff+=u}}
+  if(diff!==0){var idx=a.indexOf(Math.max.apply(null,a));a[idx]+=diff}
+  return shuffle(a);
+}
+function totalSaved(g){return g.deposits.reduce(function(s,d){return s+d.amount},0)}
+function crushedValue(g){var s=0;for(var k in g.crushed)s+=g.boxes[k]||0;return s}
+/* even goals fill boxes in order from the running total */
+function evenFill(g){var t=totalSaved(g),run=0,filled=0;for(var i=0;i<g.boxes.length;i++){if(run+g.boxes[i]<=t){run+=g.boxes[i];filled++}else break}return {filled:filled,leftover:t-run}}
+function isTask(g){return g.kind==='tasks'}
+function boxesCrushed(g){return g.mode==='even'?evenFill(g).filled:Object.keys(g.crushed).length}
+function isOn(g,i){if(g.mode==='even')return i<evenFill(g).filled;return !!g.crushed[i]}
+function extraAvail(g){return g.mode==='even'?0:totalSaved(g)-crushedValue(g)}
+function pctLabel(p){return p>0&&p<1?'<1%':Math.floor(p)+'%'}
+function pctOf(g){if(isTask(g))return g.boxes.length?boxesCrushed(g)/g.boxes.length*100:0;return g.target>0?Math.min(100,totalSaved(g)/g.target*100):0}
+function rebalanceExtra(g){
+  // if freeform money dropped below what "extra"-stomped boxes need, un-stomp the newest extra boxes
+  if(g.mode==='even')return;
+  var keys=Object.keys(g.crushed).filter(function(k){return g.crushed[k].via==='extra'}).sort(function(a,b){return (g.crushed[b].at||0)-(g.crushed[a].at||0)});
+  while(extraAvail(g)<0&&keys.length){delete g.crushed[keys.shift()]}
+  if(extraAvail(g)<0){var rest=Object.keys(g.crushed).sort(function(a,b){return (g.crushed[b].at||0)-(g.crushed[a].at||0)});while(extraAvail(g)<0&&rest.length){delete g.crushed[rest.shift()]}}
+}
+function refillExtra(g){var got=[];if(g.mode!=='even'&&autoFillOn()&&extraAvail(g)>0){var now=Date.now();pickBoxes(g,extraAvail(g)).forEach(function(i){g.crushed[i]={via:'extra',at:now};got.push(i)})}return got}
+var ADD_TAGS=['Paycheck','Birthday money','Work bonus','Tax refund','Gift','Side job','Sold something','Cash back'];
+var OUT_TAGS=['Emergency','Car repair','Medical','Bills','Home repair','Moved to another goal'];
+function tagRow(tags,cur){return '<div class="tagrow" role="group" aria-label="Quick labels">'+tags.map(function(t){return '<button type="button" class="tag" data-tag="'+esc(t)+'" aria-pressed="'+(t===cur)+'">'+esc(t)+'</button>'}).join('')+'</div>'}
+function wireTags(root,input){function sync(){$$('.tag',root).forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.tag===input.value.trim()))})}$$('.tag',root).forEach(function(b){b.addEventListener('click',function(){input.value=b.dataset.tag;sync()})});input.addEventListener('input',sync);return sync}
+/* choose open boxes that use as much of the available money as possible */
+function pickBoxes(g,avail){
+  var idx=[];for(var i=0;i<g.boxes.length;i++)if(!g.crushed[i]&&g.boxes[i]<=avail)idx.push(i);
+  if(!idx.length)return [];
+  var tot=idx.reduce(function(a,i){return a+g.boxes[i]},0);if(tot<=avail)return idx;
+  idx.sort(function(a,b){return g.boxes[b]-g.boxes[a]||a-b});
+  function gcd(a,b){while(b){var t=b;b=a%b;a=t}return a}
+  var u=idx.reduce(function(a,i){return gcd(a,g.boxes[i])},0),cap=Math.floor(avail/u);
+  if(cap*idx.length>6e6){var left=avail,out=[];idx.forEach(function(i){if(g.boxes[i]<=left){out.push(i);left-=g.boxes[i]}});return out}
+  var from=new Int32Array(cap+1).fill(-1);from[0]=-2;
+  for(var k=0;k<idx.length;k++){var w=g.boxes[idx[k]]/u;for(var x=cap;x>=w;x--)if(from[x]===-1&&from[x-w]!==-1)from[x]=k}
+  var best=cap;while(best>0&&from[best]===-1)best--;
+  var res=[];while(best>0){var kk=from[best];res.push(idx[kk]);best-=g.boxes[idx[kk]]/u}
+  return res;
+}
+function autoFillOn(){return state.settings.autoFill!==false}
+function animOn(){return state.settings.crushAnim!==false}
+/* what a deposit of amt would do, without saving */
+function previewSavings(g,amt){
+  if(g.mode==='even'){var t=totalSaved(g)+amt,run=0,f=0;for(var i=0;i<g.boxes.length;i++){if(run+g.boxes[i]<=t){run+=g.boxes[i];f++}else break}return {count:f-boxesCrushed(g),used:0,extra:0}}
+  var avail=extraAvail(g)+amt;
+  if(!autoFillOn())return {count:0,used:0,extra:avail,manual:true};
+  var picks=pickBoxes(g,avail),used=picks.reduce(function(a,i){return a+g.boxes[i]},0);
+  return {count:picks.length,used:used,extra:avail-used};
+}
+/* record a deposit and fill boxes */
+function applySavings(g,amt,date,note){
+  var before=boxesCrushed(g);
+  g.deposits.push({id:uid(),amount:amt,date:date||todayStr(),note:note||'',at:Date.now()});
+  lastPopped=[];
+  if(g.mode==='even'){var after=boxesCrushed(g);for(var i=before;i<after;i++)lastPopped.push(i)}
+  else if(autoFillOn()){var now=Date.now();pickBoxes(g,extraAvail(g)).forEach(function(i){g.crushed[i]={via:'extra',at:now};lastPopped.push(i)})}
+  save();
+  return lastPopped.length;
+}
+function savingsMsg(g,amt,n){
+  var ex=extraAvail(g);
+  if(n>0)return 'Stomped '+plural(n,'box')+'!'+(ex>0?' '+money(ex)+' saved toward the next one.':'');
+  if(g.mode==='even'||autoFillOn())return money(amt)+' added. Keep going!';
+  return money(amt)+' added. Tap a box to spend it.';
+}
+function previewText(g,amt){
+  if(!(amt>0))return g.mode==='even'?'Boxes fill in on their own.':(autoFillOn()?'Bootstraps picks boxes that use up your amount.':'Your amount goes to extra savings for you to spend on boxes.');
+  var r=previewSavings(g,amt);
+  if(r.manual)return money(amt)+' goes to extra savings. Tap the boxes you want to stomp.';
+  if(g.mode==='even')return r.count>0?'This stomps <b>'+plural(r.count,'box')+'</b>.':'This goes toward the next box.';
+  if(r.count>0)return 'This stomps <b>'+plural(r.count,'box')+'</b> ('+money(r.used)+')'+(r.extra>0?' and keeps '+money(r.extra)+' as extra.':'.');
+  return money(r.extra)+' goes to extra savings until it covers a box.';
+}
+
+
+/* ---------- picture grids ---------- */
+function inPoly(x,y,pts){var c=false;for(var i=0,j=pts.length-1;i<pts.length;j=i++){var a=pts[i],b=pts[j];if(((a[1]>y)!==(b[1]>y))&&(x<(b[0]-a[0])*(y-a[1])/(b[1]-a[1])+a[0]))c=!c}return c}
+function inCirc(x,y,cx,cy,r){return (x-cx)*(x-cx)+(y-cy)*(y-cy)<=r*r}
+var STAR_PTS=(function(){var p=[];for(var k=0;k<10;k++){var a=-Math.PI/2+k*Math.PI/5,r=k%2?.2:.5;p.push([.5+r*Math.cos(a),.52+r*Math.sin(a)])}return p})();
+/* shapes use x 0..1 and y 0..a (a = height / width) */
+var SHAPES={
+  heart:{name:'Heart',a:.9,f:function(x,y){return inCirc(x,y,.28,.27,.26)||inCirc(x,y,.72,.27,.26)||inPoly(x,y,[[.035,.36],[.965,.36],[.5,.89]])}},
+  star:{name:'Star',a:.96,f:function(x,y){return inPoly(x,y,STAR_PTS)}},
+  house:{name:'House',a:1,f:function(x,y){if(x>.41&&x<.59&&y>.7)return false;if(x>.7&&x<.82&&y>.06&&y<.3)return true;return inPoly(x,y,[[.5,.02],[1,.47],[.88,.47],[.88,1],[.12,1],[.12,.47],[0,.47]])}},
+  tree:{name:'Tree',a:1.22,f:function(x,y){var Y=y/1.22;if(Y>.86)return x>.39&&x<.61;function tier(t,b,tw,bw){return Y>=t&&Y<=b&&Math.abs(x-.5)<=(tw+(Y-t)/(b-t)*(bw-tw))/2}return tier(0,.33,.06,.52)||tier(.3,.6,.26,.76)||tier(.56,.87,.4,1)}},
+  car:{name:'Car',a:.56,f:function(x,y){if(inCirc(x,y,.25,.44,.105)||inCirc(x,y,.75,.44,.105))return true;if(x>=.02&&x<=.98&&y>=.22&&y<=.45)return true;return inPoly(x,y,[[.3,.04],[.66,.04],[.8,.23],[.17,.23]])}},
+  gift:{name:'Gift',a:1,f:function(x,y){if(x>=.09&&x<=.91&&y>=.36&&y<=1)return true;if(x>=.02&&x<=.98&&y>=.23&&y<=.37)return true;return inCirc(x,y,.37,.14,.11)||inCirc(x,y,.63,.14,.11)}}
+};
+var SHAPE_KEYS=['heart','star','house','tree','car','gift'];
+var shapeCache={};
+function shapeLayout(key,n){
+  var S=SHAPES[key];if(!S||n<1)return null;var id=key+':'+n;if(shapeCache[id])return shapeCache[id];
+  function grid(cols,sc){
+    var rows=Math.max(2,Math.round(cols*S.a)),cells=[];
+    for(var r=0;r<rows;r++)for(var c=0;c<cols;c++){
+      var cov=0;for(var sy=0;sy<3;sy++)for(var sx=0;sx<3;sx++){var px=((c+(sx+.5)/3)/cols-.5)/sc+.5,py=(((r+(sy+.5)/3)/rows)-.5)/sc+.5;if(px>=0&&px<=1&&py>=0&&py<=1&&S.f(px,py*S.a))cov++}
+      if(cov>=5)cells.push({r:r,c:c,cov:cov});
+    }
+    return {cols:cols,rows:rows,cells:cells};
+  }
+  var best=null,first=0;
+  for(var cols=3;cols<=90&&!first;cols++)if(grid(cols,1).cells.length>=n)first=cols;
+  if(!first)return null;
+  var tol=Math.max(1,Math.round(n*.03)),pick=null;
+  outer:for(var cc=first;cc<=first+2;cc++)for(var sc=1;sc>=.87;sc-=.015){var gr=grid(cc,sc),ex=gr.cells.length-n;if(ex<0)continue;if(ex<=tol){pick=gr;break outer}if(!best||ex<best.cells.length-n)best=gr}
+  if(pick)best=pick;
+  if(!best)return null;
+  var extra=best.cells.length-n;
+  if(extra>0){
+    var mid=(best.cols-1)/2,map={},drop=new Set();best.cells.forEach(function(x){map[x.r+','+x.c]=x});
+    var order=best.cells.filter(function(x){return x.c<mid}).sort(function(a,b){return a.cov-b.cov||Math.abs(b.c-mid)-Math.abs(a.c-mid)||a.r-b.r});
+    for(var i=0;i<order.length&&extra-drop.size>=2;i++){var m=map[order[i].r+','+(best.cols-1-order[i].c)];if(m){drop.add(order[i]);drop.add(m)}}
+    if(drop.size<extra){var rest=best.cells.filter(function(x){return !drop.has(x)}).sort(function(a,b){return (a.c===mid?0:1)-(b.c===mid?0:1)||a.cov-b.cov||b.r-a.r});for(var j=0;drop.size<extra;j++)drop.add(rest[j])}
+    best.cells=best.cells.filter(function(x){return !drop.has(x)});
+  }
+  best.cells.sort(function(a,b){return b.r-a.r||a.c-b.c}); // fill from the bottom up, like a jar
+  var r0=1e9,r1=-1,c0=1e9,c1=-1;best.cells.forEach(function(x){r0=Math.min(r0,x.r);r1=Math.max(r1,x.r);c0=Math.min(c0,x.c);c1=Math.max(c1,x.c)});
+  var out={cols:c1-c0+1,rows:r1-r0+1,cells:best.cells.map(function(x){return {r:x.r-r0,c:x.c-c0}})};
+  return shapeCache[id]=out;
+}
+function shapeOf(g){return !isTask(g)&&g.shape&&SHAPES[g.shape]&&g.boxes.length>=30?shapeLayout(g.shape,g.boxes.length):null}
+function lookSvg(key){
+  var col='currentColor';
+  if(!key){var o='';for(var r=0;r<5;r++)for(var c=0;c<5;c++)o+='<rect x="'+(c*7+1)+'" y="'+(r*7+1)+'" width="5.6" height="5.6" rx="1.2" fill="'+col+'" opacity="'+(r>2?1:.35)+'"/>';return '<svg viewBox="0 0 36 36" aria-hidden="true">'+o+'</svg>'}
+  var L=shapeLayout(key,110),m=Math.max(L.cols,L.rows),u=34/m,ox=(36-L.cols*u)/2,oy=(36-L.rows*u)/2,o2='';
+  L.cells.forEach(function(x,i){o2+='<rect x="'+(ox+x.c*u+.3).toFixed(2)+'" y="'+(oy+x.r*u+.3).toFixed(2)+'" width="'+(u-.6).toFixed(2)+'" height="'+(u-.6).toFixed(2)+'" rx=".6" fill="'+col+'" opacity="'+(i<44?1:.35)+'"/>'});
+  return '<svg viewBox="0 0 36 36" aria-hidden="true">'+o2+'</svg>';
+}
+
+/* ---------- verse of the day ---------- */
+var VERSES=[
+  ['Whoever gathers money little by little makes it grow.','Proverbs 13:11b'],
+  ['The wise store up choice food and olive oil, but fools gulp theirs down.','Proverbs 21:20'],
+  ['The plans of the diligent lead to profit as surely as haste leads to poverty.','Proverbs 21:5'],
+  ['Suppose one of you wants to build a tower. Won’t you first sit down and estimate the cost to see if you have enough money to complete it?','Luke 14:28'],
+  ['Whoever can be trusted with very little can also be trusted with much.','Luke 16:10a'],
+  ['On the first day of every week, each one of you should set aside a sum of money in keeping with your income, saving it up.','1 Corinthians 16:2a'],
+  ['Ants are creatures of little strength, yet they store up their food in the summer.','Proverbs 30:25'],
+  ['The rich rule over the poor, and the borrower is slave to the lender.','Proverbs 22:7'],
+  ['Be sure you know the condition of your flocks, give careful attention to your herds.','Proverbs 27:23'],
+  ['For where your treasure is, there your heart will be also.','Matthew 6:21'],
+  ['Keep your lives free from the love of money and be content with what you have.','Hebrews 13:5a'],
+  ['Commit to the Lord whatever you do, and he will establish your plans.','Proverbs 16:3'],
+  ['Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver.','2 Corinthians 9:7'],
+  ['Honor the Lord with your wealth, with the firstfruits of all your crops.','Proverbs 3:9']
+];
+var verseShift=0;
+function verseToday(){var d=new Date(),day=Math.floor(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/86400000);return VERSES[((day+verseShift)%VERSES.length+VERSES.length)%VERSES.length]}
+function verseOn(){return state.settings.verse!==false}
+function renderVerse(anim){
+  var el=$('#verse');if(!el)return;el.hidden=!verseOn();var v=verseToday();
+  el.innerHTML='<p>“'+v[0]+'”</p><cite>'+v[1]+' (NIV)</cite><span class="vhint">Tap for another verse · NIV® © Biblica, Inc. Used by permission.</span>';
+  if(anim){el.classList.remove('swap');void el.offsetWidth;el.classList.add('swap')}
+}
+
+/* ---------- goal photo ---------- */
+function readPhoto(file,cb){
+  var rd=new FileReader();
+  rd.onload=function(){var img=new Image();img.onload=function(){var m=720,s=Math.min(1,m/Math.max(img.width,img.height)),cv=document.createElement('canvas');cv.width=Math.max(1,Math.round(img.width*s));cv.height=Math.max(1,Math.round(img.height*s));cv.getContext('2d').drawImage(img,0,0,cv.width,cv.height);try{cb(cv.toDataURL('image/jpeg',.72))}catch(e){cb(null)}};img.onerror=function(){cb(null)};img.src=rd.result};
+  rd.onerror=function(){cb(null)};rd.readAsDataURL(file);
+}
+function safePhoto(p){return typeof p==='string'&&/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+\/=]+$/.test(p)?p:null}
+
+/* ---------- milestone rewards ---------- */
+function rewardFor(g,m){return g.rewards&&g.rewards[m]?String(g.rewards[m]):''}
+function nextReward(g){var p=pctOf(g),ms=[25,50,75,100];for(var i=0;i<ms.length;i++){if(p<ms[i]&&rewardFor(g,ms[i]))return [ms[i],rewardFor(g,ms[i])]}return null}
+
+/* ---------- countdown ---------- */
+function splitDays(tC,days){var base=Math.floor(tC/100/days)*100,rem=tC-base*days,ups=Math.floor(rem/100),out=[];for(var i=0;i<days;i++)out.push(base+(i<ups?100:0));out[days-1]+=rem-ups*100;return out}
+function nextDate(m,d,minDays){var t=new Date(),y=t.getFullYear(),s=function(yy){return yy+'-'+String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0')};if(daysBetween(parseDay(todayStr()),parseDay(s(y)))<(minDays||0))y++;return s(y)}
+
+/* ---------- tax refund checklist ---------- */
+var TAX_STEPS=[
+  ['Find last year’s return','It shows what you filed last time, and your software may ask for numbers from it.'],
+  ['Collect your W-2s','Employers have until January 31 to send them.'],
+  ['Collect your 1099s','Side gigs, contract work, bank interest, unemployment, or retirement payouts.'],
+  ['Gather your 1098s','Mortgage interest, student loan interest, or tuition (1098-T).'],
+  ['Childcare and education costs','Provider names, tax ID numbers, and what you paid.'],
+  ['Confirm Social Security numbers','For you, your spouse, and each dependent, exactly as they appear on the cards.'],
+  ['Get your bank numbers','Routing and account numbers for direct deposit, the fastest way to get your refund.'],
+  ['Choose how you’ll file','Free filing software, paid software, or a tax preparer.'],
+  ['Enter everything and review','Typos in names, Social Security numbers, or bank numbers can hold up a refund.'],
+  ['E-file with direct deposit','The IRS issues most of these refunds in less than 21 days.'],
+  ['Get the acceptance notice','Your software or preparer lets you know once the IRS accepts your return.'],
+  ['Track it with Where’s My Refund?','Status shows up about 24 hours after you e‑file, at IRS.gov/refunds.'],
+  ['Refund received','Check your bank account. You got it done early.'],
+  ['Make a plan for your refund','Kick off a goal with it, build your emergency fund, or pay down a bill.']
+];
+function validDay(v){return typeof v==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(v)&&!isNaN(parseDay(v))?v:null}
+function dayStrOf(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function taxSeasonYear(g){return +(validDay(g&&g.targetDate)||nextDate(4,15,0)).slice(0,4)}
+/* last year's filing date moved into this filing season */
+function lastYearThisSeason(g){var l=validDay(g.lastFiled);if(!l)return null;var d=parseDay(l);return dayStrOf(new Date(taxSeasonYear(g),d.getMonth(),d.getDate()))}
+function suggestFileBy(g){var t=lastYearThisSeason(g);if(!t)return '';var y=taxSeasonYear(g),d=parseDay(t);d.setDate(d.getDate()-14);
+  var lo=new Date(y,1,1),td=parseDay(todayStr());if(d<lo)d=lo;if(d<td)d=td;var dl=validDay(g.targetDate);if(dl&&d>parseDay(dl))d=parseDay(dl);return dayStrOf(d)}
+function efileIndex(g){for(var i=0;i<g.tasks.length;i++)if(/^E-file/.test(g.tasks[i][0]))return i;return -1}
+function filedOn(g){var i=efileIndex(g),c=i>-1&&g.crushed[i];if(!(c&&c.at>1e11))return null;var d=new Date(c.at);return d.getFullYear()>=taxSeasonYear(g)?dayStrOf(d):null}
+function daysWord(n){n=Math.abs(n);return n%7===0&&n>=14?plural(n/7,'week'):plural(n,'day')}
+function beatHtml(g){
+  var fb=validDay(g.fileBy),lt=lastYearThisSeason(g),fo=filedOn(g),ly=validDay(g.lastFiled);
+  if(fo){var msg,sub='';
+    if(lt){var d1=daysBetween(parseDay(fo),parseDay(lt));msg=d1>0?'You filed <b>'+daysWord(d1)+' earlier</b> than last year.':d1===0?'You filed on the same date as last year.':'You filed. Every step you finished counts.'}
+    else msg='You e-filed on <b>'+niceDate(fo,true)+'</b>.';
+    if(fb){var d2=daysBetween(parseDay(fo),parseDay(fb));sub=d2>=0?(d2>0?daysWord(d2)+' ahead of your file-by date.':'Right on your file-by date.'):'A little after your file-by date, and it still counts.'}
+    return '<div class="beat win"><div class="bh"><span aria-hidden="true">🏁</span><div>'+msg+(sub?'<span class="bs">'+sub+'</span>':'')+'</div></div></div>'}
+  if(!fb&&!ly)return '<div class="beat"><div class="bh"><span aria-hidden="true">🏁</span><div><b>Beat last year</b><span class="bs">Filing earlier this year gets your refund sooner. Enter the date you filed last year, or pick a file-by date.</span><div class="bact"><button class="link-btn" data-act="beat" data-goal="'+g.id+'">I filed last year on…</button><button class="link-btn" data-act="beat" data-goal="'+g.id+'">Set a file-by date</button></div></div></div></div>';
+  var top,sub2='';
+  if(fb){var dl=daysBetween(parseDay(todayStr()),parseDay(fb));top='File by <b>'+niceDate(fb,true)+'</b>'+(dl>0?' · '+plural(dl,'day')+' left':dl===0?' · that’s today':' · that date passed');
+    if(lt){var ah=daysBetween(parseDay(fb),parseDay(lt));sub2=ah>0?'That beats last year ('+niceDate(ly,true)+') by '+daysWord(ah)+'.':ah===0?'That matches last year ('+niceDate(ly,true)+'). Can you shave off a week?':'That is later than last year ('+niceDate(ly,true)+'). Try an earlier date to get your refund sooner.'}
+    else sub2='Finish the e-file step by then.'}
+  else{top='Last year you filed on <b>'+niceDate(ly,true)+'</b>';sub2='Beat it this year. Pick a file-by date to aim for.'}
+  return '<div class="beat"><div class="bh"><span aria-hidden="true">🏁</span><div>'+top+'<span class="bs">'+sub2+'</span><div class="bact"><button class="link-btn" data-act="beat" data-goal="'+g.id+'">Change</button></div></div></div></div>';
+}
+function openBeat(g){
+  clearTimeout(toastT);$('#toast').classList.remove('show');
+  var ly=validDay(g.lastFiled)||'',fb=validDay(g.fileBy)||'',auto=!fb;
+  openSheet('<h2 id="sheet-title">Beat last year</h2><p class="lede">The earlier you file, the sooner your refund can land. Fill in one or both.</p>'+
+    '<div class="field"><label for="b-last">I filed last year on <span style="font-weight:400">(optional)</span></label><input class="input" type="date" id="b-last" value="'+esc(ly)+'" max="'+todayStr()+'"><div class="help">Not sure? Your tax software or last year’s acceptance email shows the date.</div></div>'+
+    '<div class="field"><label for="b-by">I want to file by <span style="font-weight:400">(optional)</span></label><input class="input" type="date" id="b-by" value="'+esc(fb)+'" min="'+todayStr()+'"'+(validDay(g.targetDate)?' max="'+g.targetDate+'"':'')+'><div class="help" id="b-help">'+(ly?'':'Enter last year’s date and we’ll suggest one about two weeks earlier.')+'</div></div>'+
+    '<p class="err" id="b-err" role="alert"></p>'+
+    '<div class="opt-list"><button class="btn btn-primary btn-block" id="b-save">Save</button>'+(ly||fb?'<button class="btn btn-ghost btn-block" id="b-clear">Clear dates</button>':'')+'</div>',
+  function(root){
+    var li=$('#b-last',root),bi=$('#b-by',root),hp=$('#b-help',root);
+    bi.addEventListener('input',function(){auto=false});
+    li.addEventListener('input',function(){var v=validDay(li.value);if(!v){if(auto)bi.value='';return}var sug=suggestFileBy({lastFiled:v,targetDate:g.targetDate});
+      if(auto&&sug){bi.value=sug;hp.textContent='Suggested: about two weeks earlier than last year. Change it if you like.'}});
+    $('#b-save',root).onclick=function(){var l=li.value?validDay(li.value):null,b=bi.value?validDay(bi.value):null,er=$('#b-err',root);
+      if(li.value&&!l){er.textContent='That date doesn’t look right.';return}
+      if(l&&l>todayStr()){er.textContent='Last year’s filing date should be in the past.';return}
+      if(bi.value&&!b){er.textContent='That date doesn’t look right.';return}
+      if(b&&validDay(g.targetDate)&&b>g.targetDate){er.textContent='Pick a date on or before your '+niceDate(g.targetDate,true)+' deadline.';return}
+      if(!l&&!b){er.textContent='Enter at least one date.';return}
+      g.lastFiled=l;g.fileBy=b;save();closeSheet();render();toast(b?'File-by date set. You’ve got this.':'Saved. Now pick a date to beat it.')};
+    var cl=$('#b-clear',root);if(cl)cl.onclick=function(){g.lastFiled=null;g.fileBy=null;save();closeSheet();render()};
+  });
+}
+function makeTaxGoal(){
+  return {id:uid(),kind:'tasks',name:'Tax refund fast track',icon:'🧾',mode:'tasks',tasks:TAX_STEPS.map(function(t){return t.slice()}),boxes:TAX_STEPS.map(function(){return 0}),target:0,step:null,crushed:{},deposits:[],targetDate:nextDate(4,15,0),payFreq:'biweekly',createdAt:Date.now(),completedAt:null,milestones:{},rewards:{},lastFiled:null,fileBy:null};
+}
+
+/* plan: per paycheck + pace */
+var FREQ={weekly:{d:7,l:'paycheck',name:'Weekly'},biweekly:{d:14,l:'paycheck',name:'Every 2 weeks'},semimonthly:{d:365/24,l:'paycheck',name:'Twice a month'},monthly:{d:365/12,l:'month',name:'Monthly'}};
+function planFor(g){
+  var left=Math.max(0,g.target-totalSaved(g));
+  var res={left:left,daysLeft:null,per:null,perLabel:'',pace:null};
+  if(g.targetDate){
+    var dl=daysBetween(parseDay(todayStr()),parseDay(g.targetDate));res.daysLeft=dl;
+    if(left>0&&dl>0){var f=FREQ[g.payFreq||'biweekly'];var periods=Math.max(1,Math.ceil(dl/f.d));res.per=Math.ceil(left/periods);res.perLabel=f.l;res.periods=periods}
+  }
+  var deps=g.deposits.slice().sort(function(a,b){return a.date<b.date?-1:1});
+  if(left>0&&deps.length>=2){
+    var span=daysBetween(parseDay(deps[0].date),parseDay(todayStr()));
+    if(span>=14){var rate=totalSaved(g)/span; if(rate>0){var d=new Date();d.setDate(d.getDate()+Math.ceil(left/rate));res.pace=d}}
+  }
+  return res;
+}
+/* weekly streak across all goals (Mon-start weeks) */
+function weekKey(d){var x=new Date(d.getFullYear(),d.getMonth(),d.getDate());var day=(x.getDay()+6)%7;x.setDate(x.getDate()-day);return x.getTime()}
+function streak(){
+  var set={};state.goals.forEach(function(g){g.deposits.forEach(function(dp){if(dp.amount>0)set[weekKey(parseDay(dp.date))]=1})});
+  var wk=weekKey(new Date()),n=0,week=7*86400000;
+  if(!set[wk]){wk-=week;if(!set[wk])return 0} // allow the current week to still be in progress
+  while(set[wk]){n++;wk=weekKey(new Date(wk-week+3600000*12))}
+  return n;
+}
+
+/* ---------- theme ---------- */
+function applyTheme(){
+  var t=state.settings.theme||'auto';
+  var dark=t==='dark'||(t==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.setAttribute('data-theme',dark?'dark':'light');
+  $$('#theme-seg button').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.themeSet===t))});
+  $$('#anim-seg button').forEach(function(b){b.setAttribute('aria-pressed',String((b.dataset.animSet==='on')===animOn()))});
+  $$('#verse-seg button').forEach(function(b){b.setAttribute('aria-pressed',String((b.dataset.verseSet==='on')===verseOn()))});
+}
+
+/* ---------- views ---------- */
+var current={view:'goals',goalId:null};
+function show(view,goalId){
+  current.view=view;current.goalId=goalId||null;
+  $$('.view').forEach(function(v){v.classList.remove('active')});
+  $('#view-'+view).classList.add('active');
+  $$('.nav .tab').forEach(function(t){t.toggleAttribute('aria-current',false);if(t.dataset.view===view||(view==='detail'&&t.dataset.view==='goals'))t.setAttribute('aria-current','page')});
+  render();window.scrollTo({top:0,behavior:'instant'in window?'instant':'auto'});
+}
+function render(){
+  if(current.view==='goals')renderGoals();
+  else if(current.view==='detail')renderDetail();
+  else if(current.view==='settings')renderSettings();
+  else if(current.view==='tips')renderTips();
+}
+
+function activeGoals(){return state.goals.filter(function(g){return !g.completedAt})}
+function doneGoals(){return state.goals.filter(function(g){return g.completedAt}).sort(function(a,b){return b.completedAt-a.completedAt})}
+
+function renderGoals(){
+  var act=activeGoals(),done=doneGoals(),money_act=act.filter(function(g){return !isTask(g)});
+  var saved=money_act.reduce(function(s,g){return s+totalSaved(g)},0);
+  var st=streak();
+  $('#summary').innerHTML=
+    '<div class="card"><div class="eyebrow">Saved so far</div><div class="big num">'+money(saved)+'</div><div class="lbl">across '+plural(money_act.length,'savings goal')+'</div></div>'+
+    '<div class="card"><div class="eyebrow">Streak</div><div class="mid num flame">'+st+'</div><div class="lbl">'+(st===1?'week':'weeks')+' in a row</div></div>'+
+    '<div class="card"><div class="eyebrow">Kicked</div><div class="mid num">'+done.length+'</div><div class="lbl">'+(done.length===1?'goal':'goals')+' done</div></div>';
+  $('#goal-count').textContent=act.length?plural(act.length,'goal'):'';
+  if(!act.length){
+    $('#goal-list').innerHTML='<div class="card empty"><svg width="72" height="72" viewBox="0 0 48 48" aria-hidden="true"><rect x="4" y="4" width="18" height="18" rx="5" fill="var(--sage-soft)" stroke="var(--sage)" stroke-width="1.5" stroke-dasharray="3 3"/><rect x="26" y="4" width="18" height="18" rx="5" fill="var(--sage-soft)" stroke="var(--sage)" stroke-width="1.5" stroke-dasharray="3 3"/><rect x="4" y="26" width="18" height="18" rx="5" fill="var(--sage-soft)" stroke="var(--sage)" stroke-width="1.5" stroke-dasharray="3 3"/><rect x="26" y="26" width="18" height="18" rx="5" fill="var(--sage)"/><path d="M31 35l3 3 6-6.5" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'+
+      '<h3>'+(done.length?'Ready for the next one?':'Pick a goal to kick')+'</h3><p>Choose what you are saving for. Bootstraps turns it into a grid of boxes you fill one at a time.</p><button class="btn btn-primary" data-act="new">Start a goal</button></div>';
+  } else {
+    $('#goal-list').innerHTML=act.map(goalCard).join('');
+  }
+  var fold=$('#crushed-fold');fold.hidden=!done.length;
+  $('#crushed-label').textContent='Kicked goals ('+done.length+')';
+  $('#crushed-list').innerHTML=done.map(goalCard).join('');
+}
+function goalCard(g){
+  var s=totalSaved(g),p=pctOf(g),pl=planFor(g),line,task=isTask(g);
+  if(g.completedAt)line='Kicked '+new Date(g.completedAt).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  else if(task&&validDay(g.fileBy)&&!filedOn(g)&&daysBetween(parseDay(todayStr()),parseDay(g.fileBy))>=0)line=(g.boxes.length-boxesCrushed(g))+' steps left · file by <b>'+niceDate(g.fileBy,true)+'</b>'+(lastYearThisSeason(g)&&daysBetween(parseDay(g.fileBy),parseDay(lastYearThisSeason(g)))>0?' to beat last year':'');
+  else if(task)line=(g.boxes.length-boxesCrushed(g))+' steps left'+(pl.daysLeft>0?' · <b>'+plural(pl.daysLeft,'day')+'</b> until '+niceDate(g.targetDate,true):'');
+  else if(g.countdown&&pl.daysLeft>0&&pl.left>0)line='<b>'+plural(pl.daysLeft,'day')+'</b> to go · stomp one box a day';
+  else if(g.completedAt)line='Kicked '+new Date(g.completedAt).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  else if(pl.per)line='Save <b>'+money(pl.per)+'</b> per '+pl.perLabel+' to finish by '+niceDate(g.targetDate);
+  else if(pl.daysLeft!==null&&pl.daysLeft<=0&&pl.left>0)line='Target date passed · <b>'+money(pl.left)+'</b> to go';
+  else if(pl.pace)line='On pace to finish around <b>'+pl.pace.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+'</b>';
+  else line='<b>'+money(pl.left)+'</b> to go';
+  var n=g.boxes.length,on=boxesCrushed(g),mini='',L=shapeOf(g);
+  if(L){for(var i=0;i<n;i++)mini+='<i class="'+(isOn(g,i)?'on':'')+'" style="grid-row:'+(L.cells[i].r+1)+';grid-column:'+(L.cells[i].c+1)+'"></i>'}
+  else if(n<=120){for(var i2=0;i2<n;i2++)mini+='<i class="'+(isOn(g,i2)?'on':'')+'"></i>'}
+  var ph=safePhoto(g.photo);
+  return '<button class="goal-card" data-open="'+g.id+'">'+
+    '<div class="gc-top">'+(ph?'<div class="gc-icon ph" aria-hidden="true" style="background-image:url('+ph+')"></div>':'<div class="gc-icon" aria-hidden="true">'+esc(g.icon)+'</div>')+'<div style="min-width:0"><div class="gc-name">'+esc(g.name)+'</div><div class="gc-sub num">'+(task?on+' of '+n+' steps done':money(s)+' of '+money(g.target)+' · '+on+'/'+n+' boxes')+'</div></div><div class="gc-pct num">'+pctLabel(p)+'</div></div>'+
+    '<div class="bar" role="progressbar" aria-valuenow="'+Math.floor(p)+'" aria-valuemin="0" aria-valuemax="100" aria-label="'+esc(g.name)+' progress"><i style="width:'+p+'%"></i></div>'+
+    '<div class="gc-plan">'+line+'</div>'+(mini?'<div class="mini-grid'+(L?' shape':'')+'" aria-hidden="true"'+(L?' style="grid-template-columns:repeat('+L.cols+',1fr);max-width:'+Math.min(200,L.cols*11)+'px"':'')+'>'+mini+'</div>':'')+'</button>';
+}
+
+function ring(p){var r=48,c=2*Math.PI*r;return '<svg width="112" height="112" viewBox="0 0 112 112" aria-hidden="true"><circle cx="56" cy="56" r="'+r+'" fill="none" stroke="var(--surface-2)" stroke-width="12"/><circle cx="56" cy="56" r="'+r+'" fill="none" stroke="var(--sage)" stroke-width="12" stroke-linecap="round" stroke-dasharray="'+c+'" stroke-dashoffset="'+(c*(1-p/100))+'" style="transition:stroke-dashoffset .6s var(--ease)"/></svg>'}
+
+function getGoal(id){return state.goals.find(function(g){return g.id===id})}
+var lastPopped=[];
+function rewardPill(g){if(g.completedAt)return '';var nr=nextReward(g);return nr?'<div class="reward-pill"><span aria-hidden="true">🎁</span><div>Next reward at <b>'+nr[0]+'%</b>: '+esc(nr[1])+'</div></div>':''}
+function coverHtml(g){var ph=safePhoto(g.photo);return ph?'<div class="cover"><img src="'+ph+'" alt="Photo for '+esc(g.name)+'"></div>':''}
+function renderTaskDetail(g){
+  var p=pctOf(g),pl=planFor(g),n=g.boxes.length,on=boxesCrushed(g),popOrder=lastPopped.slice();lastPopped=[];
+  var rows=g.tasks.map(function(t,i){var o=isOn(g,i),pk=popOrder.indexOf(i)>-1,cls='box'+(o?' on':'')+(pk?(animOn()?' crush':' pop'):'');
+    return '<button class="task'+(o?' done':'')+'" data-box="'+i+'" aria-pressed="'+o+'"><span class="'+cls+'" aria-hidden="true"><span class="amt">'+(i+1)+'</span>'+(pk&&animOn()?'<span class="fx-ring"></span>':'')+'</span><span><span class="tt">'+esc(t[0])+'</span><span class="th" style="display:block">'+esc(t[1])+'</span></span></button>'}).join('');
+  var days=g.completedAt?'—':(pl.daysLeft===null?'No date':pl.daysLeft>0?plural(pl.daysLeft,'day'):pl.daysLeft===0?'Today':'Passed');
+  $('#view-detail').innerHTML=
+    '<button class="back" data-act="home"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg>All goals</button>'+
+    '<div class="card">'+coverHtml(g)+
+      '<div class="hero"><div class="ring">'+ring(p)+'<div class="pct num">'+esc(pctLabel(p))+'<small>'+on+' of '+n+' steps</small></div></div>'+
+      '<div><h2 class="htitle"><span class="hicon" aria-hidden="true">'+esc(g.icon)+'</span>'+esc(g.name)+'</h2><div class="amt">'+(g.targetDate?'Filing deadline <b>'+niceDate(g.targetDate,true)+'</b>':'Check off each step as you go')+'</div></div></div>'+
+      '<div class="stats"><div class="stat"><div class="v num">'+(n-on)+'</div><div class="k">steps left</div></div><div class="stat"><div class="v num">'+days+'</div><div class="k">until deadline</div></div><div class="stat"><div class="v num">&lt; 21 days</div><div class="k">typical e-file refund</div></div></div>'+
+      (g.completedAt?'<div class="plan flame"><span aria-hidden="true">🏆</span><div><b>Checklist kicked.</b> Every step is done.</div></div>':'<div class="plan"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg><div><b>Fastest refund:</b> file electronically and choose direct deposit. Filing early, as soon as your forms arrive, gets you in line sooner.</div></div>')+
+      beatHtml(g)+rewardPill(g)+
+    '</div>'+
+    '<div class="card grid-card"><div class="grid-head"><h3>Your steps</h3><span class="eyebrow">Checklist</span></div>'+
+      (g.completedAt?'':'<p class="grid-hint">Tap a step when it is done. Tap again to undo.</p>')+
+      '<div class="tasks">'+rows+'</div>'+
+      '<div class="note">If you claim the Earned Income Tax Credit or the Additional Child Tax Credit, the law holds those refunds until mid-February, even if you file early. This checklist is a helpful guide, not tax advice.</div></div>'+
+    '<div class="row2" style="margin-top:14px"><button class="btn btn-ghost" data-act="edit" data-goal="'+g.id+'">Edit</button><button class="btn btn-ghost" data-act="more" data-goal="'+g.id+'">More…</button></div>';
+  if(popOrder.length&&animOn()){try{if(navigator.vibrate)navigator.vibrate([300,25])}catch(e){}}
+}
+function renderDetail(){
+  var g=getGoal(current.goalId);if(!g){show('goals');return}
+  if(isTask(g)){renderTaskDetail(g);return}
+  var s=totalSaved(g),p=pctOf(g),pl=planFor(g),n=g.boxes.length,on=boxesCrushed(g);
+  var planHtml='';
+  if(g.completedAt)planHtml='<div class="plan flame"><span aria-hidden="true">🏆</span><div><b>Goal kicked.</b> You saved '+money(s)+' for '+esc(g.name)+'.</div></div>';
+  else if(g.countdown&&pl.daysLeft>0){var bl=n-on,behind=bl-pl.daysLeft;planHtml='<div class="plan"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><div>Stomp one box a day. <b>'+plural(bl,'box')+'</b> left and <b>'+plural(pl.daysLeft,'day')+'</b> until '+niceDate(g.targetDate,true)+'.'+(behind>0?' Stomp '+plural(behind+1,'box')+' today to catch up.':behind<0?' You are '+plural(-behind,'day')+' ahead.':' You are right on track.')+'</div></div>'}
+  else if(pl.per)planHtml='<div class="plan"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><div>Save <b>'+money(pl.per)+'</b> per '+pl.perLabel+' ('+(FREQ[g.payFreq||'biweekly'].name.toLowerCase())+', '+plural(pl.periods,pl.perLabel==='month'?'month':'payday')+' left) to finish by <b>'+niceDate(g.targetDate,true)+'</b>.</div></div>';
+  else if(g.targetDate&&pl.daysLeft<=0&&pl.left>0)planHtml='<div class="plan flame"><span aria-hidden="true">⏰</span><div>Your target date has passed. Pick a new date in Edit to get a fresh per-paycheck plan.</div></div>';
+  else if(!g.targetDate)planHtml='<div class="plan"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div>Add a target date in Edit and Bootstraps will tell you how much to set aside each payday.</div></div>';
+  var est=pl.pace?(pl.pace.getFullYear()===new Date().getFullYear()?pl.pace.toLocaleDateString('en-US',{month:'short',day:'numeric'}):pl.pace.toLocaleDateString('en-US',{month:'short',year:'numeric'})):(g.completedAt?'Done':'Too early');
+  var days=g.completedAt?'—':(pl.daysLeft===null?'No date':pl.daysLeft>0?plural(pl.daysLeft,'day'):pl.daysLeft===0?'Today':'Passed');
+  var boxes='',fill=g.mode==='even'?evenFill(g):null,popOrder=lastPopped.slice().sort(function(a,b){return a-b}),popStep=Math.min(140,1600/Math.max(1,lastPopped.length));
+  var L=shapeOf(g);
+  for(var i=0;i<n;i++){
+    var pk=popOrder.indexOf(i),o=isOn(g,i),cls='box'+(o?' on':'')+(pk>-1?(animOn()?' crush':' pop'):''),st=[];
+    if(L)st.push('grid-row:'+(L.cells[i].r+1),'grid-column:'+(L.cells[i].c+1));
+    var fx='';if(pk>-1&&animOn()){st.push('--d:'+Math.round(pk*popStep)+'ms');fx='<span class="fx-ring" aria-hidden="true"></span><span class="fx-amt" aria-hidden="true">+'+moneyShort(g.boxes[i])+'</span>'}
+    if(fill&&!o&&i===fill.filled&&fill.leftover>0){cls+=' partial';st.push('--fill:'+Math.round(fill.leftover/g.boxes[i]*100)+'%')}
+    var style=st.length?' style="'+st.join(';')+'"':'';
+    var label=g.mode==='countup'&&g.step===100?String(g.boxes[i]/100):moneyShort(g.boxes[i]);
+    boxes+='<button class="'+cls+'"'+style+' data-box="'+i+'" aria-pressed="'+o+'" aria-label="Box '+(i+1)+', '+money(g.boxes[i])+(o?', stomped':'')+'"><span class="amt">'+label+'</span>'+fx+'</button>';
+  }
+  var popFirst=popOrder.length?popOrder[0]:null;lastPopped=[];
+  var extra=extraAvail(g);
+  var hint=g.mode==='even'?'Enter what you saved and the boxes fill in for you. You can also tap a box to stomp it.':(autoFillOn()?'Enter what you saved and Bootstraps picks the boxes. You can also tap any box to stomp it.':'Enter what you saved, then tap the boxes you want to stomp.');
+  var quick=g.completedAt?'':'<form class="quick" id="quick-add" data-goal="'+g.id+'" novalidate><div class="money"><input class="input num" id="q-amt" inputmode="decimal" placeholder="Amount" aria-label="Amount saved"></div><button class="btn btn-primary" type="submit">Fill boxes</button></form><p class="quick-prev" id="q-prev" aria-live="polite">'+previewText(g,0)+'</p>';
+  var deps=g.deposits.slice().sort(function(a,b){return a.date===b.date?(b.at||0)-(a.at||0):(a.date<b.date?1:-1)});
+  var hist=deps.length?deps.map(function(d){return '<div class="hist-row"><button class="he" data-edit-dep="'+d.id+'" aria-label="Edit '+(d.amount<0?'withdrawal of '+money(-d.amount):money(d.amount)+' entry')+' from '+niceDate(d.date)+'"><span class="d">'+niceDate(d.date)+'</span><span class="n">'+(d.note?esc(d.note):(d.amount<0?'Taken out':(d.box!=null?'Box '+(d.box+1):'Savings')))+'</span><span class="a num'+(d.amount<0?' neg':'')+'">'+(d.amount<0?'−'+money(-d.amount):money(d.amount))+'</span><svg class="pen" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4zM13.5 6.5l4 4"/></svg></button><button class="x" data-del-dep="'+d.id+'" aria-label="Delete '+money(d.amount)+' deposit from '+niceDate(d.date)+'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></button></div>'}).join(''):'<p style="color:var(--muted);font-size:14px">No savings yet. Your first box is waiting.</p>';
+  $('#view-detail').innerHTML=
+    '<button class="back" data-act="home"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg>All goals</button>'+
+    '<div class="card">'+coverHtml(g)+
+      '<div class="hero"><div class="ring">'+ring(p)+'<div class="pct num">'+esc(pctLabel(p))+'<small>'+on+' of '+n+' boxes</small></div></div>'+
+      '<div><h2 class="htitle"><span class="hicon" aria-hidden="true">'+esc(g.icon)+'</span>'+esc(g.name)+'</h2><div class="amt num"><b>'+money(s)+'</b> of '+money(g.target)+'</div></div></div>'+
+      '<div class="stats"><div class="stat"><div class="v num">'+money(pl.left)+'</div><div class="k">to go</div></div><div class="stat"><div class="v num">'+days+'</div><div class="k">until target</div></div><div class="stat"><div class="v num">'+est+'</div><div class="k">est. finish</div></div></div>'+
+      planHtml+rewardPill(g)+
+      (g.completedAt?'':'<div class="actions"><button class="btn btn-ghost" data-act="print" data-goal="'+g.id+'">Print grid</button><button class="btn btn-ghost" data-act="takeout" data-goal="'+g.id+'"'+(totalSaved(g)>0?'':' disabled')+'>Take money out</button></div>')+
+    '</div>'+
+    '<div class="card grid-card"><div class="grid-head"><h3>Your grid</h3><span class="eyebrow">'+(L?SHAPES[g.shape].name+' picture':g.countdown?'Countdown':({even:'Even boxes',mixed:'Mixed amounts',countup:'Count up'}[g.mode]))+'</span></div>'+
+      (g.completedAt?'':'<p class="grid-hint">'+hint+'</p>')+quick+
+      (extra>0?'<div class="extra-pill"><span aria-hidden="true">💵</span><span><b class="num">'+money(extra)+'</b> extra savings ready for a box</span></div>':'')+
+      '<div class="boxes'+(L?' shape'+(L.cols>11?' tiny':''):(n>120?' compact':''))+(popOrder.length&&animOn()?' rumble':'')+'" id="boxes" style="'+(L?'grid-template-columns:repeat('+L.cols+',1fr);max-width:'+(L.cols*52)+'px;':'')+(popOrder.length&&animOn()?'--rt:'+Math.round((popOrder.length-1)*popStep+700)+'ms':'')+'">'+boxes+'</div></div>'+
+    '<div class="card hist"><div class="grid-head"><h3>Savings history</h3><span class="eyebrow num">'+plural(deps.length,'entry')+'</span></div>'+hist+'</div>'+
+    '<div class="row2" style="margin-top:14px"><button class="btn btn-ghost" data-act="edit" data-goal="'+g.id+'">Edit goal</button><button class="btn btn-ghost" data-act="more" data-goal="'+g.id+'">More…</button></div>';
+  if(popFirst!==null&&animOn()){try{if(navigator.vibrate){var pat=[];for(var v=0;v<Math.min(popOrder.length,12);v++){pat.push(v?Math.max(10,Math.round(popStep)-25):360,25)}navigator.vibrate(pat)}}catch(e){}var fb=$('#view-detail [data-box="'+popFirst+'"]');if(fb){var r=fb.getBoundingClientRect();if(r.top<70||r.bottom>window.innerHeight-110)fb.scrollIntoView({block:'center',behavior:'smooth'})}}
+}
+
+var TIPS=[
+  ['Pay yourself first','Move the per-paycheck amount on payday, before bills and spending get a turn.','M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6'],
+  ['Automate it','Set up an automatic transfer to a separate savings account so it happens without willpower.','M21 12a9 9 0 1 1-3-6.7M21 4v5h-5'],
+  ['No-spend day','Skip takeout or a coffee run, then stomp a box with what you would have spent.','M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3'],
+  ['Round up','Round each purchase up to the next dollar and move the change over at the end of the week.','M12 19V5M5 12l7-7 7 7'],
+  ['Cut one bill','Cancel one subscription you forgot about and send that amount to your goal every month.','M18 6L6 18M6 6l12 12'],
+  ['Sell one thing','List something you no longer use. The money goes straight into a big box.','M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8zM7 7h.01'],
+  ['Windfalls first','Tax refunds, bonuses, and birthday cash knock out the biggest boxes in one go.','M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z'],
+  ['Make it visible','Print your grid and put it on the fridge. Coloring in a box feels good.','M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z']
+];
+function renderTips(){
+  $('#tips-list').innerHTML=TIPS.map(function(t){return '<div class="tip"><div class="ti"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="'+t[2]+'"/></svg></div><div><h3>'+t[0]+'</h3><p>'+t[1]+'</p></div></div>'}).join('');
+}
+function renderSettings(){
+  applyTheme();
+  $('#ver').textContent='Bootstraps '+APP_VERSION+(DEMO?' (demo)':'');
+  var lb=state.lastBackup;
+  $('#last-backup').innerHTML=lb?'Last backup: <b>'+new Date(lb).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+'</b>':'<span style="color:var(--flame);font-weight:600">No backup saved yet.</span>';
+}
+
+/* ---------- sheet ---------- */
+var sheetEl=$('#sheet'),scrim=$('#scrim'),lastFocus=null;
+function openSheet(html,onMount){
+  lastFocus=document.activeElement;
+  sheetEl.innerHTML='<div class="grab" aria-hidden="true"></div><button class="icon-btn sheet-close" data-act="close" aria-label="Close"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>'+html;
+  sheetEl.scrollTop=0;
+  requestAnimationFrame(function(){scrim.classList.add('open');sheetEl.classList.add('open')});
+  if(onMount)onMount(sheetEl);
+  setTimeout(function(){var f=sheetEl.querySelector('[autofocus]')||sheetEl.querySelector('h2');if(f){if(!f.hasAttribute('tabindex')&&f.tagName==='H2')f.setAttribute('tabindex','-1');f.focus({preventScroll:true})}},60);
+}
+function closeSheet(){scrim.classList.remove('open');sheetEl.classList.remove('open');setTimeout(function(){if(!sheetEl.classList.contains('open'))sheetEl.innerHTML=''},300);if(lastFocus&&lastFocus.focus)try{lastFocus.focus({preventScroll:true})}catch(e){}}
+scrim.addEventListener('click',closeSheet);
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&sheetEl.classList.contains('open'))closeSheet()});
+
+var toastT;
+function toast(msg){var t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(function(){t.classList.remove('show')},2600)}
+
+/* ---------- new goal ---------- */
+var ICONS=['🛟','🏝️','✈️','🚗','🏠','🎁','🎄','🎓','💍','👶','🐶','💻','🦷','🛠️','🎉','💰'];
+var STARTERS=[
+  {k:'emergency',e:'🛟',t:'Emergency fund',s:'$1,000 · 100 boxes of $10',g:{name:'Emergency fund',icon:'🛟',mode:'even',target:1000,box:10}},
+  {k:'envelope',e:'✉️',t:'100 Envelope Challenge',s:'$5,050 · boxes $1 to $100',g:{name:'100 Envelope Challenge',icon:'💰',mode:'countup',count:100,step:1}},
+  {k:'week52',e:'📅',t:'52-Week Challenge',s:'$1,378 · $1 more each week',g:{name:'52-Week Challenge',icon:'💰',mode:'countup',count:52,step:1}},
+  {k:'holiday',e:'🎄',t:'Holiday gifts',s:'$600 · 30 mixed boxes',g:{name:'Holiday gifts',icon:'🎄',mode:'mixed',target:600,count:30}},
+  {k:'vacation',e:'🏝️',t:'Vacation',s:'$2,000 · 50 mixed boxes',g:{name:'Vacation',icon:'🏝️',mode:'mixed',target:2000,count:50}},
+  {k:'car',e:'🚗',t:'Car repair fund',s:'$1,500 · 60 boxes of $25',g:{name:'Car repair fund',icon:'🚗',mode:'even',target:1500,box:25}},
+  {k:'xmas',e:'🎄',t:'Christmas countdown',s:'',make:function(){return {name:'Christmas countdown',icon:'🎄',mode:'countdown',target:500,targetDate:nextDate(12,24,5),shape:'tree'}}},
+  {k:'tax',e:'🧾',t:'Tax refund fast track',s:'14 steps to file early and get your refund sooner',tasks:true}
+];
+function starterSub(s){if(s.k==='xmas'){var d=nextDate(12,24,5);return '$500 · one box a day for '+daysBetween(parseDay(todayStr()),parseDay(d))+' days'}return s.s}
+function openNew(){
+  openSheet('<h2 id="sheet-title">What are you saving for?</h2><p class="lede">Start from a popular challenge or build your own. You can change the details next.</p>'+
+    '<div class="starters">'+STARTERS.map(function(s){return '<button class="starter" data-starter="'+s.k+'"><div class="e" aria-hidden="true">'+s.e+'</div><div class="t">'+s.t+'</div><div class="s">'+starterSub(s)+'</div></button>'}).join('')+
+    '<button class="starter custom" data-starter="custom"><div class="e" aria-hidden="true">✏️</div><div><div class="t">My own goal</div><div class="s">Any name, any amount</div></div></button></div>');
+}
+function openGoalForm(preset,editing){
+  var g=preset||{name:'',icon:'💰',mode:'even',target:'',box:10,count:30,step:1};
+  var f={name:g.name,icon:g.icon,mode:g.mode,target:g.target,box:g.box||10,count:g.count||(g.mode==='countup'?52:30),step:g.step||1,targetDate:g.targetDate||'',payFreq:g.payFreq||'biweekly',shape:g.shape||'',photo:safePhoto(g.photo),rewards:g.rewards||{}};
+  var taskEdit=editing&&isTask(editing);
+  var locked=taskEdit||(editing&&(editing.mode!=='even'&&Object.keys(editing.crushed).length>0));
+  var R=f.rewards,hasR=[25,50,75,100].some(function(m){return R[m]});
+  var lookHtml=taskEdit?'':'<div class="field"><span class="label">Grid look</span><div class="look-grid" role="group" aria-label="Grid look">'+[''].concat(SHAPE_KEYS).map(function(k){return '<button type="button" class="look" data-look="'+k+'" aria-pressed="'+(k===f.shape)+'">'+lookSvg(k)+(k?SHAPES[k].name:'Squares')+'</button>'}).join('')+'</div><div class="help" id="f-look-help">Pictures fill from the bottom up. They look best with 30 or more boxes.</div></div>';
+  var photoHtml='<div class="field"><span class="label">Goal photo <span style="font-weight:400">(optional)</span></span><div class="photo-pick"><div class="ph-prev" id="f-ph-prev" aria-hidden="true"></div><label class="btn btn-ghost btn-sm" for="f-photo" style="cursor:pointer">Choose photo</label><input type="file" id="f-photo" accept="image/*" hidden><button type="button" class="link-btn" id="f-ph-rm">Remove</button></div><div class="help">A picture of what you are saving for keeps it real. It stays on this device.</div></div>';
+  var rwHtml='<details class="rewards"'+(hasR?' open':'')+'><summary><span>Milestone rewards <span style="font-weight:400">(optional)</span></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></summary><p class="help">Pick a small treat for each milestone. Bootstraps cheers you on when you earn it.</p><div class="row2">'+
+    [[25,'Fancy coffee'],[50,'Movie night'],[75,'New book'],[100,'Dinner out']].map(function(x){return '<div class="field"><label for="f-rw'+x[0]+'">At '+x[0]+'%</label><input class="input" id="f-rw'+x[0]+'" maxlength="60" value="'+esc(R[x[0]]||'')+'" placeholder="'+x[1]+'"></div>'}).join('')+'</div></details>';
+  var title=editing?'Edit goal':'Set up your goal';
+  openSheet('<h2 id="sheet-title">'+title+'</h2><p class="lede">'+(editing?'Update the details for this goal.':'Name it, size it, and choose how the boxes look.')+'</p>'+
+    '<form id="goal-form" novalidate>'+
+    '<div class="field"><label for="f-name">Goal name</label><input class="input" id="f-name" maxlength="40" required value="'+esc(f.name)+'" placeholder="e.g. Beach trip"'+(f.name?'':' autofocus')+'></div>'+
+    '<div class="field"><span class="label">Icon</span><div class="icons" role="group" aria-label="Goal icon">'+ICONS.map(function(i){return '<button type="button" data-icon="'+i+'" aria-pressed="'+(i===f.icon)+'" aria-label="'+i+'">'+i+'</button>'}).join('')+'</div></div>'+
+    photoHtml+
+    (taskEdit?'':locked?'<div class="preview-line">This grid already has stomped boxes, so its size and style stay as they are. You can still change the name, icon, look, photo, date, and pay schedule.</div>':
+    '<div class="field"><span class="label">Grid style</span><div class="choices" role="group" aria-label="Grid style">'+
+      '<button type="button" class="choice" data-mode="even" aria-pressed="'+(f.mode==='even')+'">Even<small>Same each box</small></button>'+
+      '<button type="button" class="choice" data-mode="mixed" aria-pressed="'+(f.mode==='mixed')+'">Mixed<small>Big and small</small></button>'+
+      '<button type="button" class="choice" data-mode="countup" aria-pressed="'+(f.mode==='countup')+'">Count up<small>$1, $2, $3…</small></button>'+
+      '<button type="button" class="choice" data-mode="countdown" aria-pressed="'+(f.mode==='countdown')+'">Countdown<small>One box a day</small></button></div></div>'+
+    '<div id="mode-fields"></div><div class="preview-line" id="f-preview"></div>')+
+    lookHtml+
+    '<div class="row2"'+(taskEdit?' style="grid-template-columns:1fr"':'')+'><div class="field"><label for="f-date" id="f-date-l">'+(taskEdit?'Deadline':'Target date')+' <span style="font-weight:400">'+(f.mode==='countdown'?'(required)':'(optional)')+'</span></label><input class="input" type="date" id="f-date" value="'+esc(f.targetDate)+'" min="'+todayStr()+'"></div>'+
+    (taskEdit?'<input type="hidden" id="f-freq" value="'+esc(f.payFreq)+'">':'<div class="field"><label for="f-freq">I get paid</label><select class="input" id="f-freq">'+Object.keys(FREQ).map(function(k){return '<option value="'+k+'"'+(k===f.payFreq?' selected':'')+'>'+FREQ[k].name+'</option>'}).join('')+'</select></div>')+'</div>'+
+    rwHtml+
+    '<p class="err" id="f-err" role="alert"></p>'+
+    '<button class="btn btn-primary btn-block" type="submit">'+(editing?'Save changes':'Create my grid')+'</button></form>',
+  function(root){
+    var mixedCache=null;
+    if(editing&&editing.mode==='mixed'){mixedCache=editing.boxes.slice();mixedCache.t=editing.target}
+    function modeFields(){
+      var el=$('#mode-fields',root);if(!el)return;
+      if(f.mode==='even')el.innerHTML='<div class="row2"><div class="field"><label for="f-target">Goal amount</label><div class="money"><input class="input num" id="f-target" inputmode="decimal" value="'+(f.target||'')+'" placeholder="1000"></div></div><div class="field"><label for="f-box">Each box</label><div class="money"><input class="input num" id="f-box" inputmode="decimal" value="'+(f.box||'')+'" placeholder="10"></div></div></div>';
+      else if(f.mode==='countdown')el.innerHTML='<div class="field"><label for="f-target">Goal amount</label><div class="money"><input class="input num" id="f-target" inputmode="decimal" value="'+(f.target||'')+'" placeholder="500"></div><div class="help">You get one box for each day until your target date. Pick the date below.</div></div>';
+      else if(f.mode==='mixed')el.innerHTML='<div class="row2"><div class="field"><label for="f-target">Goal amount</label><div class="money"><input class="input num" id="f-target" inputmode="decimal" value="'+(f.target||'')+'" placeholder="2000"></div></div><div class="field"><label for="f-count">Number of boxes</label><input class="input num" id="f-count" inputmode="numeric" value="'+(f.count||'')+'" placeholder="50"></div></div>';
+      else el.innerHTML='<div class="row2"><div class="field"><label for="f-count">Number of boxes</label><input class="input num" id="f-count" inputmode="numeric" value="'+(f.count||'')+'" placeholder="100"></div><div class="field"><label for="f-step">Step size</label><div class="money"><input class="input num" id="f-step" inputmode="decimal" value="'+(f.step||'')+'" placeholder="1"></div><div class="help">Box 1 is this amount, box 2 is double…</div></div></div>';
+      $$('#mode-fields input',root).forEach(function(i){i.addEventListener('input',function(){f.target=val('#f-target',f.target);f.box=val('#f-box',f.box);f.count=val('#f-count',f.count);f.step=val('#f-step',f.step);mixedCache=null;preview()})});
+      preview();
+    }
+    function val(sel,fallback){var i=$(sel,root);if(!i)return fallback;var v=parseFloat(String(i.value).replace(/[$,\s]/g,''));return isNaN(v)?'':v}
+    function compute(){
+      var tC,boxes=null,err='';
+      if(f.mode==='even'){tC=cents(f.target);var bC=cents(f.box);if(!(tC>0))err='Enter a goal amount.';else if(!(bC>0))err='Enter an amount for each box.';else if(bC>tC)err='Each box should be smaller than the goal.';else{var n=Math.ceil(tC/bC);if(n>MAX_BOXES)err='That makes '+n+' boxes. Try a bigger box amount (366 boxes max).';else if(n<MIN_BOXES)err='That makes only '+n+' boxes. Try a smaller box amount.';else boxes=buildEven(tC,bC)}}
+      else if(f.mode==='mixed'){tC=cents(f.target);var c=Math.round(+f.count);if(!(tC>0))err='Enter a goal amount.';else if(!(c>=MIN_BOXES&&c<=MAX_BOXES))err='Choose between 5 and 366 boxes.';else if(tC/c<100)err='Boxes would be under $1 each. Try fewer boxes.';else{boxes=mixedCache&&mixedCache.length===c&&mixedCache.t===tC?mixedCache:buildMixed(tC,c);boxes.t=tC;mixedCache=boxes}}
+      else if(f.mode==='countdown'){tC=cents(f.target);var dv=$('#f-date',root).value,dd=dv?daysBetween(parseDay(todayStr()),parseDay(dv)):0;
+        if(!(tC>0))err='Enter a goal amount.';else if(!dv)err='Pick a target date. Each day until then gets a box.';else if(dd<MIN_BOXES)err='Pick a date at least 5 days away.';else if(dd>MAX_BOXES)err='Pick a date within a year (366 boxes max).';else if(tC<dd*100)err='That is under $1 a day. Try a bigger amount or a closer date.';
+        else if(editing&&editing.countdown&&dv===editing.targetDate&&tC===editing.target)boxes=editing.boxes.slice();else boxes=splitDays(tC,dd)}
+      else{var c2=Math.round(+f.count),sC=cents(f.step);if(!(c2>=MIN_BOXES&&c2<=MAX_BOXES))err='Choose between 5 and 366 boxes.';else if(!(sC>0))err='Enter a step size.';else{boxes=buildCountUp(c2,sC);tC=boxes.reduce(function(s,v){return s+v},0)}}
+      return {err:err,boxes:boxes,targetC:tC};
+    }
+    function preview(){
+      var p=$('#f-preview',root);if(!p)return;var r=compute();
+      if(r.err){p.innerHTML=r.err;return}
+      var b=r.boxes,mn=Math.min.apply(null,b),mx=Math.max.apply(null,b);
+      p.innerHTML='<b>'+b.length+' boxes</b> · '+(f.mode==='even'||mn===mx?money(b[0])+' each':f.mode==='countdown'?money(mx)+' or '+money(mn)+' a day':money(mn)+' to '+money(mx))+' · total <b>'+money(r.targetC)+'</b>'+(f.mode==='mixed'?' <button type="button" class="link-btn" id="reshuffle">Shuffle</button>':'');
+      var rs=$('#reshuffle',root);if(rs)rs.onclick=function(){mixedCache=null;preview()};
+      var lh=$('#f-look-help',root);if(lh)lh.textContent=f.shape&&b.length<30?'Pictures need at least 30 boxes. This grid has '+b.length+', so it will show as squares.':'Pictures fill from the bottom up. They look best with 30 or more boxes.';
+    }
+    function phShow(){var pv=$('#f-ph-prev',root);pv.style.backgroundImage=f.photo?'url('+f.photo+')':'';pv.classList.toggle('has',!!f.photo);$('#f-ph-rm',root).hidden=!f.photo}
+    phShow();
+    $('#f-photo',root).addEventListener('change',function(e){var fl=e.target.files&&e.target.files[0];if(!fl)return;readPhoto(fl,function(u){if(!u){toast('That photo could not be opened. Try a JPG or PNG.');return}f.photo=u;phShow()});e.target.value=''});
+    $('#f-ph-rm',root).onclick=function(){f.photo=null;phShow()};
+    $$('.look',root).forEach(function(b){b.onclick=function(){f.shape=b.dataset.look;$$('.look',root).forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});preview()}});
+    $('#f-date',root).addEventListener('input',function(){if(f.mode==='countdown')preview()});
+    function rewardsVal(){var o={};[25,50,75,100].forEach(function(m){var v=$('#f-rw'+m,root).value.trim();if(v)o[m]=v});return o}
+    $$('.icons button',root).forEach(function(b){b.onclick=function(){f.icon=b.dataset.icon;$$('.icons button',root).forEach(function(x){x.setAttribute('aria-pressed',String(x===b))})}});
+    $$('.choice',root).forEach(function(b){b.onclick=function(){f.mode=b.dataset.mode;$$('.choice',root).forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});if(f.mode==='countup'&&!(+f.count))f.count=52;var dl=$('#f-date-l span',root);if(dl)dl.textContent=f.mode==='countdown'?'(required)':'(optional)';modeFields()}});
+    modeFields();
+    $('#goal-form',root).addEventListener('submit',function(e){
+      e.preventDefault();
+      var name=$('#f-name',root).value.trim(),err=$('#f-err',root);
+      if(!name){err.textContent='Give your goal a name.';$('#f-name',root).focus();return}
+      var date=$('#f-date',root).value,freq=$('#f-freq',root).value;
+      if(editing){
+        if(!locked){var r=compute();if(r.err){err.textContent=r.err;return}
+          var newMode=f.mode==='countdown'?'even':f.mode;
+          var changed=r.targetC!==editing.target||newMode!==editing.mode||r.boxes.join()!==editing.boxes.join();
+          editing.countdown=f.mode==='countdown';
+          if(changed){editing.mode=newMode;editing.boxes=r.boxes.slice();editing.target=r.targetC;editing.step=f.mode==='countup'?cents(f.step):null;editing.crushed={};editing.deposits.forEach(function(d){delete d.box})}}
+        editing.name=name;editing.icon=f.icon;editing.targetDate=date||null;editing.payFreq=freq;editing.photo=f.photo||null;editing.rewards=rewardsVal();if(!taskEdit)editing.shape=f.shape||null;
+        if(editing.completedAt&&totalSaved(editing)<editing.target)editing.completedAt=null;
+        save();closeSheet();render();toast('Goal updated');checkDone(editing);return;
+      }
+      var r2=compute();if(r2.err){err.textContent=r2.err;return}
+      var goal={id:uid(),name:name,icon:f.icon,mode:f.mode==='countdown'?'even':f.mode,countdown:f.mode==='countdown',boxes:r2.boxes.slice(),target:r2.targetC,step:f.mode==='countup'?cents(f.step):null,crushed:{},deposits:[],targetDate:date||null,payFreq:freq,createdAt:Date.now(),completedAt:null,milestones:{},shape:f.shape||null,photo:f.photo||null,rewards:rewardsVal()};
+      state.goals.push(goal);if(!save()){state.goals.pop();err.textContent='This device is out of storage space. Try a smaller photo or remove it.';return}closeSheet();show('detail',goal.id);toast('Grid ready. Tap a box when you save!');
+    });
+  });
+}
+
+/* ---------- add savings ---------- */
+function openAdd(goalId,startMode){
+  var act=activeGoals().filter(function(g){return !isTask(g)});
+  if(!act.length){openNew();return}
+  var cg=current.view==='detail'&&getGoal(current.goalId);
+  var gid=goalId||(cg&&!cg.completedAt&&!isTask(cg)?current.goalId:act[0].id);
+  var mode=startMode==='out'?'out':'in';
+  openSheet('<h2 id="sheet-title">Add savings</h2><p class="lede" id="a-lede"></p>'+
+    '<div class="seg" role="group" aria-label="Add or take out"><button type="button" data-amode="in">Add money</button><button type="button" data-amode="out">Take money out</button></div>'+
+    '<form id="add-form" novalidate>'+
+    (act.length>1?'<div class="field"><label for="a-goal">Goal</label><select class="input" id="a-goal">'+act.map(function(g){return '<option value="'+g.id+'"'+(g.id===gid?' selected':'')+'>'+esc(g.icon+'  '+g.name)+'</option>'}).join('')+'</select></div>':'<input type="hidden" id="a-goal" value="'+gid+'">')+
+    '<div class="field"><label for="a-amt" id="a-amt-l">Amount</label><div class="money bigm"><input class="input big num" id="a-amt" inputmode="decimal" placeholder="0" autofocus></div><p class="quick-prev" id="a-prev" aria-live="polite" style="margin:6px 0 0"></p></div>'+
+    '<label class="chk" id="a-auto-wrap"><input type="checkbox" id="a-auto"'+(autoFillOn()?' checked':'')+'> Fill boxes for me</label>'+
+    '<div class="field"><label for="a-date">Date</label><input class="input" type="date" id="a-date" value="'+todayStr()+'" max="'+todayStr()+'"></div>'+
+    '<div class="field"><label for="a-note">Label <span style="font-weight:400">(optional)</span></label><input class="input" id="a-note" maxlength="60" placeholder="Paycheck"><div id="a-tags"></div></div>'+
+    '<p class="err" id="a-err" role="alert"></p><button class="btn btn-primary btn-block" type="submit" id="a-go">Add to goal</button></form>',
+  function(root){
+    var note=$('#a-note',root),sync=function(){};
+    function amtVal(){return cents(String($('#a-amt',root).value).replace(/[$,\s]/g,''))}
+    function g0(){return getGoal($('#a-goal',root).value)}
+    function upd(){var g=g0();if(!g)return;
+      $('#a-auto-wrap',root).hidden=g.mode==='even'||mode==='out';
+      if(mode==='in'){$('#a-prev',root).innerHTML=previewText(g,amtVal())}
+      else{var have=totalSaved(g),a=amtVal();$('#a-prev',root).innerHTML=a>have?'You have '+money(have)+' saved in this goal.':(a>0?'Leaves <b>'+money(have-a)+'</b> saved. Boxes un-stomp to match.':money(have)+' saved in this goal.')}}
+    function setMode(m){mode=m;$$('[data-amode]',root).forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.amode===m))});
+      $('#sheet-title',root).textContent=m==='out'?'Take money out':'Add savings';
+      $('#a-lede',root).textContent=m==='out'?'Life happens. Record money you pulled from this goal so your grid stays honest.':'Record money you set aside. Every dollar counts toward your goal.';
+      $('#a-amt-l',root).textContent=m==='out'?'Amount taken out':'Amount';
+      $('#a-go',root).textContent=m==='out'?'Take it out':'Add to goal';
+      $('#a-go',root).className='btn btn-block '+(m==='out'?'btn-danger':'btn-primary');
+      note.placeholder=m==='out'?'Car repair':'Paycheck';
+      $('#a-tags',root).innerHTML=tagRow(m==='out'?OUT_TAGS:ADD_TAGS,note.value.trim());sync=wireTags($('#a-tags',root),note);
+      $('#a-err',root).textContent='';upd()}
+    $$('[data-amode]',root).forEach(function(b){b.addEventListener('click',function(){setMode(b.dataset.amode)})});
+    $('#a-amt',root).addEventListener('input',function(){$('#a-err',root).textContent='';upd()});$('#a-goal',root).addEventListener('change',upd);
+    $('#a-auto',root).addEventListener('change',function(){state.settings.autoFill=this.checked;save();upd()});
+    setMode(mode);
+    $('#add-form',root).addEventListener('submit',function(e){
+      e.preventDefault();
+      var g=g0(),amt=amtVal(),dt=$('#a-date',root).value,lbl=note.value.trim();
+      if(!(amt>0)){$('#a-err',root).textContent='Enter an amount above $0.';return}
+      if(dt&&dt>todayStr()){$('#a-err',root).textContent='The date can’t be in the future.';return}
+      if(mode==='out'){
+        var have=totalSaved(g);
+        if(amt>have){$('#a-err',root).textContent='You only have '+money(have)+' saved in this goal.';return}
+        var before=boxesCrushed(g);
+        g.deposits.push({id:uid(),amount:-amt,date:validDay(dt)||todayStr(),note:lbl,at:Date.now()});
+        rebalanceExtra(g);
+        if(g.completedAt&&totalSaved(g)<g.target)g.completedAt=null;
+        lastPopped=[];save();closeSheet();
+        if(current.view!=='detail'||current.goalId!==g.id)show('detail',g.id);else render();
+        var lost=before-boxesCrushed(g);
+        toast('Took out '+money(amt)+(lost>0?' · '+plural(lost,'box')+' un-stomped':'')+'. You’ve got this.');
+        return;
+      }
+      var n=applySavings(g,amt,dt,lbl);
+      closeSheet();
+      if(current.view!=='detail'||current.goalId!==g.id)show('detail',g.id);else render();
+      toast(savingsMsg(g,amt,n));if(n)buzz();
+      checkDone(g);
+    });
+  });
+}
+
+/* ---------- box taps ---------- */
+function tapBox(g,i){
+  if(g.completedAt){toast(isTask(g)?'This checklist is done. Use More to reopen it.':'You already kicked this goal.');return}
+  if(isTask(g)){
+    if(g.crushed[i]){delete g.crushed[i];lastPopped=[];save();render();return}
+    g.crushed[i]={via:'task',at:Date.now()};lastPopped=[i];save();render();var lt0=lastYearThisSeason(g),dd0=lt0&&filedOn(g)?daysBetween(parseDay(todayStr()),parseDay(lt0)):0;toast(i===efileIndex(g)&&dd0>0?'Filed '+daysWord(dd0)+' earlier than last year':'Step '+(i+1)+' done');buzz();checkDone(g);return;
+  }
+  var amt=g.boxes[i];
+  if(g.mode==='even'){
+    var fill=evenFill(g);
+    if(i<fill.filled){toast('Already stomped. To undo, delete an entry in Savings history.');return}
+    var need=0;for(var k=0;k<=i;k++)need+=g.boxes[k];need-=totalSaved(g);
+    var count=i-fill.filled+1;
+    openSheet('<h2 id="sheet-title">Stomp '+(count>1?plural(count,'box'):'this box')+'?</h2><p class="lede">'+(count>1?'Boxes fill in order. This will record ':'Record ')+'<b>'+money(need)+'</b>'+(fill.leftover>0&&count===1?' (you already had '+money(fill.leftover)+' toward it)':'')+' as saved today.</p>'+
+      '<div class="opt-list"><button class="btn btn-primary btn-block" id="do-crush">I saved '+money(need)+'</button><button class="btn btn-ghost btn-block" data-act="close">Not yet</button></div>',
+    function(root){$('#do-crush',root).onclick=function(){
+      g.deposits.push({id:uid(),amount:need,date:todayStr(),note:count>1?'Boxes '+(fill.filled+1)+'–'+(i+1):'',box:count>1?undefined:i,at:Date.now()});
+      lastPopped=[];for(var j=fill.filled;j<=i;j++)lastPopped.push(j);save();closeSheet();render();toast(count>1?'Stomped '+count+' boxes!':'Box stomped!');buzz();checkDone(g)}});
+    return;
+  }
+  if(g.crushed[i]){
+    var c=g.crushed[i];
+    openSheet('<h2 id="sheet-title">Un-stomp this '+money(amt)+' box?</h2><p class="lede">'+(c.via==='deposit'?'This removes the '+money(amt)+' entry from your savings history.':'The '+money(amt)+' goes back to your extra savings.')+'</p><div class="opt-list"><button class="btn btn-danger btn-block" id="do-un">Un-stomp box</button><button class="btn btn-ghost btn-block" data-act="close">Keep it stomped</button></div>',
+    function(root){$('#do-un',root).onclick=function(){if(c.via==='deposit')g.deposits=g.deposits.filter(function(d){return d.id!==c.dep});delete g.crushed[i];if(g.completedAt&&totalSaved(g)<g.target)g.completedAt=null;save();closeSheet();render()}});
+    return;
+  }
+  var extra=extraAvail(g);
+  openSheet('<h2 id="sheet-title">Stomp the '+money(amt)+' box</h2><p class="lede">How did you save it?</p><div class="opt-list">'+
+    '<button class="opt" id="via-dep"><span class="oi" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><span><span class="ot">I just saved '+money(amt)+'</span><br><span class="os">Adds '+money(amt)+' to your savings today</span></span></button>'+
+    (extra>=amt?'<button class="opt" id="via-extra"><span class="oi" aria-hidden="true">💵</span><span><span class="ot">Use my extra savings</span><br><span class="os">'+money(extra)+' available · no new entry</span></span></button>':'')+
+    '</div>',
+  function(root){
+    $('#via-dep',root).onclick=function(){var d={id:uid(),amount:amt,date:todayStr(),note:'',box:i,at:Date.now()};g.deposits.push(d);g.crushed[i]={via:'deposit',dep:d.id,at:Date.now()};lastPopped=[i];save();closeSheet();render();toast('Box stomped!');buzz();checkDone(g)};
+    var ve=$('#via-extra',root);if(ve)ve.onclick=function(){g.crushed[i]={via:'extra',at:Date.now()};lastPopped=[i];save();closeSheet();render();toast('Box stomped with extra savings!');buzz();checkDone(g)};
+  });
+}
+function buzz(){try{if(navigator.vibrate)navigator.vibrate(18)}catch(e){}}
+
+function editDeposit(g,id){
+  var d=g.deposits.find(function(x){return x.id===id});if(!d)return;
+  var boxKey=null;for(var k in g.crushed)if(g.crushed[k].dep===id)boxKey=k;
+  var lockAmt=boxKey!==null;
+  var curNote=d.note||'',isOut=d.amount<0;
+  openSheet('<h2 id="sheet-title">'+(isOut?'Edit withdrawal':'Edit entry')+'</h2><p class="lede">'+(isOut?'Change how much you took out, the date or the label.':'Change the amount, date or label for this savings entry.')+'</p>'+
+    '<form id="ed-form" novalidate>'+
+    '<div class="field"><label for="ed-amt">'+(isOut?'Amount taken out':'Amount')+'</label>'+(lockAmt?'<div class="input num" style="display:flex;align-items:center;background:var(--surface-2)">'+money(d.amount)+'</div><p class="locked">This entry stomped the '+money(d.amount)+' box, so its amount stays the same. To change it, delete the entry and add a new one.</p>':'<div class="money bigm"><input class="input big num" id="ed-amt" inputmode="decimal" value="'+(Math.abs(d.amount)/100).toFixed(2).replace(/\.00$/,'')+'"></div>')+'</div>'+
+    '<div class="field"><label for="ed-date">Date</label><input class="input" type="date" id="ed-date" value="'+esc(d.date)+'" max="'+todayStr()+'"></div>'+
+    '<div class="field"><label for="ed-note">Label <span style="font-weight:400">(optional)</span></label><input class="input" id="ed-note" maxlength="60" placeholder="'+(isOut?'What was it for?':'Where did this money come from?')+'" value="'+esc(curNote)+'">'+
+    tagRow(isOut?OUT_TAGS:ADD_TAGS,curNote)+'</div>'+
+    '<p class="err" id="ed-err" role="alert"></p><button class="btn btn-primary btn-block" type="submit">Save changes</button></form>',
+  function(root){
+    var note=$('#ed-note',root);wireTags(root,note);
+    $('#ed-form',root).addEventListener('submit',function(e){
+      e.preventDefault();
+      var dt=$('#ed-date',root).value;
+      if(!validDay(dt)){$('#ed-err',root).textContent='Pick a date.';return}
+      if(dt>todayStr()){$('#ed-err',root).textContent='The date can’t be in the future.';return}
+      var amt=d.amount;
+      if(!lockAmt){amt=cents(String($('#ed-amt',root).value).replace(/[$,\s]/g,''));if(!(amt>0)){$('#ed-err',root).textContent='Enter an amount above $0.';return}if(!isOut&&totalSaved(g)-d.amount+amt<0){$('#ed-err',root).textContent='That would put this goal below $0 after your withdrawals.';return}if(isOut){var other=totalSaved(g)-d.amount;if(amt>other){$('#ed-err',root).textContent='You only have '+money(other)+' saved in this goal.';return}amt=-amt}}
+      var before=boxesCrushed(g),wasDone=!!g.completedAt;
+      d.amount=amt;d.date=dt;d.note=note.value.trim();
+      lastPopped=[];
+      if(g.mode==='even'){var after=boxesCrushed(g);for(var i=before;i<after;i++)lastPopped.push(i)}
+      else{rebalanceExtra(g);lastPopped=refillExtra(g)}
+      if(g.completedAt&&totalSaved(g)<g.target)g.completedAt=null;
+      save();closeSheet();render();toast('Entry updated');
+      if(lastPopped.length)buzz();
+      if(!wasDone)checkDone(g);
+    });
+  });
+}
+function deleteDeposit(g,id){
+  var d=g.deposits.find(function(x){return x.id===id});if(!d)return;
+  if(d.amount>0&&totalSaved(g)-d.amount<0){toast('Delete the withdrawal first. Otherwise this goal would go below $0.');return}
+  openSheet('<h2 id="sheet-title">Delete this entry?</h2><p class="lede">'+(d.amount<0?'The '+money(-d.amount)+' withdrawal from '+niceDate(d.date,true)+' will be removed and the money goes back into '+esc(g.name)+'.':money(d.amount)+' from '+niceDate(d.date,true)+' will be removed from '+esc(g.name)+'.')+'</p><div class="opt-list"><button class="btn btn-danger btn-block" id="do-del">Delete entry</button><button class="btn btn-ghost btn-block" data-act="close">Cancel</button></div>',
+  function(root){$('#do-del',root).onclick=function(){
+    g.deposits=g.deposits.filter(function(x){return x.id!==id});
+    for(var k in g.crushed)if(g.crushed[k].dep===id)delete g.crushed[k];
+    rebalanceExtra(g);lastPopped=refillExtra(g);
+    if(g.completedAt&&totalSaved(g)<g.target)g.completedAt=null;
+    save();closeSheet();render();toast('Entry deleted');if(d.amount<0)checkDone(g);
+  }});
+}
+
+function openMore(g){
+  openSheet('<h2 id="sheet-title">'+esc(g.name)+'</h2><p class="lede">More options for this goal.</p><div class="opt-list">'+
+    (g.completedAt?'<button class="opt" id="m-reopen"><span class="oi" aria-hidden="true">↩︎</span><span><span class="ot">Move back to active goals</span><br><span class="os">Keep adding to it</span></span></button>':'')+
+    '<button class="opt" id="m-print"><span class="oi" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg></span><span><span class="ot">Print grid</span><br><span class="os">A fridge-friendly chart to color in</span></span></button>'+
+    '<button class="opt" id="m-del" style="border-color:var(--danger-soft)"><span class="oi" style="background:var(--danger-soft);color:var(--danger)" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></span><span><span class="ot" style="color:var(--danger)">Delete goal</span><br><span class="os">Removes the grid and its history</span></span></button></div>',
+  function(root){
+    var ro=$('#m-reopen',root);if(ro)ro.onclick=function(){g.completedAt=null;g.keepOpen=true;save();closeSheet();render()};
+    $('#m-print',root).onclick=function(){closeSheet();setTimeout(function(){printGoal(g)},320)};
+    $('#m-del',root).onclick=function(){
+      openSheet('<h2 id="sheet-title">Delete '+esc(g.name)+'?</h2><p class="lede">This erases its grid and '+plural(g.deposits.length,'savings entry')+'. It cannot be undone.</p><div class="opt-list"><button class="btn btn-danger btn-block" id="do-delg">Delete goal</button><button class="btn btn-ghost btn-block" data-act="close">Keep it</button></div>',
+      function(r2){$('#do-delg',r2).onclick=function(){state.goals=state.goals.filter(function(x){return x.id!==g.id});save();closeSheet();show('goals');toast('Goal deleted')}});
+    };
+  });
+}
+
+/* ---------- milestones + celebration ---------- */
+function checkDone(g){
+  var p=pctOf(g);g.milestones=g.milestones||{};
+  if(p>=100&&!g.completedAt&&!g.keepOpen){
+    g.completedAt=Date.now();g.milestones[100]=true;save();render();$('#toast').classList.remove('show');clearTimeout(toastT);confetti(true);
+    var rw100=rewardFor(g,100);
+    var body=isTask(g)?'<h2 id="sheet-title">Checklist kicked!</h2><p class="lede" style="margin-top:6px">Every step is done. When a refund lands, give it a job right away.</p>':'<h2 id="sheet-title">Goal kicked!</h2><p class="lede" style="margin-top:6px">You saved <b>'+money(totalSaved(g))+'</b> for '+esc(g.name)+'. That took real follow-through.</p>';
+    setTimeout(function(){openSheet('<div class="celebrate"><div class="burst" aria-hidden="true">🏆</div>'+body+(rw100?'<div class="reward-pill" style="text-align:left"><span aria-hidden="true">🎁</span><div>You earned your reward: <b>'+esc(rw100)+'</b></div></div>':'')+'<div class="opt-list"><button class="btn btn-primary btn-block" data-act="new">'+(isTask(g)?'Start a goal for my refund':'Start the next goal')+'</button><button class="btn btn-ghost btn-block" data-act="home">Back to my goals</button></div></div>')},500);
+    return;
+  }
+  var hit=[25,50,75].filter(function(m){return p>=m&&!g.milestones[m]});
+  if(!hit.length)return;
+  hit.forEach(function(m){g.milestones[m]=true});save();confetti(false);
+  var earned=hit.filter(function(m){return rewardFor(g,m)}),top=hit[hit.length-1];
+  if(earned.length){
+    setTimeout(function(){$('#toast').classList.remove('show');clearTimeout(toastT);openSheet('<div class="celebrate"><div class="burst" aria-hidden="true">🎁</div><h2 id="sheet-title">'+top+'% stomped!</h2><p class="lede" style="margin-top:6px">'+esc(g.name)+' is '+(top===50?'halfway there':top+'% done')+'. You earned '+(earned.length>1?'some rewards':'a reward')+'.</p><div class="reward-list">'+earned.map(function(m){return '<div class="reward-pill" style="margin:0"><span class="num" style="font-weight:700;color:var(--sage-ink)">'+m+'%</span><div><b>'+esc(rewardFor(g,m))+'</b></div></div>'}).join('')+'</div><div class="opt-list"><button class="btn btn-primary btn-block" data-act="close">Enjoy it</button></div></div>')},650);
+  } else setTimeout(function(){toast(top+'% of '+g.name+' stomped. Keep it rolling!')},450);
+}
+function confetti(big){
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  var cv=$('#confetti'),ctx=cv.getContext('2d'),W=cv.width=innerWidth*devicePixelRatio,H=cv.height=innerHeight*devicePixelRatio;cv.style.width=innerWidth+'px';cv.style.height=innerHeight+'px';
+  var cols=['#5e7c73','#7f9d94','#d9772b','#f0a060','#6b5b50','#bcd3cc'],ps=[],n=big?160:60;
+  for(var i=0;i<n;i++)ps.push({x:W/2+(Math.random()-.5)*W*.3,y:H*(big?.35:.55),vx:(Math.random()-.5)*14*devicePixelRatio,vy:(-Math.random()*16-6)*devicePixelRatio,s:(Math.random()*6+4)*devicePixelRatio,r:Math.random()*6,vr:(Math.random()-.5)*.3,c:cols[i%cols.length]});
+  var t0=performance.now();
+  (function f(t){ctx.clearRect(0,0,W,H);var alive=false;ps.forEach(function(p){p.vy+=.45*devicePixelRatio;p.x+=p.vx;p.y+=p.vy;p.vx*=.99;p.r+=p.vr;if(p.y<H+20)alive=true;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r);ctx.fillStyle=p.c;ctx.fillRect(-p.s/2,-p.s/3,p.s,p.s*.66);ctx.restore()});if(alive&&t-t0<4000)requestAnimationFrame(f);else ctx.clearRect(0,0,W,H)})(t0);
+}
+
+/* ---------- print ---------- */
+function printGoal(g){
+  var v=verseToday(),vh='<div class="p-verse">“'+v[0]+'” <span>'+v[1]+' (NIV)</span><small>Scripture quotations taken from The Holy Bible, New International Version® NIV® Copyright © 1973, 1978, 1984, 2011 by Biblica, Inc.™ Used by permission. All rights reserved worldwide.</small></div>';
+  var foot='<div class="p-foot">Printed '+new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})+' · Bootstraps by CleartrackApps</div>';
+  if(isTask(g)){
+    $('#print-area').innerHTML='<div class="p-head"><div><p>BOOTSTRAPS</p><h1>'+esc(g.icon)+' '+esc(g.name)+'</h1></div><p>Check off each step as you finish it.</p></div>'+
+      '<div class="p-stats"><div>Steps<b>'+boxesCrushed(g)+' / '+g.boxes.length+'</b></div>'+(g.targetDate?'<div>Deadline<b>'+niceDate(g.targetDate,true)+'</b></div>':'')+'</div>'+
+      '<div class="p-tasks">'+g.tasks.map(function(t,i){return '<div class="p-task"><i class="'+(isOn(g,i)?'on':'')+'"></i><div><b>'+(i+1)+'. '+esc(t[0])+'</b><small>'+esc(t[1])+'</small></div></div>'}).join('')+'</div>'+vh+foot;
+    window.print();return;
+  }
+  var s=totalSaved(g),cols=g.boxes.length>200?15:g.boxes.length>120?12:10,L=shapeOf(g);if(L)cols=L.cols;
+  var html='<div class="p-head"><div><p>BOOTSTRAPS</p><h1>'+esc(g.icon)+' '+esc(g.name)+'</h1></div><p>Color in a box each time you save.</p></div>'+
+    '<div class="p-stats"><div>Goal<b>'+money(g.target)+'</b></div><div>Saved<b>'+money(s)+'</b></div><div>Boxes<b>'+boxesCrushed(g)+' / '+g.boxes.length+'</b></div>'+(g.targetDate?'<div>Target date<b>'+niceDate(g.targetDate,true)+'</b></div>':'')+'</div>'+
+    '<div class="p-grid" style="grid-template-columns:repeat('+cols+',1fr)'+(L?';max-width:'+Math.min(100,cols*9)+'%;margin:0 auto':'')+'">'+g.boxes.map(function(a,i){return '<div class="p-box'+(isOn(g,i)?' on':'')+'"'+(L?' style="grid-row:'+(L.cells[i].r+1)+';grid-column:'+(L.cells[i].c+1)+(L.cols>14?';font-size:7px':'')+'"':'')+'>'+(g.mode==='countup'&&g.step===100?a/100:moneyShort(a))+'</div>'}).join('')+'</div>'+
+    vh+foot;
+  $('#print-area').innerHTML=html;window.print();
+}
+
+/* ---------- backup ---------- */
+function backup(){
+  if(DEMO){toast('Backups are turned off in the demo.');return}
+  var data=JSON.stringify({app:'bootstraps',schema:1,exportedAt:new Date().toISOString(),version:APP_VERSION,goals:state.goals,settings:state.settings},null,2);
+  var blob=new Blob([data],{type:'application/json'});
+  var done=function(){state.lastBackup=Date.now();save();renderSettings();toast('Backup saved as '+BACKUP_NAME)};
+  try{
+    var file=new File([blob],BACKUP_NAME,{type:'application/json'});
+    var ios=/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+    if(ios&&navigator.canShare&&navigator.canShare({files:[file]})){navigator.share({files:[file],title:'Bootstraps backup'}).then(done).catch(function(e){if(e&&e.name!=='AbortError')download(blob,done)});return}
+  }catch(e){}
+  download(blob,done);
+}
+function download(blob,done){var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=BACKUP_NAME;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},1500);done()}
+function restore(file){
+  var rd=new FileReader();
+  rd.onload=function(){
+    var d;try{d=JSON.parse(rd.result)}catch(e){toast('That file is not a Bootstraps backup.');return}
+    if(!d||(d.app!=='bootstraps'&&d.app!=='goal-crusher')||!Array.isArray(d.goals)){toast('That file is not a Bootstraps backup.');return}
+    var ok=d.goals.every(function(g){return g&&g.id&&Array.isArray(g.boxes)&&Array.isArray(g.deposits)&&typeof g.target==='number'});
+    if(!ok){toast('This backup looks damaged, so nothing was changed.');return}
+    openSheet('<h2 id="sheet-title">Restore this backup?</h2><p class="lede">It has '+plural(d.goals.length,'goal')+' from '+(d.exportedAt?new Date(d.exportedAt).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'an earlier date')+'. It will replace the '+plural(state.goals.length,'goal')+' on this device.</p><div class="opt-list"><button class="btn btn-primary btn-block" id="do-restore">Replace with backup</button><button class="btn btn-ghost btn-block" data-act="close">Cancel</button></div>',
+    function(root){$('#do-restore',root).onclick=function(){state.goals=d.goals.map(function(g){g.crushed=g.crushed||{};g.milestones=g.milestones||{};if(g.photo&&!safePhoto(g.photo))g.photo=null;if(g.kind==='tasks'&&!Array.isArray(g.tasks))g.kind=null;g.lastFiled=validDay(g.lastFiled);g.fileBy=validDay(g.fileBy);return g});if(d.settings)state.settings=d.settings;save();applyTheme();closeSheet();show('goals');toast('Backup restored')}});
+  };
+  rd.readAsText(file);
+}
+
+/* ---------- events ---------- */
+document.addEventListener('click',function(e){
+  var t=e.target.closest('button,[data-open]');if(!t)return;
+  if(t.dataset.open){show('detail',t.dataset.open);return}
+  if(t.dataset.view){if(t.dataset.view==='new')openNew();else show(t.dataset.view);return}
+  if(t.dataset.box!==undefined){var g=getGoal(current.goalId);if(g)tapBox(g,+t.dataset.box);return}
+  if(t.dataset.delDep){var g2=getGoal(current.goalId);if(g2)deleteDeposit(g2,t.dataset.delDep);return}
+  if(t.dataset.editDep){var g3=getGoal(current.goalId);if(g3)editDeposit(g3,t.dataset.editDep);return}
+  if(t.dataset.starter){var s=STARTERS.find(function(x){return x.k===t.dataset.starter});
+    if(s&&s.tasks){var tg=makeTaxGoal();state.goals.push(tg);save();closeSheet();show('detail',tg.id);toast('Checklist ready. Tap each step as you finish it.');return}
+    openGoalForm(s?(s.make?s.make():JSON.parse(JSON.stringify(s.g))):null);return}
+  if(t.dataset.verseSet){state.settings.verse=t.dataset.verseSet==='on';save();applyTheme();renderVerse();return}
+  if(t.dataset.themeSet){state.settings.theme=t.dataset.themeSet;save();applyTheme();return}
+  if(t.dataset.animSet){state.settings.crushAnim=t.dataset.animSet==='on';save();applyTheme();toast(animOn()?'Stomp animation on':'Stomp animation off');return}
+  var a=t.dataset.act;if(!a)return;
+  if(a==='close')closeSheet();
+  else if(a==='new'){openNew()}
+  else if(a==='home'){closeSheet();show('goals')}
+  else if(a==='add')openAdd(t.dataset.goal);
+  else if(a==='print'){var g3=getGoal(t.dataset.goal);if(g3)printGoal(g3)}
+  else if(a==='takeout')openAdd(t.dataset.goal,'out');
+  else if(a==='edit'){var g4=getGoal(t.dataset.goal);if(g4)openGoalForm({name:g4.name,icon:g4.icon,mode:g4.countdown?'countdown':g4.mode,shape:g4.shape,photo:g4.photo,rewards:g4.rewards,target:g4.target/100,box:g4.mode==='even'?g4.boxes[0]/100:10,count:g4.boxes.length,step:g4.step?g4.step/100:1,targetDate:g4.targetDate,payFreq:g4.payFreq},g4)}
+  else if(a==='beat'){var gb=getGoal(t.dataset.goal);if(gb)openBeat(gb)}
+  else if(a==='more'){var g5=getGoal(t.dataset.goal);if(g5)openMore(g5)}
+});
+$('#fab').addEventListener('click',function(){openAdd()});
+$('#verse').addEventListener('click',function(){verseShift++;renderVerse(true)});
+$('#verse').addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();verseShift++;renderVerse(true)}});
+document.addEventListener('input',function(e){if(e.target&&e.target.id==='q-amt'){var f=e.target.closest('#quick-add'),g=f&&getGoal(f.dataset.goal),p=$('#q-prev');if(g&&p)p.innerHTML=previewText(g,cents(String(e.target.value).replace(/[$,\s]/g,'')))}});
+document.addEventListener('submit',function(e){
+  if(!e.target||e.target.id!=='quick-add')return;
+  e.preventDefault();
+  var g=getGoal(e.target.dataset.goal),inp=$('#q-amt'),amt=cents(String(inp.value).replace(/[$,\s]/g,''));
+  if(!g)return;
+  if(!(amt>0)){$('#q-prev').textContent='Enter an amount above $0.';inp.focus();return}
+  var n=applySavings(g,amt,todayStr(),'');
+  render();toast(savingsMsg(g,amt,n));if(n)buzz();checkDone(g);
+});
+$('#theme-quick').addEventListener('click',function(){var dark=document.documentElement.getAttribute('data-theme')==='dark';state.settings.theme=dark?'light':'dark';save();applyTheme()});
+$('#backup-btn').addEventListener('click',backup);
+$('#restore-btn').addEventListener('click',function(){if(DEMO){toast('Restore is turned off in the demo.');return}$('#restore-file').click()});
+$('#restore-file').addEventListener('change',function(e){var f=e.target.files&&e.target.files[0];if(f)restore(f);e.target.value=''});
+$('#wipe-btn').addEventListener('click',function(){
+  openSheet('<h2 id="sheet-title">Erase everything?</h2><p class="lede">All goals, grids, and savings history on this device will be deleted. Type <b>ERASE</b> to confirm.</p><input class="input" id="wipe-in" autocomplete="off" autocapitalize="characters" aria-label="Type ERASE to confirm"><div class="opt-list" style="margin-top:12px"><button class="btn btn-danger btn-block" id="do-wipe" disabled>Erase all data</button><button class="btn btn-ghost btn-block" data-act="close">Cancel</button></div>',
+  function(root){var i=$('#wipe-in',root),b=$('#do-wipe',root);i.oninput=function(){b.disabled=i.value.trim().toUpperCase()!=='ERASE'};b.onclick=function(){state=DEMO?demoState():blank();if(DEMO)state.goals=[];save();applyTheme();closeSheet();show('goals');toast('All data erased')}});
+});
+$('#refresh-btn').addEventListener('click',function(){checkUpdate(true)});
+if(window.matchMedia)matchMedia('(prefers-color-scheme: dark)').addEventListener('change',applyTheme);
+
+/* ---------- updates + sw ---------- */
+function checkUpdate(manual){
+  if(DEMO||location.protocol==='file:'){if(manual)toast('You are on the latest version.');return}
+  fetch('version.json?ts='+Date.now(),{cache:'no-store'}).then(function(r){return r.json()}).then(function(v){
+    if(v&&v.version&&v.version!==APP_VERSION){showUpdate(v.version)}else if(manual)toast('You are on the latest version.');
+  }).catch(function(){if(manual)toast('Could not check right now. Try again when online.')});
+}
+function showUpdate(v){
+  if($('.update-bar'))return;var d=document.createElement('div');d.className='update-bar';d.setAttribute('role','status');
+  d.innerHTML='<span>Version '+esc(v)+' is ready.</span><button class="btn btn-primary btn-sm">Update</button>';
+  d.querySelector('button').onclick=function(){
+    var go=function(){location.reload()};
+    if('caches'in window)caches.keys().then(function(k){return Promise.all(k.map(function(x){return caches.delete(x)}))}).then(function(){if(navigator.serviceWorker)return navigator.serviceWorker.getRegistrations().then(function(rs){return Promise.all(rs.map(function(r){return r.update()}))})}).then(go,go);else go();
+  };
+  document.body.appendChild(d);
+}
+
+/* ---------- demo data ---------- */
+function demoState(){
+  var st=blank();function ago(n){var d=new Date();d.setDate(d.getDate()-n);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+  function ahead(n){return ago(-n)}
+  var ef={id:'demo1',name:'Emergency fund',icon:'🛟',mode:'even',boxes:buildEven(100000,1000),target:100000,crushed:{},deposits:[],targetDate:ahead(150),payFreq:'biweekly',createdAt:Date.now()-86400000*70,completedAt:null,milestones:{25:true},rewards:{25:'Fancy coffee',50:'Movie night',75:'New paperback',100:'Dinner out'}};
+  [[60,5000,'Paycheck'],[46,5000,'Paycheck'],[39,2000,'Sold old stroller'],[32,5000,'Paycheck'],[18,5000,'Paycheck'],[11,3500,'Skipped takeout'],[4,5000,'Paycheck']].forEach(function(x,i){ef.deposits.push({id:'e'+i,amount:x[1],date:ago(x[0]),note:x[2],at:i})});
+  var bt=[5000,2500,1500,4000,1000,3000,6000,2000,3500,1500,5000,2500,4500,1000,2000,7500,3000,1500,4000,2500,1000,5500,2000,3000,1500,6500,2500,4000,1000,3500,2000,5000,1500,3000,2500,4500,1000,2000,6000,3500,1500,2500,5000,3000,2000,4000,1000,7000,2500,4400];
+  (function(){var sum=bt.reduce(function(s,v){return s+v},0);for(var i=0;i<bt.length;i++)bt[i]=Math.max(500,Math.round(bt[i]*200000/sum/500)*500);var d=200000-bt.reduce(function(s,v){return s+v},0);bt[bt.indexOf(Math.max.apply(null,bt))]+=d})();
+  var vac={id:'demo2',name:'Beach trip',icon:'🏝️',mode:'mixed',boxes:bt,target:bt.reduce(function(s,v){return s+v},0),crushed:{},deposits:[],targetDate:ahead(240),payFreq:'biweekly',createdAt:Date.now()-86400000*50,completedAt:null,milestones:{},shape:'heart'};
+  [1,4,6,9,13,17,20,24,28,33,36,42].forEach(function(b,i){var id='v'+i;vac.deposits.push({id:id,amount:bt[b],date:ago(48-i*4),note:'',box:b,at:i});vac.crushed[b]={via:'deposit',dep:id,at:i}});
+  vac.deposits.push({id:'vx',amount:1800,date:ago(2),note:'Birthday cash',at:99});
+  var env={id:'demo3',name:'100 Envelope Challenge',icon:'💰',mode:'countup',boxes:buildCountUp(100,100),target:505000,step:100,crushed:{},deposits:[],targetDate:null,payFreq:'weekly',createdAt:Date.now()-86400000*30,completedAt:null,milestones:{}};
+  [3,7,12,15,22,30,41,5,9,18,26,50,64,1,2].forEach(function(b,i){var id='n'+i;env.deposits.push({id:id,amount:(b+1)*100,date:ago(29-i*2),note:'',box:b,at:i});env.crushed[b]={via:'deposit',dep:id,at:i}});
+  var tires={id:'demo4',name:'New tires',icon:'🚗',mode:'even',boxes:buildEven(60000,2500),target:60000,crushed:{},deposits:[{id:'t1',amount:20000,date:ago(120),note:'Paycheck',at:1},{id:'t2',amount:20000,date:ago(105),note:'Paycheck',at:2},{id:'t3',amount:20000,date:ago(90),note:'Tax refund',at:3}],targetDate:null,payFreq:'biweekly',createdAt:Date.now()-86400000*130,completedAt:Date.now()-86400000*90,milestones:{25:true,50:true,75:true,100:true}};
+  var xd=nextDate(12,24,5),xdays=daysBetween(parseDay(todayStr()),parseDay(xd))+8,xb=splitDays(50000,xdays);
+  var xm={id:'demo5',name:'Christmas countdown',icon:'🎄',mode:'even',countdown:true,boxes:xb,target:50000,crushed:{},deposits:[],targetDate:xd,payFreq:'biweekly',createdAt:Date.now()-86400000*8,completedAt:null,milestones:{},shape:'tree',rewards:{50:'Hot cocoa night',100:'Ugly sweater party'}};
+  for(var xi=0;xi<8;xi++)xm.deposits.push({id:'x'+xi,amount:xb[xi],date:ago(8-xi),note:'',at:xi});
+  var tax=makeTaxGoal();tax.id='demo6';tax.createdAt=Date.now()-86400000*5;[0,1,5,6].forEach(function(i,k){tax.crushed[i]={via:'task',at:k}});tax.milestones={25:true};tax.lastFiled=(taxSeasonYear(tax)-1)+'-03-18';tax.fileBy=taxSeasonYear(tax)+'-02-12';
+  st.goals=[xm,ef,vac,tax,env,tires];return st;
+}
+
+/* ---------- boot ---------- */
+load();applyTheme();
+if(DEMO){$('#demo-bar').hidden=false;if(window.GC_DEMO_CTA)$('#demo-cta').href=window.GC_DEMO_CTA}
+renderTips();renderVerse();show('goals');
+requestAnimationFrame(function(){$('#boot').classList.add('gone');setTimeout(function(){$('#boot').remove()},400)});
+if(!DEMO&&navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(function(){});
+if('serviceWorker'in navigator&&location.protocol==='https:'){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})});setTimeout(checkUpdate,4000)}
+window.__gc={state:function(){return state},version:APP_VERSION,shape:shapeLayout};
+})();
+</script>
+</body>
+</html>
