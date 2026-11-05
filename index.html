@@ -396,6 +396,8 @@ input[type='date'].input::-webkit-datetime-edit{padding:0}
 @media (min-width:700px){
   .app{padding-top:8px}
 }
+.del-goal{margin-top:10px;color:var(--danger);border-color:transparent;background:transparent}
+.del-goal:hover{background:var(--danger-soft)}
 </style>
 <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
 <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=zodiak@600,700&f[]=general-sans@400,500,600&display=swap">
@@ -507,7 +509,7 @@ input[type='date'].input::-webkit-datetime-edit{padding:0}
 <script>
 (function(){
 'use strict';
-var APP_VERSION='1.4.2';
+var APP_VERSION='1.4.3';
 var DEMO=!!window.GC_DEMO;
 var KEY='bootstraps_v1';
 var BACKUP_NAME='bootstraps-backup.json';
@@ -1049,8 +1051,10 @@ function openGoalForm(preset,editing){
     (taskEdit?'<input type="hidden" id="f-freq" value="'+esc(f.payFreq)+'">':'<div class="field"><label for="f-freq">I get paid</label><select class="input" id="f-freq">'+Object.keys(FREQ).map(function(k){return '<option value="'+k+'"'+(k===f.payFreq?' selected':'')+'>'+FREQ[k].name+'</option>'}).join('')+'</select></div>')+'</div>'+
     rwHtml+
     '<p class="err" id="f-err" role="alert"></p>'+
-    '<button class="btn btn-primary btn-block" type="submit">'+(editing?'Save changes':'Create my grid')+'</button></form>',
+    '<button class="btn btn-primary btn-block" type="submit">'+(editing?'Save changes':'Create my grid')+'</button>'+
+    (editing?'<button class="btn btn-ghost btn-block del-goal" type="button" id="f-del">Delete this '+(taskEdit?'checklist':'goal')+'</button>':'')+'</form>',
   function(root){
+    var fdel=$('#f-del',root);if(fdel)fdel.onclick=function(){confirmDeleteGoal(editing)};
     var mixedCache=null;
     if(editing&&editing.mode==='mixed'){mixedCache=editing.boxes.slice();mixedCache.t=editing.target}
     function modeFields(){
@@ -1261,6 +1265,11 @@ function deleteDeposit(g,id){
   }});
 }
 
+function confirmDeleteGoal(g){
+      openSheet('<h2 id="sheet-title">Delete '+esc(g.name)+'?</h2><p class="lede">'+(isTask(g)?'This erases the checklist and your progress.':'This erases its grid and '+plural(g.deposits.length,'savings entry')+'.')+' It cannot be undone.</p><div class="opt-list"><button class="btn btn-danger btn-block" id="do-delg">Delete goal</button><button class="btn btn-ghost btn-block" data-act="close">Keep it</button></div>',
+      function(r2){$('#do-delg',r2).onclick=function(){state.goals=state.goals.filter(function(x){return x.id!==g.id});save();closeSheet();show('goals');toast('Goal deleted')}});
+}
+
 function openMore(g){
   openSheet('<h2 id="sheet-title">'+esc(g.name)+'</h2><p class="lede">More options for this goal.</p><div class="opt-list">'+
     (g.completedAt?'<button class="opt" id="m-reopen"><span class="oi" aria-hidden="true">↩︎</span><span><span class="ot">Move back to active goals</span><br><span class="os">Keep adding to it</span></span></button>':'')+
@@ -1269,10 +1278,7 @@ function openMore(g){
   function(root){
     var ro=$('#m-reopen',root);if(ro)ro.onclick=function(){g.completedAt=null;g.keepOpen=true;save();closeSheet();render()};
     $('#m-print',root).onclick=function(){closeSheet();setTimeout(function(){printGoal(g)},320)};
-    $('#m-del',root).onclick=function(){
-      openSheet('<h2 id="sheet-title">Delete '+esc(g.name)+'?</h2><p class="lede">This erases its grid and '+plural(g.deposits.length,'savings entry')+'. It cannot be undone.</p><div class="opt-list"><button class="btn btn-danger btn-block" id="do-delg">Delete goal</button><button class="btn btn-ghost btn-block" data-act="close">Keep it</button></div>',
-      function(r2){$('#do-delg',r2).onclick=function(){state.goals=state.goals.filter(function(x){return x.id!==g.id});save();closeSheet();show('goals');toast('Goal deleted')}});
-    };
+    $('#m-del',root).onclick=function(){confirmDeleteGoal(g)};
   });
 }
 
