@@ -396,6 +396,67 @@ input[type='date'].input::-webkit-datetime-edit{padding:0}
 @media (min-width:700px){
   .app{padding-top:8px}
 }
+/* budget + tracker */
+.page-h{margin:6px 2px 12px}
+.page-h h2{font-family:var(--font-display);font-size:24px;letter-spacing:-.01em;line-height:1.15}
+.page-h p{font-size:14px;color:var(--muted);margin-top:2px}
+.card+.card{margin-top:14px}
+.card h3.ch{font-family:var(--font-display);font-size:18px;letter-spacing:-.01em;margin-bottom:12px}
+.plan-card{background:var(--btn-grad);color:#fff;border:0}
+.plan-card .ph{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:14px}
+.plan-card .ph h3{font-family:var(--font-display);font-size:20px;letter-spacing:-.01em}
+.plan-card .ph p{font-size:13px;color:rgba(255,255,255,.75)}
+.plan-card .btn-edit{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);color:#fff}
+.plan-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.plan-grid>div{background:rgba(255,255,255,.1);border-radius:14px;padding:12px;text-align:center;min-width:0}
+.plan-grid .k{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.75);font-weight:600}
+.plan-grid .v{font-family:var(--font-display);font-size:26px;line-height:1.15;margin-top:2px;overflow-wrap:anywhere}
+.plan-grid .s{font-size:11.5px;color:rgba(255,255,255,.7);margin-top:2px}
+.plan-grid .lead .v{font-size:30px}
+.brk{display:grid;gap:6px}
+.brk-row{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:9px 12px;font-size:14px}
+.brk-row span:first-child{color:var(--muted)}
+.brk-row b{font-weight:600}
+.row3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.row3>*{min-width:0}
+.bl-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--border)}
+.bl-row:first-child{border-top:0}
+.bl-row .n{flex:1;min-width:0;font-size:14px;font-weight:600;overflow-wrap:anywhere}
+.bl-row .n small{display:block;font-weight:400;font-size:12.5px;color:var(--muted)}
+.bl-row .a{font-weight:600}
+.bl-row .x{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;color:var(--faint);flex-shrink:0}
+.bl-row .x:hover{background:var(--danger-soft);color:var(--danger)}
+.bl-empty{font-size:14px;color:var(--muted)}
+.bl-total{display:flex;justify-content:space-between;align-items:baseline;gap:10px;border-top:1px solid var(--border-strong);margin-top:8px;padding-top:12px;font-weight:600}
+.bl-total b{font-family:var(--font-display);font-size:20px}
+.net{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.net>div{background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:10px;min-width:0}
+.net .k{font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.net .k i{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.net .v{font-weight:600;font-size:16px;margin-top:2px;overflow-wrap:anywhere}
+.net .neg{color:var(--danger)}
+.tr-hero{background:var(--box-grad);color:#fff;border:0}
+.tr-hero h2{font-family:var(--font-display);font-size:24px;letter-spacing:-.01em;line-height:1.15}
+.tr-hero p{font-size:14px;color:rgba(255,255,255,.85)}
+.tr-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:14px}
+.tr-stats>div{background:rgba(255,255,255,.14);border-radius:12px;padding:10px 6px;text-align:center;min-width:0}
+.tr-stats .k{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.8);font-weight:600}
+.tr-stats .v{font-weight:700;font-size:17px;margin-top:2px;overflow-wrap:anywhere}
+.tr-hist{max-height:360px;overflow-y:auto;margin:0 -4px;padding:0 4px}
+.hist-row .g{display:block;font-size:12.5px;color:var(--muted)}
+.strat{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.strat>div{background:var(--surface-2);border:1px solid var(--border);border-radius:14px;padding:12px}
+.strat h4{font-size:14.5px;font-weight:600;margin-bottom:2px}
+.strat p{font-size:13px;color:var(--muted);line-height:1.45}
+.nav-in.n7{grid-template-columns:1fr 1fr 1fr auto 1fr 1fr 1fr}
+.nav-in.n7 button.tab{font-size:10.5px;white-space:nowrap}
+.nav-in.n7 .fab{margin:-22px 4px 0}
+@media (max-width:420px){
+  .tr-stats{grid-template-columns:1fr 1fr}
+  .strat{grid-template-columns:1fr}
+  .plan-grid .v{font-size:22px}.plan-grid .lead .v{font-size:26px}
+}
+@media (max-width:370px){.nav-in.n7 button.tab{font-size:9.5px}.nav-in.n7 button.tab svg{width:20px;height:20px}.nav-in.n7 .fab{width:50px;height:50px;margin:-20px 2px 0}}
 .del-goal{margin-top:10px;color:var(--danger);border-color:transparent;background:transparent}
 .del-goal:hover{background:var(--danger-soft)}
 </style>
@@ -439,6 +500,12 @@ input[type='date'].input::-webkit-datetime-edit{padding:0}
     <!-- DETAIL -->
     <section class="view" id="view-detail" aria-live="polite"></section>
 
+    <!-- BUDGET + FUND -->
+    <section class="view" id="view-budget"></section>
+
+    <!-- SAVINGS TRACKER -->
+    <section class="view" id="view-tracker"></section>
+
     <!-- TIPS -->
     <section class="view" id="view-tips">
       <div class="section-h" style="margin-top:6px"><h2>Pick your grid style</h2></div>
@@ -464,7 +531,7 @@ input[type='date'].input::-webkit-datetime-edit{padding:0}
       </div>
       <div class="section-h"><h2>Backup</h2></div>
       <div class="card">
-        <p style="font-size:14px;color:var(--muted);margin-bottom:12px">Your goals are saved only in this browser on this device. Save a backup now and then, especially before switching phones or clearing browser data. Each backup uses the same file name, so you can replace the old copy.</p>
+        <p style="font-size:14px;color:var(--muted);margin-bottom:12px">Your goals and budget are saved only in this browser on this device. Save a backup now and then, especially before switching phones or clearing browser data. Each backup uses the same file name, so you can replace the old copy.</p>
         <p id="last-backup" style="font-size:13px;margin-bottom:12px"></p>
         <div class="row2">
           <button class="btn btn-primary" id="backup-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>Save backup</button>
@@ -482,7 +549,7 @@ input[type='date'].input::-webkit-datetime-edit{padding:0}
       </div>
       <div class="section-h"><h2>Start over</h2></div>
       <div class="card">
-        <p style="font-size:14px;color:var(--muted);margin-bottom:12px">Erase every goal and deposit on this device. Save a backup first if you might want them back.</p>
+        <p style="font-size:14px;color:var(--muted);margin-bottom:12px">Erase every goal, deposit, and budget entry on this device. Save a backup first if you might want them back.</p>
         <button class="btn btn-danger btn-block" id="wipe-btn">Erase all data</button>
       </div>
     </section>
@@ -491,10 +558,12 @@ input[type='date'].input::-webkit-datetime-edit{padding:0}
 </div>
 
 <nav class="nav" aria-label="Main">
-  <div class="nav-in">
+  <div class="nav-in n7">
     <button class="tab" data-view="goals" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/></svg>Goals</button>
-    <button class="tab" data-view="tips"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.6.5 1.1 1.3 1.1 2.2h5c0-.9.5-1.7 1.1-2.2A6 6 0 0 0 12 3z"/></svg>Tips</button>
+    <button class="tab" data-view="budget"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2.5" width="16" height="19" rx="2.5"/><path d="M8 7h8M8 11.5h.01M12 11.5h.01M16 11.5h.01M8 15.5h.01M12 15.5h.01M16 15.5v2"/></svg>Budget</button>
+    <button class="tab" data-view="tracker"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 4 8-8"/><path d="M15 8h5v5"/></svg>Tracker</button>
     <button class="fab" id="fab" aria-label="Add savings"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+    <button class="tab" data-view="tips"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.6.5 1.1 1.3 1.1 2.2h5c0-.9.5-1.7 1.1-2.2A6 6 0 0 0 12 3z"/></svg>Tips</button>
     <button class="tab" data-view="new"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></svg>New goal</button>
     <button class="tab" data-view="settings"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>Settings</button>
   </div>
@@ -509,7 +578,7 @@ input[type='date'].input::-webkit-datetime-edit{padding:0}
 <script>
 (function(){
 'use strict';
-var APP_VERSION='1.4.3';
+var APP_VERSION='1.5.0';
 var DEMO=!!window.GC_DEMO;
 var KEY='bootstraps_v1';
 var BACKUP_NAME='bootstraps-backup.json';
@@ -534,12 +603,13 @@ function plural(n,w){if(n===1)return n+' '+w;var p={box:'boxes',entry:'entries',
 
 /* ---------- storage ---------- */
 var state;
-function blank(){return {app:'bootstraps',schema:1,goals:[],settings:{theme:'auto'},lastBackup:null}}
+function blank(){return {app:'bootstraps',schema:1,goals:[],settings:{theme:'auto'},budget:blankBudget(),lastBackup:null}}
 function load(){
   if(DEMO){state=demoState();return}
   try{var raw=localStorage.getItem(KEY)||localStorage.getItem('goalCrusher_v1');state=raw?JSON.parse(raw):blank()}catch(e){state=blank()}
   if(!state||!Array.isArray(state.goals))state=blank();
   state.settings=state.settings||{theme:'auto'};
+  state.budget=normBudget(state.budget);
 }
 function save(){
   if(DEMO)return true;
@@ -849,6 +919,8 @@ function render(){
   else if(current.view==='detail')renderDetail();
   else if(current.view==='settings')renderSettings();
   else if(current.view==='tips')renderTips();
+  else if(current.view==='budget')renderBudget();
+  else if(current.view==='tracker')renderTracker();
 }
 
 function activeGoals(){return state.goals.filter(function(g){return !g.completedAt})}
@@ -986,6 +1058,164 @@ function renderSettings(){
   $('#ver').textContent='Bootstraps '+APP_VERSION+(DEMO?' (demo)':'');
   var lb=state.lastBackup;
   $('#last-backup').innerHTML=lb?'Last backup: <b>'+new Date(lb).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+'</b>':'<span style="color:var(--flame);font-weight:600">No backup saved yet.</span>';
+}
+
+/* ---------- budget + fund ---------- */
+function blankBudget(){return {income:[],bills:[],plan:null}}
+function normBudget(b){
+  var o=blankBudget();if(!b||typeof b!=='object')return o;
+  function amt(v){v=Math.round(+v);return isFinite(v)&&v>=0?v:0}
+  if(Array.isArray(b.income))o.income=b.income.filter(function(x){return x&&x.name}).map(function(x){return {id:String(x.id||uid()),name:String(x.name).slice(0,60),amount:amt(x.amount)}});
+  if(Array.isArray(b.bills))o.bills=b.bills.filter(function(x){return x&&x.name}).map(function(x){var d=parseInt(x.due,10);return {id:String(x.id||uid()),name:String(x.name).slice(0,60),amount:amt(x.amount),due:d>=1&&d<=31?d:null}});
+  var p=b.plan;if(p&&validDay(p.start)&&validDay(p.target)&&FREQ[p.freq])o.plan={goalId:p.goalId?String(p.goalId):null,goal:amt(p.goal),current:amt(p.current),start:p.start,target:p.target,freq:p.freq};
+  return o;
+}
+var CALC_FREQ={weekly:{d:7,name:'Paid weekly'},biweekly:{d:14,name:'Paid every 2 weeks'},semimonthly:{d:15.22,name:'Paid twice a month'},monthly:{d:30.44,name:'Paid monthly'}};
+function planGoal(p){var g=p&&p.goalId?getGoal(p.goalId):null;return g&&!isTask(g)?g:null}
+function calcPlan(p){
+  var g=planGoal(p),goal=g?g.target:p.goal,cur=g?Math.max(0,totalSaved(g)):p.current;
+  var needed=Math.max(0,goal-cur),today=todayStr(),from=p.start>today?p.start:today;
+  var days=daysBetween(parseDay(from),parseDay(p.target));
+  var r={goal:goal,current:cur,needed:needed,days:days,linked:g,passed:days<=0&&needed>0};
+  var d=Math.max(1,days),fd=CALC_FREQ[p.freq].d;
+  r.months=Math.max(1,Math.ceil(d/30.44));
+  r.perPay=Math.ceil(needed/Math.max(1,d/fd));
+  r.monthly=Math.ceil(needed/r.months);
+  r.weekly=Math.ceil(needed/Math.max(1,d/7));
+  r.daily=Math.ceil(needed/d);
+  return r;
+}
+function moneyIn(v){return cents(String(v==null?'':v).replace(/[$,\s]/g,''))}
+var editingPlan=false,calcDraft=null;
+function moneyGoalsForPlan(){return state.goals.filter(function(g){return !isTask(g)&&!g.completedAt})}
+function draftFromPlan(){
+  var p=state.budget.plan;
+  if(p)return {goalId:p.goalId||'',goal:p.goal?String(p.goal/100):'',current:p.current?String(p.current/100):'',start:p.start,target:p.target,freq:p.freq};
+  return {goalId:'',goal:'',current:'',start:todayStr(),target:'',freq:'biweekly'};
+}
+function renderBudget(){
+  var b=state.budget,p=b.plan,showCalc=!p||editingPlan,html='';
+  html+='<div class="page-h"><h2>Budget and fund</h2><p>Work out what to set aside, then see what your monthly money can cover.</p></div>';
+  if(p&&!editingPlan){
+    var r=calcPlan(p),fq=CALC_FREQ[p.freq].name;
+    html+='<div class="card plan-card"><div class="ph"><div><h3>Your savings plan</h3><p>'+(r.linked?'Linked to '+esc(r.linked.icon+' '+r.linked.name)+' · updates as you save':'From the sinking fund calculator')+'</p></div><button class="btn btn-sm btn-edit" id="plan-edit">Edit plan</button></div>'+
+      (r.needed===0?'<div class="plan" style="margin:0 0 12px"><span aria-hidden="true">🏆</span><div><b>Fully funded.</b> You have the whole amount saved.</div></div>':r.passed?'<div class="plan flame" style="margin:0 0 12px"><span aria-hidden="true">⏰</span><div>The target date has passed. Tap Edit plan and pick a new date.</div></div>':'')+
+      '<div class="plan-grid"><div class="lead"><div class="k">Per paycheck</div><div class="v num">'+money(r.perPay)+'</div><div class="s">'+fq+'</div></div><div class="lead"><div class="k">Monthly average</div><div class="v num">'+money(r.monthly)+'</div></div><div><div class="k">Weekly average</div><div class="v num">'+money(r.weekly)+'</div></div><div><div class="k">Daily average</div><div class="v num">'+money(r.daily)+'</div></div></div></div>'+
+      '<div class="card"><h3 class="ch">Savings breakdown</h3><div class="brk">'+
+      '<div class="brk-row"><span>Total goal</span><b class="num">'+money(r.goal)+'</b></div>'+
+      '<div class="brk-row"><span>Current savings</span><b class="num">'+money(r.current)+'</b></div>'+
+      '<div class="brk-row"><span>Still needed</span><b class="num">'+money(r.needed)+'</b></div>'+
+      '<div class="brk-row"><span>Time until goal</span><b class="num">'+(r.days>0?plural(r.months,'month')+' · '+niceDate(p.target,true):'Target date passed')+'</b></div></div></div>';
+  }
+  if(showCalc){
+    var d=calcDraft||(calcDraft=draftFromPlan()),gs=moneyGoalsForPlan(),lg=d.goalId?getGoal(d.goalId):null;
+    if(lg){d.goal=String(lg.target/100);d.current=String(Math.max(0,totalSaved(lg))/100)}
+    html+='<div class="card" id="calc-card"><h3 class="ch">Sinking fund calculator</h3><form id="calc-form" novalidate>'+
+      (gs.length?'<div class="field"><label for="c-goalid">Use one of my goals <span style="font-weight:400">(optional)</span></label><select class="input" id="c-goalid"><option value="">Enter my own numbers</option>'+gs.map(function(g){return '<option value="'+g.id+'"'+(g.id===d.goalId?' selected':'')+'>'+esc(g.icon+'  '+g.name)+'</option>'}).join('')+'</select>'+(lg?'<p class="help">Goal amount and current savings come from this goal and stay up to date as you save.</p>':'')+'</div>':'')+
+      '<div class="row2"><div class="field"><label for="c-goal">Goal amount</label><div class="money"><input class="input num" id="c-goal" inputmode="decimal" placeholder="10,000" value="'+esc(d.goal)+'"'+(lg?' disabled':'')+'></div></div>'+
+      '<div class="field"><label for="c-cur">Current savings</label><div class="money"><input class="input num" id="c-cur" inputmode="decimal" placeholder="0" value="'+esc(d.current)+'"'+(lg?' disabled':'')+'></div></div></div>'+
+      '<div class="row2"><div class="field"><label for="c-start">Start</label><input class="input" type="date" id="c-start" value="'+esc(d.start)+'"></div>'+
+      '<div class="field"><label for="c-target">Target</label><input class="input" type="date" id="c-target" value="'+esc(d.target)+'"></div></div>'+
+      '<div class="field"><label for="c-freq">How often you get paid</label><select class="input" id="c-freq">'+Object.keys(FREQ).map(function(k){return '<option value="'+k+'"'+(k===d.freq?' selected':'')+'>'+FREQ[k].name+'</option>'}).join('')+'</select></div>'+
+      '<p class="err" id="c-err" role="alert"></p><div class="'+(p?'row2':'')+'">'+(p?'<button type="button" class="btn btn-ghost" id="c-cancel">Cancel</button>':'')+'<button type="submit" class="btn btn-primary'+(p?'':' btn-block')+'">Calculate</button></div></form></div>';
+  }
+  var ti=b.income.reduce(function(s,x){return s+x.amount},0),tb=b.bills.reduce(function(s,x){return s+x.amount},0),net=ti-tb;
+  var trash='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>';
+  html+='<div class="card"><h3 class="ch">Monthly income</h3><form id="inc-form" novalidate><div class="row2"><div class="field"><label for="inc-name">Source name</label><input class="input" id="inc-name" maxlength="60" placeholder="Paycheck"></div><div class="field"><label for="inc-amt">Amount</label><div class="money"><input class="input num" id="inc-amt" inputmode="decimal" placeholder="0.00"></div></div></div><p class="err" id="inc-err" role="alert"></p><button class="btn btn-primary btn-block" type="submit">Add source</button></form>'+
+    '<div style="margin-top:12px">'+(b.income.length?b.income.map(function(x){return '<div class="bl-row"><span class="n">'+esc(x.name)+'</span><span class="a num">'+money(x.amount)+'</span><button class="x" data-del-inc="'+x.id+'" aria-label="Remove '+esc(x.name)+'">'+trash+'</button></div>'}).join(''):'<p class="bl-empty">No income sources added yet.</p>')+'</div>'+
+    '<div class="bl-total"><span>Total monthly income</span><b class="num">'+money(ti)+'</b></div></div>';
+  html+='<div class="card"><h3 class="ch">Fixed bills and expenses</h3><form id="bill-form" novalidate><div class="field"><label for="bill-name">Expense name</label><input class="input" id="bill-name" maxlength="60" placeholder="Rent, car payment"></div><div class="row2"><div class="field"><label for="bill-amt">Monthly amount</label><div class="money"><input class="input num" id="bill-amt" inputmode="decimal" placeholder="0.00"></div></div><div class="field"><label for="bill-due">Due day (1–31)</label><input class="input num" id="bill-due" inputmode="numeric" placeholder="1"></div></div><p class="err" id="bill-err" role="alert"></p><button class="btn btn-primary btn-block" type="submit">Add expense</button></form>'+
+    '<div style="margin-top:12px">'+(b.bills.length?b.bills.slice().sort(function(a,c){return (a.due||99)-(c.due||99)}).map(function(x){return '<div class="bl-row"><span class="n">'+esc(x.name)+(x.due?'<small>Due: day '+x.due+'</small>':'')+'</span><span class="a num">'+money(x.amount)+'</span><button class="x" data-del-bill="'+x.id+'" aria-label="Remove '+esc(x.name)+'">'+trash+'</button></div>'}).join(''):'<p class="bl-empty">No fixed expenses added yet.</p>')+'</div>'+
+    '<div class="bl-total"><span>Total monthly expenses</span><b class="num">'+money(tb)+'</b></div></div>';
+  html+='<div class="card"><div class="net">'+
+    '<div><div class="k"><i style="background:var(--sage)"></i>Monthly income</div><div class="v num" style="color:var(--sage)">'+money(ti)+'</div></div>'+
+    '<div><div class="k"><i style="background:var(--danger)"></i>Monthly expenses</div><div class="v num neg">'+money(tb)+'</div></div>'+
+    '<div><div class="k"><i style="background:var(--text)"></i>Net available</div><div class="v num'+(net<0?' neg':'')+'">'+(net<0?'−'+money(-net):money(net))+'</div></div></div></div>';
+  var v=$('#view-budget');v.innerHTML=html;
+  var pe=$('#plan-edit',v);if(pe)pe.onclick=function(){editingPlan=true;calcDraft=draftFromPlan();renderBudget();var c=$('#calc-card');if(c)c.scrollIntoView({block:'start',behavior:'smooth'})};
+  var cf=$('#calc-form',v);
+  if(cf){
+    var sync=function(){var d=calcDraft;var gi=$('#c-goalid',v);d.goalId=gi?gi.value:'';if(!$('#c-goal',v).disabled){d.goal=$('#c-goal',v).value;d.current=$('#c-cur',v).value}d.start=$('#c-start',v).value;d.target=$('#c-target',v).value;d.freq=$('#c-freq',v).value;$('#c-err',v).textContent=''};
+    cf.addEventListener('input',sync);cf.addEventListener('change',sync);
+    var gsel=$('#c-goalid',v);if(gsel)gsel.addEventListener('change',function(){var g=getGoal(gsel.value);if(g){if(g.targetDate)calcDraft.target=g.targetDate;calcDraft.freq=g.payFreq||calcDraft.freq;if(!calcDraft.start)calcDraft.start=todayStr()}else{calcDraft.goal='';calcDraft.current=''}renderBudget()});
+    var cc=$('#c-cancel',v);if(cc)cc.onclick=function(){editingPlan=false;calcDraft=null;renderBudget()};
+    cf.addEventListener('submit',function(e){
+      e.preventDefault();sync();var d=calcDraft,err=$('#c-err',v);
+      var lg=d.goalId?getGoal(d.goalId):null,goal=lg?lg.target:moneyIn(d.goal),cur=lg?Math.max(0,totalSaved(lg)):moneyIn(d.current);
+      if(!(goal>0)){err.textContent='Enter a goal amount above $0.';return}
+      if(!validDay(d.start)||!validDay(d.target)){err.textContent='Pick a start date and a target date.';return}
+      if(d.target<=d.start){err.textContent='The target date needs to be after the start date.';return}
+      if(d.target<=todayStr()){err.textContent='Pick a target date after today.';return}
+      state.budget.plan={goalId:lg?lg.id:null,goal:goal,current:cur,start:d.start,target:d.target,freq:d.freq};
+      editingPlan=false;calcDraft=null;save();renderBudget();window.scrollTo({top:0,behavior:'smooth'});toast('Savings plan ready');
+    });
+  }
+  $('#inc-form',v).addEventListener('submit',function(e){e.preventDefault();var n=$('#inc-name',v).value.trim(),a=moneyIn($('#inc-amt',v).value);
+    if(!n){$('#inc-err',v).textContent='Add a name for this income.';return}if(!(a>0)){$('#inc-err',v).textContent='Enter an amount above $0.';return}
+    state.budget.income.push({id:uid(),name:n,amount:a});save();renderBudget();$('#inc-name').focus();toast('Added '+n)});
+  $('#bill-form',v).addEventListener('submit',function(e){e.preventDefault();var n=$('#bill-name',v).value.trim(),a=moneyIn($('#bill-amt',v).value),dr=$('#bill-due',v).value.trim(),du=dr?parseInt(dr,10):null;
+    if(!n){$('#bill-err',v).textContent='Add a name for this expense.';return}if(!(a>0)){$('#bill-err',v).textContent='Enter an amount above $0.';return}
+    if(dr&&!(String(du)===dr&&du>=1&&du<=31)){$('#bill-err',v).textContent='Enter a due day from 1 to 31, or leave it blank.';return}
+    state.budget.bills.push({id:uid(),name:n,amount:a,due:du});save();renderBudget();$('#bill-name').focus();toast('Added '+n)});
+  $$('[data-del-inc]',v).forEach(function(x){x.onclick=function(){var it=state.budget.income.find(function(i){return i.id===x.dataset.delInc});state.budget.income=state.budget.income.filter(function(i){return i.id!==x.dataset.delInc});save();renderBudget();if(it)toast('Removed '+it.name)}});
+  $$('[data-del-bill]',v).forEach(function(x){x.onclick=function(){var it=state.budget.bills.find(function(i){return i.id===x.dataset.delBill});state.budget.bills=state.budget.bills.filter(function(i){return i.id!==x.dataset.delBill});save();renderBudget();if(it)toast('Removed '+it.name)}});
+}
+
+/* ---------- savings tracker ---------- */
+var STRATEGIES=[
+  ['Automate it','Set up automatic transfers on payday so saving happens before you can spend it.'],
+  ['Round up','Round every purchase up to the next dollar and transfer the difference to your goal.'],
+  ['Cut one expense','Cancel one subscription or habit spend and send that amount straight to your goal.'],
+  ['Side hustle','Sell unused items, freelance, or take on gigs. Even $50 extra a week adds up to $2,600 a year.'],
+  ['Cash gifts','Ask for cash instead of gifts for birthdays and holidays and deposit it right away.'],
+  ['High-yield account','Park your savings in a high-yield account to earn interest while you work toward your goal.']
+];
+var trDraft={goalId:'',amt:'',date:'',note:''};
+function renderTracker(){
+  lastPopped=[];
+  var mg=state.goals.filter(function(g){return !isTask(g)}),act=mg.filter(function(g){return !g.completedAt});
+  var rows=[];mg.forEach(function(g){g.deposits.forEach(function(d){rows.push({g:g,d:d})})});
+  rows.sort(function(a,b){return a.d.date===b.d.date?(b.d.at||0)-(a.d.at||0):(a.d.date<b.d.date?1:-1)});
+  var total=mg.reduce(function(s,g){return s+totalSaved(g)},0),pos=rows.filter(function(r){return r.d.amount>0}),posSum=pos.reduce(function(s,r){return s+r.d.amount},0),st=streak();
+  if(!trDraft.date)trDraft.date=todayStr();
+  if(!act.some(function(g){return g.id===trDraft.goalId}))trDraft.goalId=act.length?act[0].id:'';
+  var html='<div class="card tr-hero"><h2>Savings tracker</h2><p>Record every deposit and watch your progress grow</p><div class="tr-stats">'+
+    '<div><div class="k">Total saved</div><div class="v num">'+money(total)+'</div></div>'+
+    '<div><div class="k">Deposits</div><div class="v num">'+pos.length+'</div></div>'+
+    '<div><div class="k">Avg. deposit</div><div class="v num">'+(pos.length?money(Math.round(posSum/pos.length)):'$0')+'</div></div>'+
+    '<div><div class="k">Streak</div><div class="v num">'+st+' '+(st===1?'wk':'wks')+'</div></div></div></div>';
+  if(act.length){
+    html+='<div class="card"><h3 class="ch">Record a deposit</h3><form id="tr-form" novalidate>'+
+      (act.length>1?'<div class="field"><label for="tr-goal">Goal</label><select class="input" id="tr-goal">'+act.map(function(g){return '<option value="'+g.id+'"'+(g.id===trDraft.goalId?' selected':'')+'>'+esc(g.icon+'  '+g.name)+'</option>'}).join('')+'</select></div>':'<input type="hidden" id="tr-goal" value="'+act[0].id+'">')+
+      '<div class="field"><label for="tr-amt">Amount saved</label><div class="money bigm"><input class="input big num" id="tr-amt" inputmode="decimal" placeholder="0" value="'+esc(trDraft.amt)+'"></div><p class="quick-prev" id="tr-prev" aria-live="polite" style="margin:6px 0 0"></p></div>'+
+      '<div class="field"><label for="tr-date">Date</label><input class="input" type="date" id="tr-date" value="'+esc(trDraft.date)+'" max="'+todayStr()+'"></div>'+
+      '<div class="field"><label for="tr-note">Notes <span style="font-weight:400">(optional)</span></label><input class="input" id="tr-note" maxlength="60" placeholder="Paycheck, birthday money…" value="'+esc(trDraft.note)+'"><div id="tr-tags">'+tagRow(ADD_TAGS,trDraft.note)+'</div></div>'+
+      '<p class="err" id="tr-err" role="alert"></p><button class="btn btn-primary btn-block" type="submit">+ Add deposit</button></form></div>';
+  } else {
+    html+='<div class="card"><h3 class="ch">Record a deposit</h3><p class="bl-empty" style="margin-bottom:12px">Start a savings goal first, then record deposits here.</p><button class="btn btn-primary btn-block" data-act="new">Start a goal</button></div>';
+  }
+  var pen='<svg class="pen" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4zM13.5 6.5l4 4"/></svg>';
+  html+='<div class="card hist"><div class="grid-head"><h3>Savings history</h3><span class="eyebrow num">'+plural(rows.length,'entry')+'</span></div><div class="tr-hist">'+
+    (rows.length?rows.map(function(r){var d=r.d,g=r.g,lbl=d.note?esc(d.note):(d.amount<0?'Taken out':(d.box!=null?'Box '+(d.box+1):'Savings'));
+      return '<div class="hist-row"><button class="he" data-edit-dep="'+d.id+'" data-goal="'+g.id+'" aria-label="Edit '+(d.amount<0?'withdrawal of '+money(-d.amount):money(d.amount)+' entry')+' from '+niceDate(d.date)+' in '+esc(g.name)+'"><span class="d">'+niceDate(d.date)+'</span><span class="n">'+lbl+'<span class="g">'+esc(g.icon+' '+g.name)+'</span></span><span class="a num'+(d.amount<0?' neg':'')+'">'+(d.amount<0?'−'+money(-d.amount):money(d.amount))+'</span>'+pen+'</button><button class="x" data-del-dep="'+d.id+'" data-goal="'+g.id+'" aria-label="Delete '+money(Math.abs(d.amount))+' entry from '+niceDate(d.date)+' in '+esc(g.name)+'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></button></div>'}).join(''):'<p style="color:var(--muted);font-size:14px">No savings recorded yet.</p>')+
+    '</div><div class="bl-total"><span>Total saved</span><b class="num">'+money(total)+'</b></div></div>';
+  html+='<div class="card"><h3 class="ch" style="margin-bottom:2px">Smart savings strategies</h3><p style="font-size:13px;color:var(--muted);margin-bottom:12px">Proven ways to reach your goal faster</p><div class="strat">'+STRATEGIES.map(function(s){return '<div><h4>'+s[0]+'</h4><p>'+s[1]+'</p></div>'}).join('')+'</div></div>';
+  var v=$('#view-tracker');v.innerHTML=html;
+  var f=$('#tr-form',v);if(!f)return;
+  var note=$('#tr-note',v),sync=wireTags($('#tr-tags',v),note);
+  function prev(){var g=getGoal($('#tr-goal',v).value);if(g)$('#tr-prev',v).innerHTML=previewText(g,moneyIn($('#tr-amt',v).value))}
+  f.addEventListener('input',function(){trDraft.goalId=$('#tr-goal',v).value;trDraft.amt=$('#tr-amt',v).value;trDraft.date=$('#tr-date',v).value;trDraft.note=note.value;$('#tr-err',v).textContent='';prev()});
+  f.addEventListener('change',function(){trDraft.goalId=$('#tr-goal',v).value;prev()});
+  prev();
+  f.addEventListener('submit',function(e){
+    e.preventDefault();var g=getGoal($('#tr-goal',v).value),amt=moneyIn($('#tr-amt',v).value),dt=$('#tr-date',v).value,lbl=note.value.trim(),err=$('#tr-err',v);
+    if(!g)return;
+    if(!(amt>0)){err.textContent='Enter an amount above $0.';return}
+    if(!validDay(dt)){err.textContent='Pick a date.';return}
+    if(dt>todayStr()){err.textContent='The date can’t be in the future.';return}
+    var n=applySavings(g,amt,dt,lbl);trDraft={goalId:g.id,amt:'',date:todayStr(),note:''};
+    render();toast(savingsMsg(g,amt,n));if(n)buzz();checkDone(g);
+  });
 }
 
 /* ---------- sheet ---------- */
@@ -1330,7 +1560,7 @@ function printGoal(g){
 /* ---------- backup ---------- */
 function backup(){
   if(DEMO){toast('Backups are turned off in the demo.');return}
-  var data=JSON.stringify({app:'bootstraps',schema:1,exportedAt:new Date().toISOString(),version:APP_VERSION,goals:state.goals,settings:state.settings},null,2);
+  var data=JSON.stringify({app:'bootstraps',schema:1,exportedAt:new Date().toISOString(),version:APP_VERSION,goals:state.goals,settings:state.settings,budget:state.budget},null,2);
   var blob=new Blob([data],{type:'application/json'});
   var done=function(){state.lastBackup=Date.now();save();renderSettings();toast('Backup saved as '+BACKUP_NAME)};
   try{
@@ -1349,7 +1579,7 @@ function restore(file){
     var ok=d.goals.every(function(g){return g&&g.id&&Array.isArray(g.boxes)&&Array.isArray(g.deposits)&&typeof g.target==='number'});
     if(!ok){toast('This backup looks damaged, so nothing was changed.');return}
     openSheet('<h2 id="sheet-title">Restore this backup?</h2><p class="lede">It has '+plural(d.goals.length,'goal')+' from '+(d.exportedAt?new Date(d.exportedAt).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'an earlier date')+'. It will replace the '+plural(state.goals.length,'goal')+' on this device.</p><div class="opt-list"><button class="btn btn-primary btn-block" id="do-restore">Replace with backup</button><button class="btn btn-ghost btn-block" data-act="close">Cancel</button></div>',
-    function(root){$('#do-restore',root).onclick=function(){state.goals=d.goals.map(function(g){g.crushed=g.crushed||{};g.milestones=g.milestones||{};if(g.photo&&!safePhoto(g.photo))g.photo=null;if(g.kind==='tasks'&&!Array.isArray(g.tasks))g.kind=null;g.lastFiled=validDay(g.lastFiled);g.fileBy=validDay(g.fileBy);return g});if(d.settings)state.settings=d.settings;save();applyTheme();closeSheet();show('goals');toast('Backup restored')}});
+    function(root){$('#do-restore',root).onclick=function(){state.goals=d.goals.map(function(g){g.crushed=g.crushed||{};g.milestones=g.milestones||{};if(g.photo&&!safePhoto(g.photo))g.photo=null;if(g.kind==='tasks'&&!Array.isArray(g.tasks))g.kind=null;g.lastFiled=validDay(g.lastFiled);g.fileBy=validDay(g.fileBy);return g});if(d.settings)state.settings=d.settings;if(d.budget)state.budget=normBudget(d.budget);editingPlan=false;calcDraft=null;save();applyTheme();closeSheet();show('goals');toast('Backup restored')}});
   };
   rd.readAsText(file);
 }
@@ -1360,8 +1590,8 @@ document.addEventListener('click',function(e){
   if(t.dataset.open){show('detail',t.dataset.open);return}
   if(t.dataset.view){if(t.dataset.view==='new')openNew();else show(t.dataset.view);return}
   if(t.dataset.box!==undefined){var g=getGoal(current.goalId);if(g)tapBox(g,+t.dataset.box);return}
-  if(t.dataset.delDep){var g2=getGoal(current.goalId);if(g2)deleteDeposit(g2,t.dataset.delDep);return}
-  if(t.dataset.editDep){var g3=getGoal(current.goalId);if(g3)editDeposit(g3,t.dataset.editDep);return}
+  if(t.dataset.delDep){var g2=getGoal(t.dataset.goal||current.goalId);if(g2)deleteDeposit(g2,t.dataset.delDep);return}
+  if(t.dataset.editDep){var g3=getGoal(t.dataset.goal||current.goalId);if(g3)editDeposit(g3,t.dataset.editDep);return}
   if(t.dataset.starter){var s=STARTERS.find(function(x){return x.k===t.dataset.starter});
     if(s&&s.tasks){var tg=makeTaxGoal();state.goals.push(tg);save();closeSheet();show('detail',tg.id);toast('Checklist ready. Tap each step as you finish it.');return}
     openGoalForm(s?(s.make?s.make():JSON.parse(JSON.stringify(s.g))):null);return}
@@ -1397,8 +1627,8 @@ $('#backup-btn').addEventListener('click',backup);
 $('#restore-btn').addEventListener('click',function(){if(DEMO){toast('Restore is turned off in the demo.');return}$('#restore-file').click()});
 $('#restore-file').addEventListener('change',function(e){var f=e.target.files&&e.target.files[0];if(f)restore(f);e.target.value=''});
 $('#wipe-btn').addEventListener('click',function(){
-  openSheet('<h2 id="sheet-title">Erase everything?</h2><p class="lede">All goals, grids, and savings history on this device will be deleted. Type <b>ERASE</b> to confirm.</p><input class="input" id="wipe-in" autocomplete="off" autocapitalize="characters" aria-label="Type ERASE to confirm"><div class="opt-list" style="margin-top:12px"><button class="btn btn-danger btn-block" id="do-wipe" disabled>Erase all data</button><button class="btn btn-ghost btn-block" data-act="close">Cancel</button></div>',
-  function(root){var i=$('#wipe-in',root),b=$('#do-wipe',root);i.oninput=function(){b.disabled=i.value.trim().toUpperCase()!=='ERASE'};b.onclick=function(){state=DEMO?demoState():blank();if(DEMO)state.goals=[];save();applyTheme();closeSheet();show('goals');toast('All data erased')}});
+  openSheet('<h2 id="sheet-title">Erase everything?</h2><p class="lede">All goals, grids, savings history, and budget entries on this device will be deleted. Type <b>ERASE</b> to confirm.</p><input class="input" id="wipe-in" autocomplete="off" autocapitalize="characters" aria-label="Type ERASE to confirm"><div class="opt-list" style="margin-top:12px"><button class="btn btn-danger btn-block" id="do-wipe" disabled>Erase all data</button><button class="btn btn-ghost btn-block" data-act="close">Cancel</button></div>',
+  function(root){var i=$('#wipe-in',root),b=$('#do-wipe',root);i.oninput=function(){b.disabled=i.value.trim().toUpperCase()!=='ERASE'};b.onclick=function(){editingPlan=false;calcDraft=null;state=DEMO?demoState():blank();if(DEMO){state.goals=[];state.budget=blankBudget()}save();applyTheme();closeSheet();show('goals');toast('All data erased')}});
 });
 $('#refresh-btn').addEventListener('click',function(){checkUpdate(true)});
 if(window.matchMedia)matchMedia('(prefers-color-scheme: dark)').addEventListener('change',applyTheme);
@@ -1438,7 +1668,9 @@ function demoState(){
   var xm={id:'demo5',name:'Christmas countdown',icon:'🎄',mode:'even',countdown:true,boxes:xb,target:50000,crushed:{},deposits:[],targetDate:xd,payFreq:'biweekly',createdAt:Date.now()-86400000*8,completedAt:null,milestones:{},shape:'tree',rewards:{50:'Hot cocoa night',100:'Ugly sweater party'}};
   for(var xi=0;xi<8;xi++)xm.deposits.push({id:'x'+xi,amount:xb[xi],date:ago(8-xi),note:'',at:xi});
   var tax=makeTaxGoal();tax.id='demo6';tax.createdAt=Date.now()-86400000*5;[0,1,5,6].forEach(function(i,k){tax.crushed[i]={via:'task',at:k}});tax.milestones={25:true};tax.lastFiled=(taxSeasonYear(tax)-1)+'-03-18';tax.fileBy=taxSeasonYear(tax)+'-02-12';
-  st.goals=[xm,ef,vac,tax,env,tires];return st;
+  st.goals=[xm,ef,vac,tax,env,tires];
+  st.budget={income:[{id:'i1',name:'Paycheck',amount:320000},{id:'i2',name:'Side job',amount:40000}],bills:[{id:'b1',name:'Rent',amount:125000,due:1},{id:'b2',name:'Car insurance',amount:14000,due:5},{id:'b3',name:'Car payment',amount:38500,due:15},{id:'b4',name:'Phone',amount:6500,due:20}],plan:{goalId:'demo1',goal:100000,current:0,start:ago(70),target:ef.targetDate,freq:'biweekly'}};
+  return st;
 }
 
 /* ---------- boot ---------- */
