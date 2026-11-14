@@ -279,6 +279,11 @@ details.rewards .help{font-size:12.5px;color:var(--faint);margin:-4px 0 10px}
 .demo-boxes{display:flex;gap:5px;margin-top:10px}
 .demo-boxes span{width:34px;height:34px;border-radius:8px;display:grid;place-items:center;font-size:11px;font-weight:600;background:var(--surface-2);border:1.5px dashed var(--border-strong);color:var(--muted)}
 .demo-boxes span.on{background:var(--box-grad);border:0;color:#fff}
+.style-tip{background:var(--surface-2);border:1px solid var(--border);border-radius:14px;padding:12px 14px;margin-top:10px}
+.style-tip h3{font-size:15px;margin-bottom:2px}
+.style-tip p{font-size:13.5px;line-height:1.45}
+.style-tip .demo-boxes span{background:var(--surface)}
+.style-tip .demo-boxes span.on{background:var(--box-grad)}
 
 /* settings */
 .set-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;border-top:1px solid var(--border)}
@@ -524,13 +529,7 @@ input[type='date'].input::-webkit-datetime-edit{padding:0}
 
     <!-- TIPS -->
     <section class="view" id="view-tips">
-      <div class="section-h" style="margin-top:6px"><h2>Pick your grid style</h2></div>
-      <div class="tips">
-        <div class="card style-card"><h3>Even boxes</h3><p>Every box is the same amount, like 100 boxes of $10 for $1,000. Add any amount and boxes fill in on their own.</p><div class="demo-boxes"><span class="on">$10</span><span class="on">$10</span><span class="on">$10</span><span>$10</span><span>$10</span></div></div>
-        <div class="card style-card"><h3>Mixed amounts</h3><p>A shuffled grid of small and big boxes. Have $7 left after groceries? Tap a small one. Got a bonus? Stomp a big one.</p><div class="demo-boxes"><span class="on">$5</span><span>$40</span><span class="on">$15</span><span>$25</span><span>$10</span></div></div>
-        <div class="card style-card"><h3>Count up</h3><p>Classic challenges where boxes go $1, $2, $3 and up. 100 boxes adds up to $5,050; 52 weeks adds up to $1,378.</p><div class="demo-boxes"><span class="on">1</span><span>2</span><span class="on">3</span><span>4</span><span>5</span></div></div>
-      </div>
-      <div class="section-h"><h2>Ways to find the money</h2></div>
+      <div class="section-h" style="margin-top:6px"><h2>Ways to find the money</h2></div>
       <div class="card tips" id="tips-list"></div>
     </section>
 
@@ -592,7 +591,7 @@ input[type='date'].input::-webkit-datetime-edit{padding:0}
 <script>
 (function(){
 'use strict';
-var APP_VERSION='1.7.0';
+var APP_VERSION='1.7.1';
 var DEMO=!!window.GC_DEMO;
 var KEY='bootstraps_v1';
 var BACKUP_NAME='bootstraps-backup.json';
@@ -1242,6 +1241,13 @@ function openNew(){
     '<div class="starters">'+STARTERS.map(function(s){return '<button class="starter" data-starter="'+s.k+'"><div class="e" aria-hidden="true">'+s.e+'</div><div class="t">'+s.t+'</div><div class="s">'+starterSub(s)+'</div></button>'}).join('')+
     '<button class="starter custom" data-starter="custom"><div class="e" aria-hidden="true">✏️</div><div><div class="t">My own goal</div><div class="s">Any name, any amount</div></div></button></div>');
 }
+var STYLE_TIPS={
+  even:['Even boxes','Every box is the same amount, like 100 boxes of $10 for $1,000. Add any amount and boxes fill in on their own.',[['$10',1],['$10',1],['$10',1],['$10'],['$10']]],
+  mixed:['Mixed amounts','A shuffled grid of small and big boxes. Have $7 left after groceries? Tap a small one. Got a bonus? Stomp a big one.',[['$5',1],['$40'],['$15',1],['$25'],['$10']]],
+  countup:['Count up','Classic challenges where boxes go $1, $2, $3 and up. 100 boxes adds up to $5,050; 52 weeks adds up to $1,378.',[['1',1],['2'],['3',1],['4'],['5']]],
+  countdown:['Countdown','One box for each day until your target date, so you always know what to set aside today.',[['$17',1],['$17',1],['$16'],['$17'],['$16']]]
+};
+function styleTipHtml(m){var t=STYLE_TIPS[m];if(!t)return '';return '<h3>'+t[0]+'</h3><p>'+t[1]+'</p><div class="demo-boxes" aria-hidden="true">'+t[2].map(function(x){return '<span'+(x[1]?' class="on"':'')+'>'+x[0]+'</span>'}).join('')+'</div>'}
 function openGoalForm(preset,editing){
   var g=preset||{name:'',icon:'💰',mode:'even',target:'',box:10,count:30,step:1};
   var f={name:g.name,icon:g.icon,mode:g.mode,target:g.target,box:g.box||10,count:g.count||(g.mode==='countup'?52:30),step:g.step||1,targetDate:g.targetDate||'',payFreq:g.payFreq||'biweekly',shape:g.shape||'',photo:safePhoto(g.photo),rewards:g.rewards||{}};
@@ -1263,7 +1269,7 @@ function openGoalForm(preset,editing){
       '<button type="button" class="choice" data-mode="even" aria-pressed="'+(f.mode==='even')+'">Even<small>Same each box</small></button>'+
       '<button type="button" class="choice" data-mode="mixed" aria-pressed="'+(f.mode==='mixed')+'">Mixed<small>Big and small</small></button>'+
       '<button type="button" class="choice" data-mode="countup" aria-pressed="'+(f.mode==='countup')+'">Count up<small>$1, $2, $3…</small></button>'+
-      '<button type="button" class="choice" data-mode="countdown" aria-pressed="'+(f.mode==='countdown')+'">Countdown<small>One box a day</small></button></div></div>'+
+      '<button type="button" class="choice" data-mode="countdown" aria-pressed="'+(f.mode==='countdown')+'">Countdown<small>One box a day</small></button></div>'+(editing?'':'<div class="style-card style-tip" id="f-style-tip" aria-live="polite">'+styleTipHtml(f.mode)+'</div>')+'</div>'+
     '<div id="mode-fields"></div><div class="preview-line" id="f-preview"></div>')+
     lookHtml+
     '<div class="row2"'+(taskEdit?' style="grid-template-columns:1fr"':'')+'><div class="field"><label for="f-date" id="f-date-l">'+(taskEdit?'Deadline':'Target date')+' <span style="font-weight:400">'+(f.mode==='countdown'?'(required)':'(optional)')+'</span></label><input class="input" type="date" id="f-date" value="'+esc(f.targetDate)+'" min="'+todayStr()+'"></div>'+
@@ -1312,7 +1318,7 @@ function openGoalForm(preset,editing){
     $('#f-date',root).addEventListener('input',function(){if(f.mode==='countdown')preview()});
     function rewardsVal(){var o={};[25,50,75,100].forEach(function(m){var v=$('#f-rw'+m,root).value.trim();if(v)o[m]=v});return o}
     $$('.icons button',root).forEach(function(b){b.onclick=function(){f.icon=b.dataset.icon;$$('.icons button',root).forEach(function(x){x.setAttribute('aria-pressed',String(x===b))})}});
-    $$('.choice',root).forEach(function(b){b.onclick=function(){f.mode=b.dataset.mode;$$('.choice',root).forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});if(f.mode==='countup'&&!(+f.count))f.count=52;var dl=$('#f-date-l span',root);if(dl)dl.textContent=f.mode==='countdown'?'(required)':'(optional)';modeFields()}});
+    $$('.choice',root).forEach(function(b){b.onclick=function(){f.mode=b.dataset.mode;$$('.choice',root).forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});if(f.mode==='countup'&&!(+f.count))f.count=52;var dl=$('#f-date-l span',root);if(dl)dl.textContent=f.mode==='countdown'?'(required)':'(optional)';var st=$('#f-style-tip',root);if(st)st.innerHTML=styleTipHtml(f.mode);modeFields()}});
     modeFields();
     $('#goal-form',root).addEventListener('submit',function(e){
       e.preventDefault();
