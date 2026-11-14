@@ -172,8 +172,6 @@ details.fold[open]>summary .chev{transform:rotate(180deg)}
 .grid-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
 .grid-head h3{font-family:var(--font-display);font-size:18px}
 .grid-hint{font-size:13px;color:var(--muted);margin:-4px 0 12px}
-.quick{display:grid;grid-template-columns:1fr auto;gap:8px;margin:0 0 6px}
-.quick .btn{min-height:48px}
 .quick-prev{font-size:13px;color:var(--muted);min-height:18px;margin:0 0 12px}
 .quick-prev b{color:var(--text)}
 .chk{display:flex;align-items:center;gap:10px;font-size:14px;margin:4px 0 10px;cursor:pointer}
@@ -578,7 +576,7 @@ input[type='date'].input::-webkit-datetime-edit{padding:0}
 <script>
 (function(){
 'use strict';
-var APP_VERSION='1.5.0';
+var APP_VERSION='1.5.1';
 var DEMO=!!window.GC_DEMO;
 var KEY='bootstraps_v1';
 var BACKUP_NAME='bootstraps-backup.json';
@@ -1018,8 +1016,7 @@ function renderDetail(){
   }
   var popFirst=popOrder.length?popOrder[0]:null;lastPopped=[];
   var extra=extraAvail(g);
-  var hint=g.mode==='even'?'Enter what you saved and the boxes fill in for you. You can also tap a box to stomp it.':(autoFillOn()?'Enter what you saved and Bootstraps picks the boxes. You can also tap any box to stomp it.':'Enter what you saved, then tap the boxes you want to stomp.');
-  var quick=g.completedAt?'':'<form class="quick" id="quick-add" data-goal="'+g.id+'" novalidate><div class="money"><input class="input num" id="q-amt" inputmode="decimal" placeholder="Amount" aria-label="Amount saved"></div><button class="btn btn-primary" type="submit">Fill boxes</button></form><p class="quick-prev" id="q-prev" aria-live="polite">'+previewText(g,0)+'</p>';
+  var hint=g.mode==='even'?'Record a deposit with the + button or in Tracker and the boxes fill in for you. You can also tap a box to stomp it.':(autoFillOn()?'Record a deposit with the + button or in Tracker and Bootstraps picks the boxes. You can also tap any box to stomp it.':'Record a deposit with the + button or in Tracker, then tap the boxes you want to stomp.');
   var deps=g.deposits.slice().sort(function(a,b){return a.date===b.date?(b.at||0)-(a.at||0):(a.date<b.date?1:-1)});
   var hist=deps.length?deps.map(function(d){return '<div class="hist-row"><button class="he" data-edit-dep="'+d.id+'" aria-label="Edit '+(d.amount<0?'withdrawal of '+money(-d.amount):money(d.amount)+' entry')+' from '+niceDate(d.date)+'"><span class="d">'+niceDate(d.date)+'</span><span class="n">'+(d.note?esc(d.note):(d.amount<0?'Taken out':(d.box!=null?'Box '+(d.box+1):'Savings')))+'</span><span class="a num'+(d.amount<0?' neg':'')+'">'+(d.amount<0?'−'+money(-d.amount):money(d.amount))+'</span><svg class="pen" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4zM13.5 6.5l4 4"/></svg></button><button class="x" data-del-dep="'+d.id+'" aria-label="Delete '+money(d.amount)+' deposit from '+niceDate(d.date)+'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></button></div>'}).join(''):'<p style="color:var(--muted);font-size:14px">No savings yet. Your first box is waiting.</p>';
   $('#view-detail').innerHTML=
@@ -1032,7 +1029,7 @@ function renderDetail(){
       (g.completedAt?'':'<div class="actions"><button class="btn btn-ghost" data-act="print" data-goal="'+g.id+'">Print grid</button><button class="btn btn-ghost" data-act="takeout" data-goal="'+g.id+'"'+(totalSaved(g)>0?'':' disabled')+'>Take money out</button></div>')+
     '</div>'+
     '<div class="card grid-card"><div class="grid-head"><h3>Your grid</h3><span class="eyebrow">'+(L?SHAPES[g.shape].name+' picture':g.countdown?'Countdown':({even:'Even boxes',mixed:'Mixed amounts',countup:'Count up'}[g.mode]))+'</span></div>'+
-      (g.completedAt?'':'<p class="grid-hint">'+hint+'</p>')+quick+
+      (g.completedAt?'':'<p class="grid-hint">'+hint+'</p>')+
       (extra>0?'<div class="extra-pill"><span aria-hidden="true">💵</span><span><b class="num">'+money(extra)+'</b> extra savings ready for a box</span></div>':'')+
       '<div class="boxes'+(L?' shape'+(L.cols>11?' tiny':''):(n>120?' compact':''))+(popOrder.length&&animOn()?' rumble':'')+'" id="boxes" style="'+(L?'grid-template-columns:repeat('+L.cols+',1fr);max-width:'+(L.cols*52)+'px;':'')+(popOrder.length&&animOn()?'--rt:'+Math.round((popOrder.length-1)*popStep+700)+'ms':'')+'">'+boxes+'</div></div>'+
     '<div class="card hist"><div class="grid-head"><h3>Savings history</h3><span class="eyebrow num">'+plural(deps.length,'entry')+'</span></div>'+hist+'</div>'+
@@ -1612,16 +1609,6 @@ document.addEventListener('click',function(e){
 $('#fab').addEventListener('click',function(){openAdd()});
 $('#verse').addEventListener('click',function(){verseShift++;renderVerse(true)});
 $('#verse').addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();verseShift++;renderVerse(true)}});
-document.addEventListener('input',function(e){if(e.target&&e.target.id==='q-amt'){var f=e.target.closest('#quick-add'),g=f&&getGoal(f.dataset.goal),p=$('#q-prev');if(g&&p)p.innerHTML=previewText(g,cents(String(e.target.value).replace(/[$,\s]/g,'')))}});
-document.addEventListener('submit',function(e){
-  if(!e.target||e.target.id!=='quick-add')return;
-  e.preventDefault();
-  var g=getGoal(e.target.dataset.goal),inp=$('#q-amt'),amt=cents(String(inp.value).replace(/[$,\s]/g,''));
-  if(!g)return;
-  if(!(amt>0)){$('#q-prev').textContent='Enter an amount above $0.';inp.focus();return}
-  var n=applySavings(g,amt,todayStr(),'');
-  render();toast(savingsMsg(g,amt,n));if(n)buzz();checkDone(g);
-});
 $('#theme-quick').addEventListener('click',function(){var dark=document.documentElement.getAttribute('data-theme')==='dark';state.settings.theme=dark?'light':'dark';save();applyTheme()});
 $('#backup-btn').addEventListener('click',backup);
 $('#restore-btn').addEventListener('click',function(){if(DEMO){toast('Restore is turned off in the demo.');return}$('#restore-file').click()});
