@@ -455,7 +455,25 @@ input[type='date'].input::-webkit-datetime-edit{padding:0}
   .strat{grid-template-columns:1fr}
   .plan-grid .v{font-size:22px}.plan-grid .lead .v{font-size:26px}
 }
-@media (max-width:370px){.del-goal{margin-top:10px;color:var(--danger);border-color:transparent;background:transparent}
+.split-box .label{display:block;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:6px}
+.seg.seg3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;margin-bottom:6px}
+.seg.seg3 button{padding:8px 4px;font-size:12.5px;white-space:normal;line-height:1.2}
+.split-row{display:grid;grid-template-columns:minmax(0,1fr) 108px;gap:10px;align-items:center;padding:9px 0;border-top:1px solid var(--border)}
+.split-row:first-child{border-top:0}
+.split-row .sr-in{display:flex;align-items:center;gap:10px;min-width:0;cursor:pointer}
+.split-row .sr-in input{width:20px;height:20px;accent-color:var(--sage,#5e7c73);flex-shrink:0}
+.split-row .sn{font-size:14px;font-weight:600;min-width:0;overflow-wrap:anywhere}
+.split-row .sn small{display:block;font-weight:400;font-size:12px;color:var(--muted)}
+.split-row.off .sn{color:var(--faint)}
+.split-row .sv{text-align:right;font-weight:600}
+.split-row .input{min-height:44px}
+.pctin{position:relative}
+.pctin::after{content:'%';position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+.pctin .input{padding-right:30px}
+.split-sum{font-size:13.5px;color:var(--muted);margin-top:8px}
+.split-sum b{color:var(--text)}
+.split-sum.bad{color:var(--danger)}
+.del-goal{margin-top:10px;color:var(--danger);border-color:transparent;background:transparent}
 .del-goal:hover{background:var(--danger-soft)}
 </style>
 <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
@@ -574,7 +592,7 @@ input[type='date'].input::-webkit-datetime-edit{padding:0}
 <script>
 (function(){
 'use strict';
-var APP_VERSION='1.6.0';
+var APP_VERSION='1.7.0';
 var DEMO=!!window.GC_DEMO;
 var KEY='bootstraps_v1';
 var BACKUP_NAME='bootstraps-backup.json';
@@ -1185,7 +1203,7 @@ function renderTracker(){
     '</div><div class="bl-total"><span>Total saved</span><b class="num">'+money(total)+'</b></div></div>';
   var v=$('#view-tracker');v.innerHTML=html;
   if(!$('#tr-form',v))return;
-  wireAddForm(v,'tr','in',{title:$('#tr-title',v),done:function(g,after){trGoal=g.id;render();after()}});
+  wireAddForm(v,'tr','in',{title:$('#tr-title',v),done:function(g,after){if(!Array.isArray(g))trGoal=g.id;render();after()}});
   $('#tr-goal',v).addEventListener('change',function(){trGoal=this.value});
 }
 
@@ -1321,43 +1339,116 @@ function openGoalForm(preset,editing){
 /* ---------- add savings ---------- */
 /* one shared Add savings form, used by the + sheet and the Tracker tab */
 function addFormHtml(p,act,gid){
+  var multi=act.length>1;
   return '<div class="seg seg-add" role="group" aria-label="Add or take out"><button type="button" data-amode="in">Add money</button><button type="button" data-amode="out">Take money out</button></div>'+
     '<form id="'+p+'-form" novalidate>'+
-    (act.length>1?'<div class="field"><label for="'+p+'-goal">Goal</label><select class="input" id="'+p+'-goal">'+act.map(function(g){return '<option value="'+g.id+'"'+(g.id===gid?' selected':'')+'>'+esc(g.icon+'  '+g.name)+'</option>'}).join('')+'</select></div>':'<input type="hidden" id="'+p+'-goal" value="'+gid+'">')+
-    '<div class="field"><label for="'+p+'-amt" id="'+p+'-amt-l">Amount</label><div class="money bigm"><input class="input big num" id="'+p+'-amt" inputmode="decimal" placeholder="0"'+(p==='a'?' autofocus':'')+'></div><p class="quick-prev" id="'+p+'-prev" aria-live="polite" style="margin:6px 0 0"></p></div>'+
+    (multi?'<div class="field" id="'+p+'-goal-wrap"><label for="'+p+'-goal">Goal</label><select class="input" id="'+p+'-goal">'+act.map(function(g){return '<option value="'+g.id+'"'+(g.id===gid?' selected':'')+'>'+esc(g.icon+'  '+g.name)+'</option>'}).join('')+'</select></div>'+
+      '<label class="chk" id="'+p+'-split-wrap"><input type="checkbox" id="'+p+'-split"> Split between goals</label>':'<input type="hidden" id="'+p+'-goal" value="'+gid+'">')+
+    '<div class="field" id="'+p+'-amt-wrap"><label for="'+p+'-amt" id="'+p+'-amt-l">Amount</label><div class="money bigm"><input class="input big num" id="'+p+'-amt" inputmode="decimal" placeholder="0"'+(p==='a'?' autofocus':'')+'></div><p class="quick-prev" id="'+p+'-prev" aria-live="polite" style="margin:6px 0 0"></p></div>'+
+    (multi?'<div class="field split-box" id="'+p+'-split-box" hidden><div class="label">How to split it</div><div class="seg seg3" role="group" aria-label="How to split"><button type="button" data-smode="even">Evenly</button><button type="button" data-smode="pct">By percent</button><button type="button" data-smode="custom">Custom amounts</button></div><div id="'+p+'-split-list"></div><p class="split-sum" id="'+p+'-split-sum" aria-live="polite"></p></div>':'')+
     '<label class="chk" id="'+p+'-auto-wrap"><input type="checkbox" id="'+p+'-auto"'+(autoFillOn()?' checked':'')+'> Fill boxes for me</label>'+
     '<div class="field"><label for="'+p+'-date">Date</label><input class="input" type="date" id="'+p+'-date" value="'+todayStr()+'" max="'+todayStr()+'"></div>'+
     '<div class="field"><label for="'+p+'-note">Label <span style="font-weight:400">(optional)</span></label><input class="input" id="'+p+'-note" maxlength="60" placeholder="Paycheck"><div id="'+p+'-tags"></div></div>'+
     '<p class="err" id="'+p+'-err" role="alert"></p><button class="btn btn-primary btn-block" type="submit" id="'+p+'-go">Add to goal</button></form>';
 }
+/* split an amount (cents) across goals; returns {rows:[{g,amt}],total,err} */
+function splitShares(goals,method,vals,total){
+  var rows=[],err='';
+  if(method==='custom'){
+    goals.forEach(function(g){rows.push({g:g,amt:Math.max(0,cents(String(vals[g.id]||'').replace(/[$,\s]/g,'')))})});
+    total=rows.reduce(function(s,r){return s+r.amt},0);
+  } else if(method==='pct'){
+    var ps=goals.map(function(g){var v=parseFloat(String(vals[g.id]||'').replace(/[%\s]/g,''));return isFinite(v)&&v>0?v:0}),sum=ps.reduce(function(s,v){return s+v},0);
+    if(Math.abs(sum-100)>0.01)err='Percentages add up to '+(Math.round(sum*100)/100)+'%. Make them total 100%.';
+    var used=0;goals.forEach(function(g,i){var a=Math.floor(total*ps[i]/100);used+=a;rows.push({g:g,amt:a,p:ps[i]})});
+    var left=sum>0&&!err?total-used:0;for(var k=0;left>0&&k<rows.length*2;k++){var r=rows[k%rows.length];if(r.p>0){r.amt++;left--}}
+  } else {
+    var n=goals.length,base=n?Math.floor(total/n):0,rem=total-base*n;
+    goals.forEach(function(g,i){rows.push({g:g,amt:base+(i<rem?1:0)})});
+  }
+  return {rows:rows,total:total,err:err};
+}
 function wireAddForm(root,p,startMode,o){
   o=o||{};var mode=startMode==='out'?'out':'in',note=$('#'+p+'-note',root);
   function q(id){return $('#'+p+'-'+id,root)}
+  var act=activeGoals().filter(function(g){return !isTask(g)}),split=false,sp=state.settings.split||{};
+  var smode=['even','pct','custom'].indexOf(sp.method)>-1?sp.method:'even',inc={},vals={pct:{},custom:{}};
+  act.forEach(function(g){inc[g.id]=!(sp.skip&&sp.skip.indexOf(g.id)>-1)});
+  (function(){var saved=sp.pct||{},ok=act.every(function(g){return !inc[g.id]||saved[g.id]!=null});
+    var ids=act.filter(function(g){return inc[g.id]}).map(function(g){return g.id});
+    if(ok&&ids.length)ids.forEach(function(id){vals.pct[id]=String(saved[id])});else evenPct()})();
+  function evenPct(){var ids=act.filter(function(g){return inc[g.id]}).map(function(g){return g.id}),n=ids.length;vals.pct={};if(!n)return;var b=Math.floor(10000/n)/100,used=0;ids.forEach(function(id,i){var v=i===n-1?Math.round((100-used)*100)/100:b;used+=v;vals.pct[id]=String(v)})}
   function amtVal(){return cents(String(q('amt').value).replace(/[$,\s]/g,''))}
   function g0(){return getGoal(q('goal').value)}
-  function upd(){var g=g0();if(!g)return;
+  function picked(){return act.filter(function(g){return inc[g.id]})}
+  function shares(){return splitShares(picked(),smode,smode==='custom'?vals.custom:vals.pct,amtVal())}
+  function buildList(){
+    var list=q('split-list');if(!list)return;
+    list.innerHTML=act.map(function(g){var on=inc[g.id],v=smode==='custom'?(vals.custom[g.id]||''):(vals.pct[g.id]||'');
+      return '<div class="split-row'+(on?'':' off')+'"><label class="sr-in"><input type="checkbox" data-sinc="'+g.id+'"'+(on?' checked':'')+'><span class="sn">'+esc(g.icon+' '+g.name)+'<small data-sprev="'+g.id+'"></small></span></label>'+
+        (smode==='even'?'<span class="sv num" data-samt="'+g.id+'"></span>':'<div class="'+(smode==='pct'?'pctin':'money')+'"><input class="input num" data-sval="'+g.id+'" inputmode="decimal" placeholder="0" value="'+esc(v)+'" aria-label="'+(smode==='pct'?'Percent':'Amount')+' for '+esc(g.name)+'"'+(on?'':' disabled')+'></div>')+'</div>'}).join('');
+    $$('[data-sinc]',list).forEach(function(c){c.addEventListener('change',function(){inc[c.dataset.sinc]=c.checked;if(smode==='pct')evenPct();buildList();upd()})});
+    $$('[data-sval]',list).forEach(function(i){i.addEventListener('input',function(){(smode==='custom'?vals.custom:vals.pct)[i.dataset.sval]=i.value;q('err').textContent='';upd()})});
+  }
+  function upd(){
+    var sw=q('split-wrap');if(sw)sw.hidden=mode==='out';
+    var on=split&&mode==='in';
+    if(q('goal-wrap'))q('goal-wrap').hidden=on;
+    if(q('split-box'))q('split-box').hidden=!on;
+    q('amt-wrap').hidden=on&&smode==='custom';
+    if(on){
+      var s=shares(),anyBox=picked().some(function(g){return g.mode!=='even'});
+      q('auto-wrap').hidden=!anyBox;
+      q('amt-l').textContent='Total amount';
+      q('prev').innerHTML='';
+      s.rows.forEach(function(r){var el=$('[data-sprev="'+r.g.id+'"]',root),am=$('[data-samt="'+r.g.id+'"]',root);
+        if(am)am.textContent=money(r.amt);
+        if(el){if(r.amt>0){var pv=previewSavings(r.g,r.amt);el.innerHTML=(smode!=='even'?money(r.amt)+' · ':'')+(pv.count>0?'stomps '+plural(pv.count,'box'):'toward the next box')}else el.textContent=''}});
+      act.forEach(function(g){if(!inc[g.id]){var el=$('[data-sprev="'+g.id+'"]',root);if(el)el.textContent='Skipped';var am=$('[data-samt="'+g.id+'"]',root);if(am)am.textContent='—'}});
+      var sum=q('split-sum'),k=s.rows.filter(function(r){return r.amt>0}).length;
+      if(s.err){sum.textContent=s.err;sum.classList.add('bad')}
+      else{sum.classList.remove('bad');sum.innerHTML=s.total>0?'<b>'+money(s.total)+'</b> across '+plural(k,'goal'):(smode==='custom'?'Enter an amount for each goal.':'Enter a total amount above.')}
+      q('go').textContent=k>1?'Split into '+plural(k,'goal'):'Add to goal';
+      return;
+    }
+    q('go').textContent=mode==='out'?'Take it out':'Add to goal';
+    var g=g0();if(!g)return;
     q('auto-wrap').hidden=g.mode==='even'||mode==='out';
+    q('amt-l').textContent=mode==='out'?'Amount taken out':'Amount';
     if(mode==='in'){q('prev').innerHTML=previewText(g,amtVal())}
     else{var have=totalSaved(g),a=amtVal();q('prev').innerHTML=a>have?'You have '+money(have)+' saved in this goal.':(a>0?'Leaves <b>'+money(have-a)+'</b> saved. Boxes un-stomp to match.':money(have)+' saved in this goal.')}}
+  function setSmode(m){smode=m;$$('[data-smode]',root).forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.smode===m))});q('err').textContent='';buildList();upd()}
   function setMode(m){mode=m;$$('[data-amode]',root).forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.amode===m))});
     if(o.title)o.title.textContent=m==='out'?'Take money out':'Add savings';
     if(o.lede)o.lede.textContent=m==='out'?'Life happens. Record money you pulled from this goal so your grid stays honest.':'Record money you set aside. Every dollar counts toward your goal.';
-    q('amt-l').textContent=m==='out'?'Amount taken out':'Amount';
-    q('go').textContent=m==='out'?'Take it out':'Add to goal';
     q('go').className='btn btn-block '+(m==='out'?'btn-danger':'btn-primary');
     note.placeholder=m==='out'?'Car repair':'Paycheck';
     q('tags').innerHTML=tagRow(m==='out'?OUT_TAGS:ADD_TAGS,note.value.trim());wireTags(q('tags'),note);
     q('err').textContent='';upd()}
   $$('[data-amode]',root).forEach(function(b){b.addEventListener('click',function(){setMode(b.dataset.amode)})});
+  $$('[data-smode]',root).forEach(function(b){b.addEventListener('click',function(){setSmode(b.dataset.smode)})});
+  var sc=q('split');if(sc)sc.addEventListener('change',function(){split=sc.checked;q('err').textContent='';upd()});
   q('amt').addEventListener('input',function(){q('err').textContent='';upd()});q('goal').addEventListener('change',upd);
   q('auto').addEventListener('change',function(){state.settings.autoFill=this.checked;save();upd()});
+  if(q('split-list'))setSmode(smode);
   setMode(mode);
   q('form').addEventListener('submit',function(e){
     e.preventDefault();
     var g=g0(),amt=amtVal(),dt=q('date').value,lbl=note.value.trim(),err=q('err');
+    if(dt&&dt>todayStr()){err.textContent='The date can’t be in the future.';return}
+    if(split&&mode==='in'){
+      var s=shares(),rows=s.rows.filter(function(r){return r.amt>0});
+      if(!picked().length){err.textContent='Pick at least one goal to split into.';return}
+      if(s.err){err.textContent=s.err;return}
+      if(!(s.total>0)){err.textContent=smode==='custom'?'Enter an amount for at least one goal.':'Enter a total amount above $0.';return}
+      var stomped=0,gs=[];
+      rows.forEach(function(r){stomped+=applySavings(r.g,r.amt,dt,lbl);gs.push(r.g)});lastPopped=[];
+      state.settings.split={method:smode,pct:smode==='pct'?vals.pct:(sp.pct||{}),skip:act.filter(function(x){return !inc[x.id]}).map(function(x){return x.id})};save();
+      o.done(gs,function(){toast('Split '+money(s.total)+' across '+plural(gs.length,'goal')+(stomped>0?' · stomped '+plural(stomped,'box'):''));if(stomped)buzz();gs.forEach(function(x){checkDone(x)})});
+      return;
+    }
     if(!g)return;
     if(!(amt>0)){err.textContent='Enter an amount above $0.';return}
-    if(dt&&dt>todayStr()){err.textContent='The date can’t be in the future.';return}
     if(mode==='out'){
       var have=totalSaved(g);
       if(amt>have){err.textContent='You only have '+money(have)+' saved in this goal.';return}
@@ -1384,6 +1475,7 @@ function openAdd(goalId,startMode){
     wireAddForm(root,'a',startMode,{title:$('#sheet-title',root),lede:$('#a-lede',root),done:function(g,after){
       closeSheet();
       if(current.view==='tracker')render();
+      else if(Array.isArray(g))show('goals');
       else if(current.view!=='detail'||current.goalId!==g.id)show('detail',g.id);else render();
       after();
     }});
