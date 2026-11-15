@@ -1,12 +1,14 @@
 // Bootstraps service worker. Bump CACHE_VERSION with every release (matches version.json).
-const CACHE_VERSION = 'bootstraps-demo-1.7.2';
+const CACHE_VERSION = 'bootstraps-demo-1.7.3';
+// Only this app's own caches. Every CleartrackApps app shares cleartrackapps.com, so they all share one cache store.
+const isOwnCache = (k) => k.startsWith('bootstraps-demo-');
 const SHELL = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './apple-touch-icon.png', './logo-96.png'];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE_VERSION).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));
 });
 self.addEventListener('activate', (e) => {
-  e.waitUntil(caches.keys().then((keys) => Promise.all(keys.filter((k) => k !== CACHE_VERSION).map((k) => caches.delete(k)))).then(() => self.clients.claim()));
+  e.waitUntil(caches.keys().then((keys) => Promise.all(keys.filter((k) => isOwnCache(k) && k !== CACHE_VERSION).map((k) => caches.delete(k)))).then(() => self.clients.claim()));
 });
 
 // Safari refuses redirected responses for navigations; rebuild them as plain responses.
